@@ -13,7 +13,7 @@
 
 <aside class="flex flex-col justify-between h-[500px] max-h-[65vh] py-2 select-none">
   <!-- Level Info Section -->
-  <div class="space-y-5">
+  <div class="space-y-4">
     <div class="space-y-3">
       <div class="flex items-center gap-2">
         <span class="text-xs sm:text-sm font-mono font-bold text-muted-foreground uppercase tracking-wider">
@@ -44,16 +44,6 @@
           </Button>
         {/each}
       </div>
-    </div>
-
-    <!-- Minimal Stats Card -->
-    <div class="p-4 rounded-xl border-2 border-border bg-card shadow-xs space-y-1.5">
-      <p class="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-        Progression
-      </p>
-      <p class="text-base font-black text-foreground">
-        {game.completedLevels.length} / {game.totalLevels} Puzzles Cleared
-      </p>
     </div>
   </div>
 

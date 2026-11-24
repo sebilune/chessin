@@ -4,7 +4,6 @@
   import ChessBoard from '$lib/components/ChessBoard.svelte';
   import LeftPanel from '$lib/components/LeftPanel.svelte';
   import RightPanel from '$lib/components/RightPanel.svelte';
-  import GameStatusBanner from '$lib/components/GameStatusBanner.svelte';
   import { Button } from '$lib/components/ui/button';
   import {
     Volume2,
@@ -175,7 +174,6 @@
       <!-- Chess Board in Center -->
       <div class="flex flex-col items-center justify-center flex-1 max-w-[500px] px-2">
         <ChessBoard />
-        <GameStatusBanner />
       </div>
 
       <!-- Right Controls Panel (Desktop view) -->
@@ -198,9 +196,9 @@
       Undo
     </Button>
     <Button
-      variant="outline"
+      variant={game.status === 'stuck' ? 'default' : 'outline'}
       size="lg"
-      class="flex-1 h-11 text-sm font-bold rounded-xl border-2"
+      class="flex-1 h-11 text-sm font-bold rounded-xl border-2 {game.status === 'stuck' ? 'border-primary' : ''}"
       onclick={() => game.reset()}
     >
       <RotateCcw class="size-4 mr-1 stroke-[2.5]" />

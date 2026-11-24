@@ -18,6 +18,8 @@ export class GameStore {
   soundEnabled = $state<boolean>(true);
   theme = $state<'dark' | 'light'>('dark');
 
+  private advanceTimeout: ReturnType<typeof setTimeout> | null = null;
+
   currentLevel = $derived<Level>(LEVELS[this.levelIndex] || LEVELS[0]);
   totalLevels = $derived<number>(LEVELS.length);
   piecesRemaining = $derived<number>(this.pieces.length);
@@ -44,6 +46,11 @@ export class GameStore {
   }
 
   loadCurrentLevel() {
+    if (this.advanceTimeout) {
+      clearTimeout(this.advanceTimeout);
+      this.advanceTimeout = null;
+    }
+
     const lvl = this.currentLevel;
     this.pieces = lvl.pieces.map((p, idx) => ({
       id: `${lvl.id}-${p.type}-${idx}-${Date.now()}`,
@@ -141,6 +148,7 @@ export class GameStore {
 
     sound.playCapture();
 
+    // Check completion
     if (this.pieces.length === 1) {
       this.status = 'cleared';
       if (!this.completedLevels.includes(this.currentLevel.id)) {
@@ -148,6 +156,13 @@ export class GameStore {
         savePersistedState({ completedLevels: this.completedLevels });
       }
       sound.playVictory();
+
+      // Automatically advance to the next level
+      this.advanceTimeout = setTimeout(() => {
+        if (this.levelIndex < this.totalLevels - 1) {
+          this.nextLevel();
+        }
+      }, 700);
     } else {
       const remainingCaptures = getAllLegalCaptures(this.pieces);
       if (remainingCaptures.length === 0) {
@@ -158,6 +173,11 @@ export class GameStore {
   }
 
   undo() {
+    if (this.advanceTimeout) {
+      clearTimeout(this.advanceTimeout);
+      this.advanceTimeout = null;
+    }
+
     if (this.moveHistory.length === 0) return;
 
     const lastMove = this.moveHistory[this.moveHistory.length - 1];
@@ -205,6 +225,12 @@ export class GameStore {
         savePersistedState({ completedLevels: this.completedLevels });
       }
       sound.playVictory();
+
+      this.advanceTimeout = setTimeout(() => {
+        if (this.levelIndex < this.totalLevels - 1) {
+          this.nextLevel();
+        }
+      }, 700);
     } else {
       const remainingCaptures = getAllLegalCaptures(this.pieces);
       if (remainingCaptures.length === 0) {
@@ -215,6 +241,10 @@ export class GameStore {
   }
 
   reset() {
+    if (this.advanceTimeout) {
+      clearTimeout(this.advanceTimeout);
+      this.advanceTimeout = null;
+    }
     this.loadCurrentLevel();
     sound.playUndo();
   }

@@ -34,10 +34,11 @@
     </div>
 
     <div class="grid grid-cols-2 gap-2">
+      <!-- Reset Button: highlighted with variant="default" (solid fill) when stuck so it becomes intuitive to restart -->
       <Button
-        variant="outline"
+        variant={game.status === 'stuck' ? 'default' : 'outline'}
         size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2"
+        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2 {game.status === 'stuck' ? 'border-primary' : ''}"
         disabled={game.moveHistory.length === 0}
         onclick={() => game.reset()}
         title="Reset Puzzle (R)"
