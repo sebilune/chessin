@@ -5,6 +5,7 @@
     "": {
       "name": "chessin",
       "dependencies": {
+        "@animateicons/vanilla": "^0.2.0",
         "@fortawesome/free-solid-svg-icons": "^7.3.1",
         "@iconify/svelte": "^5.2.4",
         "@lucide/svelte": "^1.79.0",
@@ -30,6 +31,8 @@
     },
   },
   "packages": {
+    "@animateicons/vanilla": ["@animateicons/vanilla@0.2.0", "", {}, "sha512-kkiuijLYjj11c80WR+AI7h+Az/o0aYHOseUKZay6eGRMPqOOv38zp0bFfMPnhEBa3fv7yIIWfxc7ot2YzikqDQ=="],
+
     "@emnapi/core": ["@emnapi/core@2.0.0-beta.2", "", { "dependencies": { "@emnapi/wasi-threads": "2.2.0", "tslib": "^2.4.0" } }, "sha512-MzCVoWtcg4Pm2B3je5mMvYMvj3MmBKw+fU7vbsJc9/iT8ip6/eYIHo/Dsm/mr+wsHB6SEyJDuxB09Yy6r/8+4A=="],
 
     "@emnapi/runtime": ["@emnapi/runtime@2.0.0-beta.2", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-JcrSPzPvZuNZvJqPTF9Fw25LbOJ8avzFVlaf2grmH4Cku0oGP47tRgqPZadcfj3YoZMHkFVnCYFbQM8I+i5QEw=="],

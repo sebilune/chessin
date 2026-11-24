@@ -1,7 +1,8 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
   import { Button } from '$lib/components/ui/button';
-  import { Undo2, Redo2, RotateCcw, Sparkles } from '@lucide/svelte';
+  import AnimateIcon from '$lib/components/AnimateIcon.svelte';
+  import { Undo, Redo, RotateCcw, Sparkles } from '@animateicons/vanilla/lucide';
   import MoveHistory from '$lib/components/MoveHistory.svelte';
 </script>
 
@@ -18,7 +19,7 @@
         onclick={() => game.undo()}
         title="Undo Move (Z)"
       >
-        <Undo2 class="size-4 sm:size-5 mr-1.5 stroke-[2.5]" />
+        <AnimateIcon icon={Undo} size={22} class="size-5.5 mr-2" />
         Undo
       </Button>
 
@@ -30,7 +31,7 @@
         onclick={() => game.redo()}
         title="Redo Move (Y)"
       >
-        <Redo2 class="size-4 sm:size-5 mr-1.5 stroke-[2.5]" />
+        <AnimateIcon icon={Redo} size={22} class="size-5.5 mr-2" />
         Redo
       </Button>
     </div>
@@ -45,7 +46,7 @@
         onclick={() => game.reset()}
         title="Reset Puzzle (R)"
       >
-        <RotateCcw class="size-4 sm:size-5 mr-1.5 stroke-[2.5]" />
+        <AnimateIcon icon={RotateCcw} size={22} class="size-5.5 mr-2" />
         Reset
       </Button>
 
@@ -57,7 +58,7 @@
         onclick={() => game.requestHint()}
         title={game.currentLevel.hintsDisabled ? 'Prove yourself.' : 'Get Hint (H)'}
       >
-        <Sparkles class="size-4 sm:size-5 mr-1.5 stroke-[2.5]" />
+        <AnimateIcon icon={Sparkles} size={22} class="size-5.5 mr-2" />
         Hint
       </Button>
     </div>

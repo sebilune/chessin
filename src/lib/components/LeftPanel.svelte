@@ -1,7 +1,8 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
   import { Button } from '$lib/components/ui/button';
-  import { ChevronLeft, ChevronRight, Check, Puzzle } from '@lucide/svelte';
+  import AnimateIcon from '$lib/components/AnimateIcon.svelte';
+  import { ChevronLeft, ChevronRight, Check, Puzzle } from '@animateicons/vanilla/lucide';
 </script>
 
 <aside class="flex flex-col justify-between h-[500px] lg:h-[520px] max-h-[70vh] py-2 select-none">
@@ -14,11 +15,11 @@
         </h2>
         {#if game.isLevelCompleted}
           <span
-            class="size-7 rounded-full bg-foreground text-background flex items-center justify-center shrink-0 shadow-xs"
+            class="size-7 rounded-full bg-foreground text-background flex items-center justify-center shrink-0 shadow-xs animate-pop-in"
             title="Cleared"
             aria-label="Cleared"
           >
-            <Check class="size-4 stroke-[3.5]" />
+            <AnimateIcon icon={Check} size={18} class="size-4.5" autoplay={true} />
           </span>
         {/if}
       </div>
@@ -39,7 +40,7 @@
         onclick={() => game.togglePuzzlePicker()}
         title="Puzzles"
       >
-        <Puzzle class="size-4 sm:size-5 mr-1.5 stroke-[2.5]" />
+        <AnimateIcon icon={Puzzle} size={22} class="size-5.5 mr-2" />
         Puzzles
       </Button>
 
@@ -52,7 +53,7 @@
           onclick={() => game.prevLevel()}
           title="Previous Puzzle"
         >
-          <ChevronLeft class="size-5 mr-1 stroke-[2.5]" />
+          <AnimateIcon icon={ChevronLeft} size={24} class="size-6 mr-1.5" />
           Prev
         </Button>
         <Button
@@ -64,7 +65,7 @@
           title="Next Puzzle"
         >
           Next
-          <ChevronRight class="size-5 ml-1 stroke-[2.5]" />
+          <AnimateIcon icon={ChevronRight} size={24} class="size-6 ml-1.5" />
         </Button>
       </div>
     </div>

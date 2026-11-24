@@ -24,6 +24,7 @@
     "vite": "^8.3.6"
   },
   "dependencies": {
+    "@animateicons/vanilla": "^0.2.0",
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
     "@iconify/svelte": "^5.2.4",
     "@lucide/svelte": "^1.79.0",
