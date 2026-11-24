@@ -4,16 +4,17 @@
   import { ChevronLeft, ChevronRight, Check } from '@lucide/svelte';
   import type { Difficulty } from '$lib/types';
 
-  function onDifficultyChange(event: Event) {
-    const val = (event.target as HTMLSelectElement).value as Difficulty;
-    game.setDifficulty(val);
-  }
+  const difficulties: { label: string; value: Difficulty }[] = [
+    { label: 'Easy', value: 'easy' },
+    { label: 'Medium', value: 'medium' },
+    { label: 'Hard', value: 'hard' },
+  ];
 </script>
 
 <aside class="flex flex-col justify-between h-[500px] max-h-[65vh] py-2 select-none">
   <!-- Level Info Section -->
   <div class="space-y-5">
-    <div class="space-y-2">
+    <div class="space-y-3">
       <div class="flex items-center gap-2">
         <span class="text-xs sm:text-sm font-mono font-bold text-muted-foreground uppercase tracking-wider">
           Puzzle {String(game.currentLevel.id).padStart(2, '0')} / {game.totalLevels}
@@ -29,21 +30,19 @@
         {game.currentLevel.name}
       </h2>
 
-      <!-- Difficulty Dropdown -->
-      <div class="pt-1">
-        <label for="difficulty-select" class="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1.5">
-          Difficulty
-        </label>
-        <select
-          id="difficulty-select"
-          class="w-full h-11 px-3 text-sm font-bold bg-background text-foreground border-2 border-border rounded-xl cursor-pointer outline-none capitalize"
-          value={game.currentLevel.difficulty}
-          onchange={onDifficultyChange}
-        >
-          <option value="easy">Easy (1-10)</option>
-          <option value="medium">Medium (11-20)</option>
-          <option value="hard">Hard (21-30)</option>
-        </select>
+      <!-- 3 Buttons Side by Side (Easy Medium Hard) -->
+      <div class="grid grid-cols-3 gap-1.5 pt-1">
+        {#each difficulties as diff}
+          {@const isActive = game.currentLevel.difficulty === diff.value}
+          <Button
+            variant={isActive ? 'default' : 'outline'}
+            size="sm"
+            class="h-10 text-xs sm:text-sm font-bold rounded-xl border-2 px-1 justify-center {isActive ? 'border-primary' : 'border-border'}"
+            onclick={() => game.setDifficulty(diff.value)}
+          >
+            {diff.label}
+          </Button>
+        {/each}
       </div>
     </div>
 

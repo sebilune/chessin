@@ -19,10 +19,11 @@
   } from '@lucide/svelte';
   import type { Difficulty } from '$lib/types';
 
-  function onMobileDifficultyChange(event: Event) {
-    const val = (event.target as HTMLSelectElement).value as Difficulty;
-    game.setDifficulty(val);
-  }
+  const difficulties: { label: string; value: Difficulty }[] = [
+    { label: 'Easy', value: 'easy' },
+    { label: 'Med', value: 'medium' },
+    { label: 'Hard', value: 'hard' },
+  ];
 
   function handleKeyDown(event: KeyboardEvent) {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes((event.target as HTMLElement)?.tagName)) {
@@ -89,7 +90,7 @@
       </span>
     </div>
 
-    <!-- Top Right Utility Buttons (No modals, No question mark) -->
+    <!-- Top Right Utility Buttons -->
     <div class="flex items-center gap-2">
       <Button
         variant="outline"
@@ -123,19 +124,21 @@
     </div>
   </header>
 
-  <!-- Mobile Only Level Header (< md) with Difficulty Dropdown -->
+  <!-- Mobile Only Level Header (< md) with 3 Difficulty Buttons -->
   <div class="md:hidden flex items-center justify-between py-2 border-b-2 border-border text-sm">
-    <div class="flex items-center gap-2">
-      <select
-        class="h-9 px-2 text-xs font-bold bg-background text-foreground border-2 border-border rounded-lg outline-none capitalize"
-        value={game.currentLevel.difficulty}
-        onchange={onMobileDifficultyChange}
-      >
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
-      </select>
-      <span class="font-mono font-bold text-foreground">
+    <div class="flex items-center gap-1">
+      {#each difficulties as diff}
+        {@const isActive = game.currentLevel.difficulty === diff.value}
+        <Button
+          variant={isActive ? 'default' : 'outline'}
+          size="sm"
+          class="h-8 px-2 text-xs font-bold rounded-lg border-2 {isActive ? 'border-primary' : 'border-border'}"
+          onclick={() => game.setDifficulty(diff.value)}
+        >
+          {diff.label}
+        </Button>
+      {/each}
+      <span class="font-mono font-bold text-foreground ml-1.5">
         #{String(game.currentLevel.id).padStart(2, '0')}
       </span>
     </div>
@@ -143,7 +146,7 @@
       <Button
         variant="outline"
         size="icon"
-        class="size-9 rounded-lg border-2"
+        class="size-8 rounded-lg border-2"
         disabled={game.levelIndex === 0}
         onclick={() => game.prevLevel()}
       >
@@ -152,7 +155,7 @@
       <Button
         variant="outline"
         size="icon"
-        class="size-9 rounded-lg border-2"
+        class="size-8 rounded-lg border-2"
         disabled={game.levelIndex === game.totalLevels - 1}
         onclick={() => game.nextLevel()}
       >
