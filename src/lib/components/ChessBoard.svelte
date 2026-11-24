@@ -49,10 +49,10 @@
   const tutorialArrow = $derived.by(() => {
     if (game.currentLevel.id !== 1 || game.status === 'cleared') return null;
     if (game.moveHistory.length === 0) {
-      return computeArrow({ row: 2, col: 1 }, { row: 2, col: 3 });
+      return computeArrow({ row: 2, col: 1 }, { row: 2, col: 3 }, { startPad: 8.5, endPad: 8.0, headLen: 3.5, headWidth: 2.5, shaftWidth: 0.9 });
     }
     if (game.moveHistory.length === 1) {
-      return computeArrow({ row: 2, col: 3 }, { row: 4, col: 3 });
+      return computeArrow({ row: 2, col: 3 }, { row: 4, col: 3 }, { startPad: 8.5, endPad: 8.0, headLen: 3.5, headWidth: 2.5, shaftWidth: 0.9 });
     }
     return null;
   });
@@ -353,11 +353,12 @@
     <!-- Tutorial guidance arrow for Level 1 -->
     {#if tutorialArrow && !animatingMove}
       <svg
-        class="absolute inset-0 pointer-events-none w-full h-full z-20 text-foreground/60"
+        class="absolute inset-0 pointer-events-none w-full h-full z-20 text-foreground animate-arrow-bounce"
+        style="--arrow-tx: {tutorialArrow.ux}; --arrow-ty: {tutorialArrow.uy};"
         viewBox="0 0 100 100"
         aria-hidden="true"
       >
-        <path d={tutorialArrow.d} fill="currentColor" />
+        <path d={tutorialArrow.d} fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" />
       </svg>
     {/if}
   </div>

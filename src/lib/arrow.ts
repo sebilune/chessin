@@ -2,6 +2,9 @@ import type { Position } from "$lib/types";
 
 export interface ArrowPath {
   d: string;
+  /** Unit vector in the arrow's direction (viewBox coordinate space). */
+  ux: number;
+  uy: number;
 }
 
 export interface ArrowOptions {
@@ -67,5 +70,5 @@ export function computeArrow(
 
   const d = `M ${tlX.toFixed(2)} ${tlY.toFixed(2)} A ${shaftWidth.toFixed(2)} ${shaftWidth.toFixed(2)} 0 0 1 ${trX.toFixed(2)} ${trY.toFixed(2)} L ${nrX.toFixed(2)} ${nrY.toFixed(2)} L ${wrX.toFixed(2)} ${wrY.toFixed(2)} L ${tipX.toFixed(2)} ${tipY.toFixed(2)} L ${wlX.toFixed(2)} ${wlY.toFixed(2)} L ${nlX.toFixed(2)} ${nlY.toFixed(2)} Z`;
 
-  return { d };
+  return { d, ux, uy };
 }
