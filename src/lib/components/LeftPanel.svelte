@@ -15,11 +15,11 @@
         </h2>
         {#if game.isLevelCompleted}
           <span
-            class="size-7 rounded-full bg-foreground text-background flex items-center justify-center shrink-0 shadow-xs animate-pop-in"
+            class="size-7 rounded-full bg-foreground text-background flex items-center justify-center shrink-0 shadow-xs {game.justCleared ? 'animate-pop-in' : ''}"
             title="Cleared"
             aria-label="Cleared"
           >
-            <AnimateIcon icon={Check} size={18} class="size-4.5" autoplay={true} />
+            <AnimateIcon icon={Check} size={18} class="size-4.5" autoplay={game.justCleared} />
           </span>
         {/if}
       </div>

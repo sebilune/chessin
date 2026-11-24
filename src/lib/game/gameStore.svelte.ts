@@ -15,6 +15,7 @@ export class GameStore {
   hintTargets = $state<Position[]>([]);
   completedLevels = $state<number[]>([]);
   status = $state<GameStatus>('in_progress');
+  justCleared = $state<boolean>(false);
   soundEnabled = $state<boolean>(true);
   theme = $state<'dark' | 'light'>('dark');
   showPuzzlePicker = $state<boolean>(false);
@@ -68,6 +69,7 @@ export class GameStore {
     this.undoneMoves = [];
     this.hintTargets = [];
     this.status = 'in_progress';
+    this.justCleared = false;
 
     savePersistedState({ currentLevelId: lvl.id });
   }
@@ -155,6 +157,7 @@ export class GameStore {
     // Check completion
     if (this.pieces.length === 1) {
       this.status = 'cleared';
+      this.justCleared = true;
       if (!this.completedLevels.includes(this.currentLevel.id)) {
         this.completedLevels = [...this.completedLevels, this.currentLevel.id];
         savePersistedState({ completedLevels: this.completedLevels });
@@ -201,6 +204,7 @@ export class GameStore {
     this.validTargets = [];
     this.hintTargets = [];
     this.status = 'in_progress';
+    this.justCleared = false;
 
     sound.playUndo();
   }
@@ -224,6 +228,7 @@ export class GameStore {
 
     if (this.pieces.length === 1) {
       this.status = 'cleared';
+      this.justCleared = true;
       if (!this.completedLevels.includes(this.currentLevel.id)) {
         this.completedLevels = [...this.completedLevels, this.currentLevel.id];
         savePersistedState({ completedLevels: this.completedLevels });
