@@ -2,26 +2,66 @@
   import { game } from '$lib/game/gameStore.svelte';
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
-  import { ChevronLeft, ChevronRight, Check, Puzzle } from '@animateicons/vanilla/lucide';
+  import { ChevronLeft, ChevronRight, Puzzle, CircleCheckBig } from '@animateicons/vanilla/lucide';
+
+  let titleWrapperEl = $state<HTMLElement | null>(null);
+  let anchorEl = $state<HTMLElement | null>(null);
+  let titleHeight = $state(0);
+  let anchorX = $state<number | null>(null);
+
+  const isMultiLine = $derived(titleHeight > 65);
+
+  $effect(() => {
+    const _ = game.currentLevel.name;
+    function updateAnchor() {
+      if (anchorEl && titleWrapperEl) {
+        const parentRect = titleWrapperEl.getBoundingClientRect();
+        const aRect = anchorEl.getBoundingClientRect();
+        const rawAnchorX = aRect.left - parentRect.left;
+        // Clamp so the right edge of the watermark never overflows past the panel box
+        const rightEdgeMargin = 62;
+        const maxAnchorX = Math.max(0, parentRect.width - rightEdgeMargin);
+        anchorX = Math.min(rawAnchorX, maxAnchorX);
+      }
+    }
+    updateAnchor();
+    window.addEventListener('resize', updateAnchor);
+    return () => window.removeEventListener('resize', updateAnchor);
+  });
 </script>
 
 <aside class="flex flex-col justify-between h-[500px] lg:h-[520px] max-h-[70vh] py-2 select-none">
-  <!-- Top: Level Name + Cleared Bubble, Counter, and Navigation -->
+  <!-- Top: Level Name with Dynamic Checkmark Underlay, Counter, and Navigation -->
   <div class="space-y-4">
     <div class="space-y-1.5">
-      <div class="flex items-center gap-2.5">
-        <h2 class="text-2xl lg:text-3xl font-black tracking-tight text-foreground leading-tight">
-          {game.currentLevel.name}
-        </h2>
+      <!-- Title block with dynamic adaptive underlay watermark -->
+      <div bind:this={titleWrapperEl} class="relative overflow-visible">
         {#if game.isLevelCompleted}
-          <span
-            class="size-7 rounded-full bg-foreground text-background flex items-center justify-center shrink-0 shadow-xs {game.justCleared ? 'animate-pop-in' : ''}"
-            title="Cleared"
-            aria-label="Cleared"
+          <div
+            class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-foreground/10 dark:text-foreground/15 transition-all duration-200
+              {isMultiLine
+                ? 'left-[58%] -translate-x-1/2 size-32 lg:size-36'
+                : '-translate-x-[45%] size-24 lg:size-28'}"
+            style={isMultiLine ? '' : (anchorX !== null ? `left: ${anchorX}px;` : 'left: 70%;')}
+            aria-hidden="true"
           >
-            <AnimateIcon icon={Check} size={18} class="size-4.5" autoplay={game.justCleared} />
-          </span>
+            <div class={game.justCleared ? 'animate-pop-in' : ''}>
+              <AnimateIcon
+                icon={CircleCheckBig}
+                size={isMultiLine ? 144 : 112}
+                class="w-full h-full"
+                autoplay={game.justCleared}
+              />
+            </div>
+          </div>
         {/if}
+
+        <h2
+          bind:clientHeight={titleHeight}
+          class="relative z-10 text-3xl lg:text-4xl xl:text-[2.65rem] font-black tracking-tight text-foreground leading-tight"
+        >
+          {game.currentLevel.name}<span bind:this={anchorEl} class="inline-block w-0 h-0 invisible"></span>
+        </h2>
       </div>
 
       <!-- Puzzle Counter under the name -->
