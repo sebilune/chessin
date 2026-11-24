@@ -83,9 +83,16 @@
   });
 </script>
 
-<main class="min-h-screen w-full bg-background text-foreground select-none flex flex-col justify-between p-3 sm:p-5 md:p-6 overflow-y-auto lg:h-screen lg:overflow-hidden">
+<main class="relative min-h-screen w-full bg-background text-foreground select-none flex flex-col justify-between p-3 sm:p-5 md:p-6 overflow-y-auto lg:h-screen lg:overflow-hidden">
+  <!-- Ambient floating chess pattern background (GPU transform drift) -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+    <div
+      class="absolute -top-[192px] -left-[192px] w-[calc(100%+384px)] h-[calc(100%+384px)] chess-bg-pattern text-foreground opacity-[0.018] dark:opacity-[0.025]"
+    ></div>
+  </div>
+
   <!-- Top Header: Logo on Left, Sound and Theme Toggles on Right -->
-  <header class="w-full flex items-center justify-between pb-2 shrink-0">
+  <header class="relative z-10 w-full flex items-center justify-between pb-2 shrink-0">
     <!-- Top Left Site Branding -->
     <div class="flex items-center gap-1 sm:gap-1.5">
       <ChessPiece type="queen" class="size-6 sm:size-7 text-foreground shrink-0 -translate-y-0.5 sm:-translate-y-1" />
@@ -129,7 +136,7 @@
   </header>
 
   <!-- Mobile & Tablet Vertical Flow (< lg): Single continuous column matching wireframe -->
-  <div class="lg:hidden flex flex-col items-center w-full max-w-[480px] mx-auto py-2 space-y-4">
+  <div class="relative z-10 lg:hidden flex flex-col items-center w-full max-w-[480px] mx-auto py-2 space-y-4">
     <!-- Title & Puzzle Number directly above the board -->
     <div class="flex items-center justify-center gap-2.5 text-center">
       <h2 class="text-xl sm:text-2xl font-black tracking-tight">
@@ -250,7 +257,7 @@
   </div>
 
   <!-- Desktop Arena Layout (>= lg): 3-column side-by-side view -->
-  <div class="hidden lg:flex flex-1 items-center justify-center min-h-0 w-full max-w-7xl mx-auto py-2">
+  <div class="relative z-10 hidden lg:flex flex-1 items-center justify-center min-h-0 w-full max-w-7xl mx-auto py-2">
     <div class="w-full flex items-center justify-center gap-8 lg:gap-12 xl:gap-14">
       <!-- Left Controls Panel -->
       <div class="w-56 lg:w-64 xl:w-72 shrink-0">
