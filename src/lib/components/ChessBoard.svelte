@@ -271,12 +271,16 @@
                 </span>
               {/if}
 
-              <!-- Dotted / Highlighted border on capturable pieces -->
-              {#if isTarget}
+              <!-- Dotted border on capturable pieces (disappears when hovered) -->
+              {#if isTarget && !isHovered}
                 <span
-                  class="absolute inset-1.5 rounded-lg border-2 pointer-events-none z-10 transition-colors
-                    {isHovered ? 'border-foreground bg-foreground/15 border-solid' : 'border-dashed border-foreground/90'}"
+                  class="absolute inset-1.5 rounded-lg border-2 border-dashed border-foreground/90 pointer-events-none z-10"
                 ></span>
+              {/if}
+
+              <!-- Color change applied to square when hovered -->
+              {#if isHovered}
+                <span class="absolute inset-0 bg-foreground/15 pointer-events-none"></span>
               {/if}
 
               <!-- Chess Piece SVG: Proportional to square size -->
