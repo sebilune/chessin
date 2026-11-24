@@ -4,7 +4,7 @@
   import { ChevronLeft, ChevronRight, Check } from '@lucide/svelte';
 </script>
 
-<aside class="flex flex-col h-[500px] max-h-[65vh] py-2 select-none">
+<aside class="flex flex-col justify-between h-[500px] lg:h-[520px] max-h-[70vh] py-2 select-none">
   <!-- Top: Level Name + Cleared Bubble, Counter, and Navigation -->
   <div class="space-y-4">
     <div class="space-y-1.5">

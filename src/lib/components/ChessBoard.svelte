@@ -117,7 +117,7 @@
           currentX: e.clientX,
           currentY: e.clientY,
           isDragging: false,
-          size: rect.width * 0.75,
+          size: rect.width * 0.64,
         };
         return;
       }
@@ -138,7 +138,7 @@
       currentX: e.clientX,
       currentY: e.clientY,
       isDragging: false,
-      size: rect.width * 0.75,
+      size: rect.width * 0.64,
     };
   }
 
@@ -221,9 +221,12 @@
   onpointercancel={handlePointerCancel}
 />
 
-<div class="relative flex flex-col items-center justify-center w-full max-w-[500px] select-none touch-none">
-  <!-- 5x5 Grid with File & Rank notations -->
-  <div class="w-full aspect-square p-2.5 bg-muted/40 border-2 border-border rounded-2xl flex flex-col">
+<div class="relative flex flex-col items-center justify-center w-full max-w-[460px] sm:max-w-[480px] lg:max-w-[520px] xl:max-w-[540px] select-none touch-none mx-auto">
+  <!-- 5x5 Grid with File & Rank notations (Strictly 1:1 Aspect Ratio) -->
+  <div
+    class="w-full aspect-square shrink-0 p-2.5 sm:p-3 bg-muted/40 border-2 border-border rounded-2xl flex flex-col"
+    style="aspect-ratio: 1 / 1;"
+  >
     <div
       bind:this={gridElement}
       class="relative flex-1 grid grid-rows-5 w-full h-full rounded-xl overflow-hidden border border-border/80 touch-none"
@@ -276,16 +279,16 @@
                 ></span>
               {/if}
 
-              <!-- Chess Piece SVG -->
+              <!-- Chess Piece SVG: Proportional to square size -->
               {#if piece}
                 <div
-                  class="relative z-0 flex items-center justify-center p-2 text-foreground transition-opacity
+                  class="relative z-0 flex items-center justify-center w-full h-full text-foreground transition-opacity
                     {isBeingDragged ? 'opacity-20' : ''}
                     {isAttackerOrigin ? 'opacity-0' : 'opacity-100'}"
                 >
                   <ChessPiece
                     type={piece.type}
-                    class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 pointer-events-none"
+                    class="w-[64%] h-[64%] max-w-[65px] max-h-[65px] pointer-events-none"
                   />
                 </div>
               {/if}
@@ -299,7 +302,7 @@
         {@const dx = (animatingMove.to.col - animatingMove.from.col) * 100}
         {@const dy = (animatingMove.to.row - animatingMove.from.row) * 100}
         <div
-          class="absolute pointer-events-none z-30 flex items-center justify-center p-2 text-foreground will-change-transform"
+          class="absolute pointer-events-none z-30 flex items-center justify-center text-foreground will-change-transform"
           style="
             left: {animatingMove.from.col * 20}%;
             top: {animatingMove.from.row * 20}%;
@@ -311,7 +314,7 @@
         >
           <ChessPiece
             type={animatingMove.attacker.type}
-            class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14"
+            class="w-[64%] h-[64%] max-w-[65px] max-h-[65px]"
           />
         </div>
       {/if}
