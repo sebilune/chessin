@@ -1,5 +1,5 @@
-import type { Piece, Position } from '../types';
-import { getAllLegalCaptures, executeCapture } from './chess';
+import type { Piece, Position } from "../types";
+import { getAllLegalCaptures, executeCapture } from "./chess";
 
 export interface SolverResult {
   solvable: boolean;
@@ -7,7 +7,10 @@ export interface SolverResult {
   solutionCount: number;
 }
 
-export function solveBoard(pieces: Piece[], maxSolutions: number = 10): SolverResult {
+export function solveBoard(
+  pieces: Piece[],
+  maxSolutions: number = 10,
+): SolverResult {
   const result: SolverResult = {
     solvable: false,
     solutionMoves: [],
@@ -89,14 +92,19 @@ export function getHintTargets(pieces: Piece[]): Position[] {
     const fromPos = { row: cap.attacker.row, col: cap.attacker.col };
     const toPos = { row: cap.target.row, col: cap.target.col };
 
-    if (winningTargets.some(t => t.row === toPos.row && t.col === toPos.col)) {
+    if (
+      winningTargets.some((t) => t.row === toPos.row && t.col === toPos.col)
+    ) {
       continue;
     }
 
     const outcome = executeCapture(pieces, fromPos, toPos);
     if (!outcome) continue;
 
-    if (outcome.nextPieces.length === 1 || isBoardSolvable(outcome.nextPieces)) {
+    if (
+      outcome.nextPieces.length === 1 ||
+      isBoardSolvable(outcome.nextPieces)
+    ) {
       winningTargets.push(toPos);
     }
   }
@@ -104,7 +112,9 @@ export function getHintTargets(pieces: Piece[]): Position[] {
   return winningTargets;
 }
 
-export function getHint(pieces: Piece[]): { from: Position; to: Position } | null {
+export function getHint(
+  pieces: Piece[],
+): { from: Position; to: Position } | null {
   if (pieces.length <= 1) return null;
   const result = solveBoard(pieces, 1);
   if (result.solvable && result.solutionMoves.length > 0) {

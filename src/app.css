@@ -30,8 +30,16 @@
   --board-selected: oklch(0.65 0 0);
   --board-target: oklch(0.35 0 0);
   --board-square-light: var(--color-zinc-100);
-  --board-square-dark: color-mix(in srgb, var(--color-zinc-300) 80%, var(--background));
-  --board-progress-empty: color-mix(in srgb, var(--muted-foreground) 20%, var(--background));
+  --board-square-dark: color-mix(
+    in srgb,
+    var(--color-zinc-300) 80%,
+    var(--background)
+  );
+  --board-progress-empty: color-mix(
+    in srgb,
+    var(--muted-foreground) 20%,
+    var(--background)
+  );
 }
 
 .dark {
@@ -60,9 +68,21 @@
   --board-dark: oklch(0.18 0 0);
   --board-selected: oklch(0.45 0 0);
   --board-target: oklch(0.7 0 0);
-  --board-square-light: color-mix(in srgb, var(--color-zinc-700) 60%, var(--background));
-  --board-square-dark: color-mix(in srgb, var(--color-zinc-800) 90%, var(--background));
-  --board-progress-empty: color-mix(in srgb, var(--muted-foreground) 20%, var(--background));
+  --board-square-light: color-mix(
+    in srgb,
+    var(--color-zinc-700) 60%,
+    var(--background)
+  );
+  --board-square-dark: color-mix(
+    in srgb,
+    var(--color-zinc-800) 90%,
+    var(--background)
+  );
+  --board-progress-empty: color-mix(
+    in srgb,
+    var(--muted-foreground) 20%,
+    var(--background)
+  );
 }
 
 @theme inline {
@@ -100,7 +120,8 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-html, body {
+html,
+body {
   min-height: 100%;
   margin: 0;
   padding: 0;
@@ -108,7 +129,16 @@ html, body {
   user-select: none;
   background-color: var(--background);
   color: var(--foreground);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
 }
 
 /* Hide scrollbars globally while preserving scrollability */

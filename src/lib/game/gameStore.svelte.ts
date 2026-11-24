@@ -1,9 +1,21 @@
-import type { Piece, Position, Move, GameStatus, Level, Difficulty } from '../types';
-import { getPieceAt, getLegalCapturesForPiece, getAllLegalCaptures, executeCapture } from './chess';
-import { LEVELS } from './levels';
-import { getHintTargets } from './solver';
-import { sound } from './audio';
-import { loadPersistedState, savePersistedState } from './storage';
+import type {
+  Piece,
+  Position,
+  Move,
+  GameStatus,
+  Level,
+  Difficulty,
+} from "../types";
+import {
+  getPieceAt,
+  getLegalCapturesForPiece,
+  getAllLegalCaptures,
+  executeCapture,
+} from "./chess";
+import { LEVELS } from "./levels";
+import { getHintTargets } from "./solver";
+import { sound } from "./audio";
+import { loadPersistedState, savePersistedState } from "./storage";
 
 export class GameStore {
   levelIndex = $state<number>(0);
@@ -14,10 +26,10 @@ export class GameStore {
   undoneMoves = $state<Move[]>([]);
   hintTargets = $state<Position[]>([]);
   completedLevels = $state<number[]>([]);
-  status = $state<GameStatus>('in_progress');
+  status = $state<GameStatus>("in_progress");
   justCleared = $state<boolean>(false);
   soundEnabled = $state<boolean>(true);
-  theme = $state<'dark' | 'light'>('dark');
+  theme = $state<"dark" | "light">("dark");
   showPuzzlePicker = $state<boolean>(false);
 
   private advanceTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -29,9 +41,13 @@ export class GameStore {
   canUndo = $derived<boolean>(this.moveHistory.length > 0);
   canRedo = $derived<boolean>(this.undoneMoves.length > 0);
   canHint = $derived<boolean>(
-    !this.showPuzzlePicker && this.status === 'in_progress' && !this.currentLevel.hintsDisabled
+    !this.showPuzzlePicker &&
+      this.status === "in_progress" &&
+      !this.currentLevel.hintsDisabled,
   );
-  isLevelCompleted = $derived<boolean>(this.completedLevels.includes(this.currentLevel.id));
+  isLevelCompleted = $derived<boolean>(
+    this.completedLevels.includes(this.currentLevel.id),
+  );
 
   constructor() {
     this.init();
@@ -42,10 +58,12 @@ export class GameStore {
     this.completedLevels = persisted.completedLevels;
     this.soundEnabled = persisted.soundEnabled;
     sound.enabled = this.soundEnabled;
-    this.theme = persisted.theme === 'light' ? 'light' : 'dark';
+    this.theme = persisted.theme === "light" ? "light" : "dark";
     this.applyTheme();
 
-    const initialLvlIdx = LEVELS.findIndex(l => l.id === persisted.currentLevelId);
+    const initialLvlIdx = LEVELS.findIndex(
+      (l) => l.id === persisted.currentLevelId,
+    );
     this.levelIndex = initialLvlIdx !== -1 ? initialLvlIdx : 0;
     this.loadCurrentLevel();
   }
@@ -68,7 +86,7 @@ export class GameStore {
     this.moveHistory = [];
     this.undoneMoves = [];
     this.hintTargets = [];
-    this.status = 'in_progress';
+    this.status = "in_progress";
     this.justCleared = false;
 
     savePersistedState({ currentLevelId: lvl.id });
@@ -98,18 +116,20 @@ export class GameStore {
   }
 
   selectSquare(pos: Position) {
-    if (this.status === 'cleared') return;
+    if (this.status === "cleared") return;
 
     this.hintTargets = [];
 
     const clickedPiece = getPieceAt(this.pieces, pos.row, pos.col);
 
     if (this.selectedPiece) {
-      const isTarget = this.validTargets.some(t => t.row === pos.row && t.col === pos.col);
+      const isTarget = this.validTargets.some(
+        (t) => t.row === pos.row && t.col === pos.col,
+      );
       if (isTarget && clickedPiece) {
         this.makeMove(
           { row: this.selectedPiece.row, col: this.selectedPiece.col },
-          { row: pos.row, col: pos.col }
+          { row: pos.row, col: pos.col },
         );
         return;
       }
@@ -156,7 +176,7 @@ export class GameStore {
 
     // Check completion
     if (this.pieces.length === 1) {
-      this.status = 'cleared';
+      this.status = "cleared";
       this.justCleared = true;
       if (!this.completedLevels.includes(this.currentLevel.id)) {
         this.completedLevels = [...this.completedLevels, this.currentLevel.id];
@@ -173,7 +193,7 @@ export class GameStore {
     } else {
       const remainingCaptures = getAllLegalCaptures(this.pieces);
       if (remainingCaptures.length === 0) {
-        this.status = 'stuck';
+        this.status = "stuck";
         sound.playStuck();
       }
     }
@@ -194,8 +214,10 @@ export class GameStore {
     const attacker = getPieceAt(this.pieces, lastMove.to.row, lastMove.to.col);
     if (!attacker) return;
 
-    const restoredPieces = this.pieces.map(p =>
-      p.id === attacker.id ? { ...p, row: lastMove.from.row, col: lastMove.from.col } : p
+    const restoredPieces = this.pieces.map((p) =>
+      p.id === attacker.id
+        ? { ...p, row: lastMove.from.row, col: lastMove.from.col }
+        : p,
     );
     restoredPieces.push(lastMove.capturedPiece);
 
@@ -203,7 +225,7 @@ export class GameStore {
     this.selectedPiece = null;
     this.validTargets = [];
     this.hintTargets = [];
-    this.status = 'in_progress';
+    this.status = "in_progress";
     this.justCleared = false;
 
     sound.playUndo();
@@ -227,7 +249,7 @@ export class GameStore {
     sound.playCapture();
 
     if (this.pieces.length === 1) {
-      this.status = 'cleared';
+      this.status = "cleared";
       this.justCleared = true;
       if (!this.completedLevels.includes(this.currentLevel.id)) {
         this.completedLevels = [...this.completedLevels, this.currentLevel.id];
@@ -243,7 +265,7 @@ export class GameStore {
     } else {
       const remainingCaptures = getAllLegalCaptures(this.pieces);
       if (remainingCaptures.length === 0) {
-        this.status = 'stuck';
+        this.status = "stuck";
         sound.playStuck();
       }
     }
@@ -284,18 +306,18 @@ export class GameStore {
   }
 
   toggleTheme() {
-    this.theme = this.theme === 'dark' ? 'light' : 'dark';
+    this.theme = this.theme === "dark" ? "light" : "dark";
     this.applyTheme();
     savePersistedState({ theme: this.theme });
   }
 
   applyTheme() {
-    if (typeof document === 'undefined') return;
+    if (typeof document === "undefined") return;
     const root = document.documentElement;
-    if (this.theme === 'dark') {
-      root.classList.add('dark');
+    if (this.theme === "dark") {
+      root.classList.add("dark");
     } else {
-      root.classList.remove('dark');
+      root.classList.remove("dark");
     }
   }
 }

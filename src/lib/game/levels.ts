@@ -1,4 +1,4 @@
-import type { Level } from '../types';
+import type { Level } from "../types";
 
 export const LEVELS: Level[] = [
   // EASY (1-10: 3 to 4 pieces, no queen)
@@ -10,7 +10,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 2, col: 1 },
       { type: "bishop", row: 2, col: 3 },
       { type: "knight", row: 4, col: 3 },
-    ]
+    ],
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 0, col: 2 },
       { type: "rook", row: 2, col: 0 },
       { type: "knight", row: 2, col: 2 },
-    ]
+    ],
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 1, col: 1 },
       { type: "knight", row: 3, col: 3 },
       { type: "pawn", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ export const LEVELS: Level[] = [
       { type: "pawn", row: 2, col: 2 },
       { type: "king", row: 1, col: 4 },
       { type: "rook", row: 3, col: 4 },
-    ]
+    ],
   },
   {
     id: 5,
@@ -52,7 +52,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 2, col: 1 },
       { type: "bishop", row: 2, col: 3 },
       { type: "king", row: 1, col: 2 },
-    ]
+    ],
   },
   {
     id: 6,
@@ -63,7 +63,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 0, col: 4 },
       { type: "knight", row: 4, col: 0 },
       { type: "rook", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 7,
@@ -74,7 +74,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 0, col: 2 },
       { type: "rook", row: 2, col: 4 },
       { type: "bishop", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 8,
@@ -85,7 +85,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 3, col: 2 },
       { type: "bishop", row: 2, col: 4 },
       { type: "rook", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 9,
@@ -96,7 +96,7 @@ export const LEVELS: Level[] = [
       { type: "pawn", row: 2, col: 2 },
       { type: "rook", row: 1, col: 3 },
       { type: "king", row: 2, col: 4 },
-    ]
+    ],
   },
   {
     id: 10,
@@ -107,7 +107,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 1, col: 3 },
       { type: "bishop", row: 3, col: 1 },
       { type: "knight", row: 3, col: 3 },
-    ]
+    ],
   },
 
   // MEDIUM (11-20: 5 pieces, no queen)
@@ -121,7 +121,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 4, col: 2 },
       { type: "bishop", row: 2, col: 0 },
       { type: "bishop", row: 2, col: 4 },
-    ]
+    ],
   },
   {
     id: 12,
@@ -133,7 +133,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 2, col: 3 },
       { type: "bishop", row: 4, col: 1 },
       { type: "pawn", row: 3, col: 4 },
-    ]
+    ],
   },
   {
     id: 13,
@@ -145,7 +145,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 2, col: 1 },
       { type: "king", row: 3, col: 1 },
       { type: "pawn", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 14,
@@ -157,7 +157,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 2, col: 2 },
       { type: "bishop", row: 4, col: 0 },
       { type: "knight", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 15,
@@ -169,7 +169,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 4, col: 1 },
       { type: "bishop", row: 0, col: 4 },
       { type: "pawn", row: 3, col: 3 },
-    ]
+    ],
   },
   {
     id: 16,
@@ -181,7 +181,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 0, col: 2 },
       { type: "bishop", row: 3, col: 1 },
       { type: "pawn", row: 4, col: 0 },
-    ]
+    ],
   },
   {
     id: 17,
@@ -193,7 +193,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 2, col: 3 },
       { type: "knight", row: 2, col: 0 },
       { type: "pawn", row: 3, col: 2 },
-    ]
+    ],
   },
   {
     id: 18,
@@ -205,7 +205,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 4, col: 1 },
       { type: "knight", row: 3, col: 3 },
       { type: "king", row: 2, col: 2 },
-    ]
+    ],
   },
   {
     id: 19,
@@ -217,7 +217,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 1, col: 2 },
       { type: "knight", row: 3, col: 0 },
       { type: "rook", row: 3, col: 4 },
-    ]
+    ],
   },
   {
     id: 20,
@@ -229,7 +229,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 1, col: 2 },
       { type: "bishop", row: 2, col: 0 },
       { type: "rook", row: 0, col: 1 },
-    ]
+    ],
   },
 
   // HARD (21-30: 6 to 8 pieces, no queen)
@@ -244,7 +244,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 4, col: 1 },
       { type: "rook", row: 4, col: 4 },
       { type: "pawn", row: 3, col: 3 },
-    ]
+    ],
   },
   {
     id: 22,
@@ -257,7 +257,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 3, col: 3 },
       { type: "knight", row: 2, col: 4 },
       { type: "pawn", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 23,
@@ -270,7 +270,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 3, col: 1 },
       { type: "king", row: 4, col: 3 },
       { type: "pawn", row: 4, col: 0 },
-    ]
+    ],
   },
   {
     id: 24,
@@ -283,7 +283,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 2, col: 4 },
       { type: "pawn", row: 3, col: 2 },
       { type: "king", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 25,
@@ -296,7 +296,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 3, col: 3 },
       { type: "rook", row: 4, col: 2 },
       { type: "pawn", row: 3, col: 0 },
-    ]
+    ],
   },
   {
     id: 26,
@@ -309,7 +309,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 3, col: 0 },
       { type: "king", row: 3, col: 4 },
       { type: "rook", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 27,
@@ -323,7 +323,7 @@ export const LEVELS: Level[] = [
       { type: "king", row: 3, col: 3 },
       { type: "pawn", row: 4, col: 1 },
       { type: "rook", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 28,
@@ -337,7 +337,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 2, col: 4 },
       { type: "knight", row: 3, col: 2 },
       { type: "pawn", row: 4, col: 1 },
-    ]
+    ],
   },
   {
     id: 29,
@@ -351,7 +351,7 @@ export const LEVELS: Level[] = [
       { type: "king", row: 3, col: 4 },
       { type: "pawn", row: 4, col: 2 },
       { type: "rook", row: 4, col: 3 },
-    ]
+    ],
   },
   {
     id: 30,
@@ -366,7 +366,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 3, col: 2 },
       { type: "pawn", row: 4, col: 1 },
       { type: "king", row: 4, col: 3 },
-    ]
+    ],
   },
   {
     id: 31,
@@ -379,7 +379,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 2, col: 1 },
       { type: "rook", row: 2, col: 2 },
       { type: "king", row: 3, col: 0 },
-    ]
+    ],
   },
   {
     id: 32,
@@ -392,7 +392,7 @@ export const LEVELS: Level[] = [
       { type: "king", row: 3, col: 3 },
       { type: "pawn", row: 3, col: 4 },
       { type: "bishop", row: 4, col: 3 },
-    ]
+    ],
   },
   {
     id: 33,
@@ -405,7 +405,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 3, col: 2 },
       { type: "bishop", row: 4, col: 0 },
       { type: "king", row: 4, col: 1 },
-    ]
+    ],
   },
   {
     id: 34,
@@ -418,7 +418,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 2, col: 2 },
       { type: "pawn", row: 3, col: 1 },
       { type: "pawn", row: 4, col: 3 },
-    ]
+    ],
   },
   {
     id: 35,
@@ -431,7 +431,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 3, col: 3 },
       { type: "knight", row: 4, col: 1 },
       { type: "bishop", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 36,
@@ -444,7 +444,7 @@ export const LEVELS: Level[] = [
       { type: "king", row: 2, col: 4 },
       { type: "rook", row: 3, col: 2 },
       { type: "knight", row: 4, col: 3 },
-    ]
+    ],
   },
   {
     id: 37,
@@ -457,7 +457,7 @@ export const LEVELS: Level[] = [
       { type: "pawn", row: 4, col: 2 },
       { type: "king", row: 4, col: 3 },
       { type: "rook", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 38,
@@ -470,7 +470,7 @@ export const LEVELS: Level[] = [
       { type: "pawn", row: 2, col: 0 },
       { type: "bishop", row: 3, col: 0 },
       { type: "pawn", row: 4, col: 1 },
-    ]
+    ],
   },
   {
     id: 39,
@@ -484,7 +484,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 3, col: 3 },
       { type: "bishop", row: 4, col: 0 },
       { type: "bishop", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 40,
@@ -498,7 +498,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 4, col: 1 },
       { type: "rook", row: 4, col: 2 },
       { type: "pawn", row: 4, col: 3 },
-    ]
+    ],
   },
   {
     id: 41,
@@ -512,7 +512,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 3, col: 2 },
       { type: "bishop", row: 4, col: 3 },
       { type: "king", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 42,
@@ -526,7 +526,7 @@ export const LEVELS: Level[] = [
       { type: "king", row: 3, col: 2 },
       { type: "bishop", row: 3, col: 3 },
       { type: "pawn", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 43,
@@ -540,7 +540,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 2, col: 1 },
       { type: "bishop", row: 2, col: 2 },
       { type: "pawn", row: 3, col: 1 },
-    ]
+    ],
   },
   {
     id: 44,
@@ -554,7 +554,7 @@ export const LEVELS: Level[] = [
       { type: "pawn", row: 3, col: 0 },
       { type: "rook", row: 3, col: 1 },
       { type: "knight", row: 3, col: 3 },
-    ]
+    ],
   },
   {
     id: 45,
@@ -568,7 +568,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 2, col: 1 },
       { type: "rook", row: 2, col: 4 },
       { type: "knight", row: 4, col: 0 },
-    ]
+    ],
   },
   {
     id: 46,
@@ -582,7 +582,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 2, col: 1 },
       { type: "pawn", row: 2, col: 2 },
       { type: "king", row: 2, col: 3 },
-    ]
+    ],
   },
   {
     id: 47,
@@ -596,7 +596,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 3, col: 2 },
       { type: "rook", row: 4, col: 0 },
       { type: "pawn", row: 4, col: 1 },
-    ]
+    ],
   },
   {
     id: 48,
@@ -610,7 +610,7 @@ export const LEVELS: Level[] = [
       { type: "king", row: 3, col: 4 },
       { type: "pawn", row: 4, col: 0 },
       { type: "pawn", row: 4, col: 1 },
-    ]
+    ],
   },
   {
     id: 49,
@@ -624,7 +624,7 @@ export const LEVELS: Level[] = [
       { type: "pawn", row: 3, col: 2 },
       { type: "king", row: 4, col: 0 },
       { type: "rook", row: 4, col: 3 },
-    ]
+    ],
   },
   {
     id: 50,
@@ -638,7 +638,7 @@ export const LEVELS: Level[] = [
       { type: "pawn", row: 3, col: 2 },
       { type: "rook", row: 3, col: 3 },
       { type: "pawn", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 51,
@@ -653,7 +653,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 3, col: 3 },
       { type: "bishop", row: 4, col: 3 },
       { type: "knight", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 52,
@@ -668,7 +668,7 @@ export const LEVELS: Level[] = [
       { type: "king", row: 2, col: 3 },
       { type: "knight", row: 2, col: 4 },
       { type: "pawn", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 53,
@@ -683,7 +683,7 @@ export const LEVELS: Level[] = [
       { type: "king", row: 3, col: 4 },
       { type: "knight", row: 4, col: 1 },
       { type: "knight", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 54,
@@ -698,7 +698,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 3, col: 1 },
       { type: "bishop", row: 4, col: 2 },
       { type: "pawn", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 55,
@@ -713,7 +713,7 @@ export const LEVELS: Level[] = [
       { type: "bishop", row: 3, col: 1 },
       { type: "king", row: 4, col: 1 },
       { type: "rook", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 56,
@@ -728,7 +728,7 @@ export const LEVELS: Level[] = [
       { type: "rook", row: 2, col: 1 },
       { type: "bishop", row: 4, col: 0 },
       { type: "knight", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 57,
@@ -743,7 +743,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 3, col: 3 },
       { type: "pawn", row: 4, col: 1 },
       { type: "king", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 58,
@@ -758,7 +758,7 @@ export const LEVELS: Level[] = [
       { type: "king", row: 3, col: 3 },
       { type: "king", row: 4, col: 2 },
       { type: "knight", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 59,
@@ -773,7 +773,7 @@ export const LEVELS: Level[] = [
       { type: "pawn", row: 3, col: 4 },
       { type: "rook", row: 4, col: 1 },
       { type: "knight", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 60,
@@ -788,7 +788,7 @@ export const LEVELS: Level[] = [
       { type: "king", row: 3, col: 1 },
       { type: "pawn", row: 3, col: 3 },
       { type: "knight", row: 3, col: 4 },
-    ]
+    ],
   },
   {
     id: 61,
@@ -803,7 +803,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 2, col: 2 },
       { type: "bishop", row: 4, col: 3 },
       { type: "rook", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 62,
@@ -818,7 +818,7 @@ export const LEVELS: Level[] = [
       { type: "pawn", row: 4, col: 0 },
       { type: "king", row: 4, col: 1 },
       { type: "rook", row: 4, col: 3 },
-    ]
+    ],
   },
   {
     id: 63,
@@ -833,7 +833,7 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 3, col: 3 },
       { type: "knight", row: 3, col: 4 },
       { type: "pawn", row: 4, col: 1 },
-    ]
+    ],
   },
   {
     id: 64,
@@ -849,6 +849,6 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 3, col: 1 },
       { type: "pawn", row: 3, col: 4 },
       { type: "pawn", row: 4, col: 1 },
-    ]
+    ],
   },
 ];

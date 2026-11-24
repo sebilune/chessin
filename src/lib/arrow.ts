@@ -1,4 +1,4 @@
-import type { Position } from '$lib/types';
+import type { Position } from "$lib/types";
 
 export interface ArrowPath {
   d: string;
@@ -19,7 +19,7 @@ export interface ArrowOptions {
 export function computeArrow(
   from: Position,
   to: Position,
-  options: ArrowOptions = {}
+  options: ArrowOptions = {},
 ): ArrowPath | null {
   const {
     startPad = 7.0,

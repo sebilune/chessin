@@ -1,4 +1,5 @@
-export type PieceType = 'king' | 'queen' | 'rook' | 'bishop' | 'knight' | 'pawn';
+export type PieceType =
+  "king" | "queen" | "rook" | "bishop" | "knight" | "pawn";
 
 export interface Position {
   row: number; // 0..4 (0 = top / rank 5, 4 = bottom / rank 1)
@@ -20,7 +21,7 @@ export interface Move {
   notation: string;
 }
 
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Difficulty = "easy" | "medium" | "hard";
 
 export interface Level {
   id: number;
@@ -30,4 +31,4 @@ export interface Level {
   hintsDisabled?: boolean;
 }
 
-export type GameStatus = 'in_progress' | 'cleared' | 'stuck';
+export type GameStatus = "in_progress" | "cleared" | "stuck";

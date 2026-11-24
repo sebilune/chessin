@@ -1,10 +1,10 @@
-import { solveBoard } from '../src/lib/game/solver';
-import type { Piece, PieceType } from '../src/lib/types';
+import { solveBoard } from "../src/lib/game/solver";
+import type { Piece, PieceType } from "../src/lib/types";
 
 interface RawLevel {
   id: number;
   name: string;
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  difficulty: "beginner" | "intermediate" | "advanced";
   pieces: { type: PieceType; row: number; col: number }[];
 }
 
@@ -18,7 +18,7 @@ const candidateLevels: RawLevel[] = [
       { type: "rook", row: 2, col: 1 },
       { type: "bishop", row: 2, col: 3 },
       { type: "knight", row: 4, col: 3 },
-    ]
+    ],
   },
   {
     id: 2,
@@ -28,7 +28,7 @@ const candidateLevels: RawLevel[] = [
       { type: "rook", row: 0, col: 2 },
       { type: "rook", row: 2, col: 0 },
       { type: "knight", row: 2, col: 2 },
-    ]
+    ],
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ const candidateLevels: RawLevel[] = [
       { type: "bishop", row: 1, col: 1 },
       { type: "knight", row: 3, col: 3 },
       { type: "pawn", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 4,
@@ -49,7 +49,7 @@ const candidateLevels: RawLevel[] = [
       { type: "pawn", row: 2, col: 2 },
       { type: "king", row: 1, col: 4 },
       { type: "rook", row: 3, col: 4 },
-    ]
+    ],
   },
   {
     id: 5,
@@ -60,7 +60,7 @@ const candidateLevels: RawLevel[] = [
       { type: "rook", row: 2, col: 1 },
       { type: "queen", row: 2, col: 3 },
       { type: "king", row: 1, col: 2 },
-    ]
+    ],
   },
   {
     id: 6,
@@ -71,7 +71,7 @@ const candidateLevels: RawLevel[] = [
       { type: "bishop", row: 0, col: 4 },
       { type: "knight", row: 4, col: 0 },
       { type: "queen", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 7,
@@ -82,7 +82,7 @@ const candidateLevels: RawLevel[] = [
       { type: "queen", row: 0, col: 2 },
       { type: "rook", row: 2, col: 4 },
       { type: "bishop", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 8,
@@ -93,7 +93,7 @@ const candidateLevels: RawLevel[] = [
       { type: "knight", row: 3, col: 2 },
       { type: "bishop", row: 2, col: 4 },
       { type: "rook", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 9,
@@ -104,7 +104,7 @@ const candidateLevels: RawLevel[] = [
       { type: "pawn", row: 2, col: 2 },
       { type: "rook", row: 1, col: 3 },
       { type: "king", row: 2, col: 4 },
-    ]
+    ],
   },
   {
     id: 10,
@@ -115,7 +115,7 @@ const candidateLevels: RawLevel[] = [
       { type: "queen", row: 1, col: 3 },
       { type: "bishop", row: 3, col: 1 },
       { type: "knight", row: 3, col: 3 },
-    ]
+    ],
   },
 
   // INTERMEDIATE (Levels 11-20: 5 pieces)
@@ -129,7 +129,7 @@ const candidateLevels: RawLevel[] = [
       { type: "rook", row: 4, col: 2 },
       { type: "bishop", row: 2, col: 0 },
       { type: "bishop", row: 2, col: 4 },
-    ]
+    ],
   },
   {
     id: 12,
@@ -141,7 +141,7 @@ const candidateLevels: RawLevel[] = [
       { type: "queen", row: 2, col: 3 },
       { type: "bishop", row: 4, col: 1 },
       { type: "pawn", row: 3, col: 4 },
-    ]
+    ],
   },
   {
     id: 13,
@@ -153,7 +153,7 @@ const candidateLevels: RawLevel[] = [
       { type: "rook", row: 2, col: 1 },
       { type: "king", row: 3, col: 1 },
       { type: "pawn", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 14,
@@ -165,7 +165,7 @@ const candidateLevels: RawLevel[] = [
       { type: "bishop", row: 2, col: 2 },
       { type: "queen", row: 4, col: 0 },
       { type: "knight", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 15,
@@ -177,7 +177,7 @@ const candidateLevels: RawLevel[] = [
       { type: "knight", row: 4, col: 1 },
       { type: "bishop", row: 0, col: 4 },
       { type: "pawn", row: 3, col: 3 },
-    ]
+    ],
   },
   {
     id: 16,
@@ -189,7 +189,7 @@ const candidateLevels: RawLevel[] = [
       { type: "queen", row: 1, col: 3 },
       { type: "bishop", row: 3, col: 1 },
       { type: "pawn", row: 4, col: 0 },
-    ]
+    ],
   },
   {
     id: 17,
@@ -201,7 +201,7 @@ const candidateLevels: RawLevel[] = [
       { type: "rook", row: 2, col: 3 },
       { type: "knight", row: 2, col: 0 },
       { type: "pawn", row: 3, col: 2 },
-    ]
+    ],
   },
   {
     id: 18,
@@ -213,7 +213,7 @@ const candidateLevels: RawLevel[] = [
       { type: "bishop", row: 4, col: 1 },
       { type: "knight", row: 3, col: 3 },
       { type: "king", row: 2, col: 2 },
-    ]
+    ],
   },
   {
     id: 19,
@@ -225,7 +225,7 @@ const candidateLevels: RawLevel[] = [
       { type: "bishop", row: 1, col: 2 },
       { type: "knight", row: 3, col: 0 },
       { type: "queen", row: 3, col: 4 },
-    ]
+    ],
   },
   {
     id: 20,
@@ -237,7 +237,7 @@ const candidateLevels: RawLevel[] = [
       { type: "knight", row: 1, col: 2 },
       { type: "bishop", row: 2, col: 0 },
       { type: "queen", row: 2, col: 4 },
-    ]
+    ],
   },
 
   // ADVANCED (Levels 21-30: 6 to 7 pieces)
@@ -252,7 +252,7 @@ const candidateLevels: RawLevel[] = [
       { type: "knight", row: 4, col: 1 },
       { type: "rook", row: 4, col: 4 },
       { type: "pawn", row: 3, col: 3 },
-    ]
+    ],
   },
   {
     id: 22,
@@ -265,7 +265,7 @@ const candidateLevels: RawLevel[] = [
       { type: "bishop", row: 3, col: 3 },
       { type: "knight", row: 2, col: 4 },
       { type: "pawn", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 23,
@@ -278,7 +278,7 @@ const candidateLevels: RawLevel[] = [
       { type: "rook", row: 3, col: 1 },
       { type: "king", row: 4, col: 3 },
       { type: "pawn", row: 4, col: 0 },
-    ]
+    ],
   },
   {
     id: 24,
@@ -291,7 +291,7 @@ const candidateLevels: RawLevel[] = [
       { type: "queen", row: 2, col: 4 },
       { type: "pawn", row: 3, col: 2 },
       { type: "king", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 25,
@@ -304,7 +304,7 @@ const candidateLevels: RawLevel[] = [
       { type: "bishop", row: 3, col: 3 },
       { type: "queen", row: 4, col: 2 },
       { type: "pawn", row: 3, col: 0 },
-    ]
+    ],
   },
   {
     id: 26,
@@ -317,7 +317,7 @@ const candidateLevels: RawLevel[] = [
       { type: "knight", row: 3, col: 0 },
       { type: "king", row: 3, col: 4 },
       { type: "rook", row: 4, col: 2 },
-    ]
+    ],
   },
   {
     id: 27,
@@ -331,7 +331,7 @@ const candidateLevels: RawLevel[] = [
       { type: "king", row: 3, col: 3 },
       { type: "pawn", row: 4, col: 1 },
       { type: "rook", row: 4, col: 4 },
-    ]
+    ],
   },
   {
     id: 28,
@@ -345,7 +345,7 @@ const candidateLevels: RawLevel[] = [
       { type: "rook", row: 2, col: 4 },
       { type: "knight", row: 3, col: 2 },
       { type: "pawn", row: 4, col: 1 },
-    ]
+    ],
   },
   {
     id: 29,
@@ -359,7 +359,7 @@ const candidateLevels: RawLevel[] = [
       { type: "king", row: 3, col: 4 },
       { type: "pawn", row: 4, col: 2 },
       { type: "rook", row: 4, col: 3 },
-    ]
+    ],
   },
   {
     id: 30,
@@ -374,8 +374,8 @@ const candidateLevels: RawLevel[] = [
       { type: "knight", row: 3, col: 2 },
       { type: "pawn", row: 4, col: 1 },
       { type: "king", row: 4, col: 3 },
-    ]
-  }
+    ],
+  },
 ];
 
 console.log(`Testing ${candidateLevels.length} candidate levels...`);
@@ -394,7 +394,9 @@ for (const lvl of candidateLevels) {
     console.error(`FAILED: Level ${lvl.id} (${lvl.name}) is NOT solvable!`);
     failed++;
   } else {
-    console.log(`OK: Level ${lvl.id} (${lvl.name}) - ${lvl.pieces.length} pieces, ${res.solutionCount} solution(s) found. Moves: ${res.solutionMoves.length}`);
+    console.log(
+      `OK: Level ${lvl.id} (${lvl.name}) - ${lvl.pieces.length} pieces, ${res.solutionCount} solution(s) found. Moves: ${res.solutionMoves.length}`,
+    );
   }
 }
 
