@@ -2,6 +2,7 @@
   import { game } from '$lib/game/gameStore.svelte';
   import { FILES, RANKS, getPieceAt } from '$lib/game/chess';
   import type { Piece, Position } from '$lib/types';
+  import { computeArrow } from '$lib/arrow';
   import ChessPiece from './ChessPiece.svelte';
 
   const rows = [0, 1, 2, 3, 4];
@@ -44,6 +45,17 @@
   function isHintTarget(r: number, c: number): boolean {
     return game.hintTargets.some(t => t.row === r && t.col === c);
   }
+
+  const tutorialArrow = $derived.by(() => {
+    if (game.currentLevel.id !== 1 || game.status === 'cleared') return null;
+    if (game.moveHistory.length === 0) {
+      return computeArrow({ row: 2, col: 1 }, { row: 2, col: 3 });
+    }
+    if (game.moveHistory.length === 1) {
+      return computeArrow({ row: 2, col: 3 }, { row: 4, col: 3 });
+    }
+    return null;
+  });
 
   function clearAnimation() {
     if (animationTimer) {
@@ -339,6 +351,17 @@
             class="w-[64%] h-[64%] max-w-[65px] max-h-[65px]"
           />
         </div>
+      {/if}
+
+      <!-- Tutorial guidance arrow for Level 1 -->
+      {#if tutorialArrow && !animatingMove}
+        <svg
+          class="absolute inset-0 pointer-events-none w-full h-full z-20 text-foreground/60"
+          viewBox="0 0 100 100"
+          aria-hidden="true"
+        >
+          <path d={tutorialArrow.d} fill="currentColor" />
+        </svg>
       {/if}
     </div>
   </div>
