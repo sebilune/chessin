@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { game } from '$lib/game/gameStore.svelte';
   import ChessBoard from '$lib/components/ChessBoard.svelte';
+  import PuzzlePicker from '$lib/components/PuzzlePicker.svelte';
   import LeftPanel from '$lib/components/LeftPanel.svelte';
   import RightPanel from '$lib/components/RightPanel.svelte';
   import MoveHistory from '$lib/components/MoveHistory.svelte';
@@ -18,6 +19,7 @@
     ChevronLeft,
     ChevronRight,
     Check,
+    Puzzle,
   } from '@lucide/svelte';
 
   function handleKeyDown(event: KeyboardEvent) {
@@ -60,8 +62,12 @@
           game.nextLevel();
           break;
         case 'escape':
-          game.selectedPiece = null;
-          game.validTargets = [];
+          if (game.showPuzzlePicker) {
+            game.showPuzzlePicker = false;
+          } else {
+            game.selectedPiece = null;
+            game.validTargets = [];
+          }
           break;
       }
     }
@@ -140,12 +146,28 @@
 
     <!-- Chess Board in Center (aspect-square, never squished) -->
     <div class="w-full flex justify-center">
-      <ChessBoard />
+      {#if game.showPuzzlePicker}
+        <PuzzlePicker />
+      {:else}
+        <ChessBoard />
+      {/if}
     </div>
 
     <!-- Controls falling cleanly under the board -->
     <div class="w-full grid grid-cols-2 gap-2 pt-1">
-      <!-- Row 1: Prev / Next -->
+      <!-- Row 1: Puzzles (above Prev / Next) -->
+      <Button
+        variant={game.showPuzzlePicker ? 'default' : 'outline'}
+        size="lg"
+        class="w-full col-span-2 h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2"
+        onclick={() => game.togglePuzzlePicker()}
+        title="Puzzles"
+      >
+        <Puzzle class="size-4 sm:size-5 mr-1.5 stroke-[2.5]" />
+        Puzzles
+      </Button>
+
+      <!-- Row 2: Prev / Next -->
       <Button
         variant="outline"
         size="lg"
@@ -169,12 +191,12 @@
         <ChevronRight class="size-5 ml-1 stroke-[2.5]" />
       </Button>
 
-      <!-- Row 2: Undo / Redo -->
+      <!-- Row 3: Undo / Redo -->
       <Button
         variant="outline"
         size="lg"
         class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2"
-        disabled={!game.canUndo}
+        disabled={game.showPuzzlePicker || !game.canUndo}
         onclick={() => game.undo()}
         title="Undo Move"
       >
@@ -185,7 +207,7 @@
         variant="outline"
         size="lg"
         class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2"
-        disabled={!game.canRedo}
+        disabled={game.showPuzzlePicker || !game.canRedo}
         onclick={() => game.redo()}
         title="Redo Move"
       >
@@ -193,12 +215,12 @@
         Redo
       </Button>
 
-      <!-- Row 3: Reset / Hint -->
+      <!-- Row 4: Reset / Hint -->
       <Button
         variant={game.status === 'stuck' ? 'default' : 'outline'}
         size="lg"
         class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2 {game.status === 'stuck' ? 'border-primary' : ''}"
-        disabled={game.moveHistory.length === 0}
+        disabled={game.showPuzzlePicker || game.moveHistory.length === 0}
         onclick={() => game.reset()}
         title="Reset Puzzle"
       >
@@ -209,7 +231,7 @@
         variant="default"
         size="lg"
         class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2 shadow-xs"
-        disabled={game.status !== 'in_progress'}
+        disabled={game.showPuzzlePicker || game.status !== 'in_progress'}
         onclick={() => game.requestHint()}
         title="Get Hint"
       >
@@ -234,7 +256,11 @@
 
       <!-- Chess Board in Center -->
       <div class="flex flex-col items-center justify-center flex-1 max-w-[500px] lg:max-w-[520px] xl:max-w-[540px] px-2">
-        <ChessBoard />
+        {#if game.showPuzzlePicker}
+          <PuzzlePicker />
+        {:else}
+          <ChessBoard />
+        {/if}
       </div>
 
       <!-- Right Controls Panel -->

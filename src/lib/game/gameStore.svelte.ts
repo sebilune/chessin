@@ -17,6 +17,7 @@ export class GameStore {
   status = $state<GameStatus>('in_progress');
   soundEnabled = $state<boolean>(true);
   theme = $state<'dark' | 'light'>('dark');
+  showPuzzlePicker = $state<boolean>(false);
 
   private advanceTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -71,7 +72,12 @@ export class GameStore {
   setLevel(index: number) {
     if (index < 0 || index >= LEVELS.length) return;
     this.levelIndex = index;
+    this.showPuzzlePicker = false;
     this.loadCurrentLevel();
+  }
+
+  togglePuzzlePicker() {
+    this.showPuzzlePicker = !this.showPuzzlePicker;
   }
 
   setDifficulty(diff: Difficulty) {
