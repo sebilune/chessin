@@ -27,6 +27,9 @@ export class GameStore {
   initialPieceCount = $derived<number>(this.currentLevel.pieces.length);
   canUndo = $derived<boolean>(this.moveHistory.length > 0);
   canRedo = $derived<boolean>(this.undoneMoves.length > 0);
+  canHint = $derived<boolean>(
+    !this.showPuzzlePicker && this.status === 'in_progress' && !this.currentLevel.hintsDisabled
+  );
   isLevelCompleted = $derived<boolean>(this.completedLevels.includes(this.currentLevel.id));
 
   constructor() {
@@ -249,7 +252,7 @@ export class GameStore {
   }
 
   requestHint() {
-    if (this.status !== 'in_progress') return;
+    if (!this.canHint) return;
     const hint = getHint(this.pieces);
     if (hint) {
       this.hintMove = hint;

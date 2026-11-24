@@ -27,6 +27,7 @@ export interface Level {
   name: string;
   difficulty: Difficulty;
   pieces: { type: PieceType; row: number; col: number }[];
+  hintsDisabled?: boolean;
 }
 
 export type GameStatus = 'in_progress' | 'cleared' | 'stuck';

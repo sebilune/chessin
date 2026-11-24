@@ -233,9 +233,9 @@
         variant="default"
         size="lg"
         class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2 shadow-xs"
-        disabled={game.showPuzzlePicker || game.status !== 'in_progress'}
+        disabled={!game.canHint}
         onclick={() => game.requestHint()}
-        title="Get Hint"
+        title={game.currentLevel.hintsDisabled ? 'Hint disabled' : 'Get Hint'}
       >
         <Sparkles class="size-4 sm:size-5 mr-1.5 stroke-[2.5]" />
         Hint

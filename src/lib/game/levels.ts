@@ -837,17 +837,18 @@ export const LEVELS: Level[] = [
   },
   {
     id: 64,
-    name: "Immortal Solitaire",
+    name: "Fischer's Riddle",
     difficulty: "hard",
+    hintsDisabled: true,
     pieces: [
-      { type: "bishop", row: 0, col: 0 },
-      { type: "king", row: 1, col: 0 },
-      { type: "knight", row: 1, col: 3 },
-      { type: "bishop", row: 3, col: 1 },
-      { type: "pawn", row: 3, col: 2 },
-      { type: "rook", row: 4, col: 1 },
-      { type: "bishop", row: 4, col: 2 },
-      { type: "king", row: 4, col: 3 },
+      { type: "rook", row: 0, col: 2 },
+      { type: "bishop", row: 2, col: 0 },
+      { type: "knight", row: 2, col: 3 },
+      { type: "rook", row: 2, col: 4 },
+      { type: "king", row: 3, col: 0 },
+      { type: "knight", row: 3, col: 1 },
+      { type: "pawn", row: 3, col: 4 },
+      { type: "pawn", row: 4, col: 1 },
     ]
   },
 ];
