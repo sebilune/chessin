@@ -15,29 +15,37 @@
   <!-- Level Info Section -->
   <div class="space-y-4">
     <div class="space-y-3">
+      <!-- Puzzle Counter -->
       <div class="flex items-center gap-2">
         <span class="text-xs sm:text-sm font-mono font-bold text-muted-foreground uppercase tracking-wider">
           Puzzle {String(game.currentLevel.id).padStart(2, '0')} / {game.totalLevels}
         </span>
+      </div>
+
+      <!-- Puzzle Name + Cleared Checkmark Bubble -->
+      <div class="flex items-center gap-2.5">
+        <h2 class="text-xl sm:text-2xl font-black tracking-tight text-foreground truncate">
+          {game.currentLevel.name}
+        </h2>
         {#if game.isLevelCompleted}
-          <span class="inline-flex items-center gap-1 text-xs font-bold text-foreground bg-muted px-2 py-0.5 rounded-full border border-border">
-            <Check class="size-3.5 stroke-[3]" />
-            Cleared
+          <span
+            class="size-6 rounded-full bg-foreground text-background flex items-center justify-center shrink-0 shadow-xs"
+            title="Cleared"
+            aria-label="Cleared"
+          >
+            <Check class="size-3.5 stroke-[3.5]" />
           </span>
         {/if}
       </div>
-      <h2 class="text-xl sm:text-2xl font-black tracking-tight text-foreground truncate">
-        {game.currentLevel.name}
-      </h2>
 
-      <!-- 3 Buttons Side by Side (Easy Medium Hard) -->
-      <div class="grid grid-cols-3 gap-1.5 pt-1">
+      <!-- 3 Buttons Side by Side (Easy Medium Hard) matching Prev/Next button size -->
+      <div class="grid grid-cols-3 gap-2 pt-1">
         {#each difficulties as diff}
           {@const isActive = game.currentLevel.difficulty === diff.value}
           <Button
             variant={isActive ? 'default' : 'outline'}
-            size="sm"
-            class="h-10 text-xs sm:text-sm font-bold rounded-xl border-2 px-1 justify-center {isActive ? 'border-primary' : 'border-border'}"
+            size="lg"
+            class="h-12 text-sm sm:text-base font-bold rounded-xl border-2 px-1 justify-center {isActive ? 'border-primary' : 'border-border'}"
             onclick={() => game.setDifficulty(diff.value)}
           >
             {diff.label}

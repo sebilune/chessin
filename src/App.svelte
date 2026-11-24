@@ -15,6 +15,7 @@
     Sparkles,
     ChevronLeft,
     ChevronRight,
+    Check,
   } from '@lucide/svelte';
   import type { Difficulty } from '$lib/types';
 
@@ -137,9 +138,16 @@
           {diff.label}
         </Button>
       {/each}
-      <span class="font-mono font-bold text-foreground ml-1.5">
-        #{String(game.currentLevel.id).padStart(2, '0')}
-      </span>
+      <div class="flex items-center gap-1 ml-1.5">
+        <span class="font-mono font-bold text-foreground">
+          #{String(game.currentLevel.id).padStart(2, '0')}
+        </span>
+        {#if game.isLevelCompleted}
+          <span class="size-4 rounded-full bg-foreground text-background flex items-center justify-center shrink-0">
+            <Check class="size-2.5 stroke-[3.5]" />
+          </span>
+        {/if}
+      </div>
     </div>
     <div class="flex items-center gap-1.5">
       <Button
