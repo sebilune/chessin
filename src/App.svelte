@@ -232,10 +232,10 @@
       <Button
         variant="default"
         size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2 shadow-xs"
+        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2 shadow-xs disabled:pointer-events-auto"
         disabled={!game.canHint}
         onclick={() => game.requestHint()}
-        title={game.currentLevel.hintsDisabled ? 'Hint disabled' : 'Get Hint'}
+        title={game.currentLevel.hintsDisabled ? 'Prove yourself.' : 'Get Hint'}
       >
         <Sparkles class="size-4 sm:size-5 mr-1.5 stroke-[2.5]" />
         Hint
