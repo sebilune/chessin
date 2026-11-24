@@ -245,7 +245,7 @@
             <button
               type="button"
               class="relative flex items-center justify-center w-full h-full transition-none outline-none select-none
-                {piece ? (dragState?.isDragging ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-default'}
+                {piece ? (dragState?.isDragging ? 'cursor-grabbing' : 'cursor-pointer') : (isTarget ? 'cursor-pointer' : 'cursor-default')}
                 {isDark ? 'bg-zinc-300/80 dark:bg-zinc-800/90' : 'bg-zinc-100 dark:bg-zinc-700/60'}"
               onpointerdown={(e) => {
                 if (animatingMove) return;
