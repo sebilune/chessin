@@ -1,7 +1,7 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
   import { FILES, RANKS, getPieceAt } from '$lib/game/chess';
-  import type { Piece } from '$lib/types';
+  import type { Piece, Position } from '$lib/types';
   import ChessPiece from './ChessPiece.svelte';
 
   const rows = [0, 1, 2, 3, 4];
@@ -21,8 +21,17 @@
     size: number;
   }
 
+  interface AnimatingMove {
+    attacker: Piece;
+    from: Position;
+    to: Position;
+  }
+
   let dragState = $state<DragState | null>(null);
   let hoveredTarget = $state<{ row: number; col: number } | null>(null);
+  let animatingMove = $state<AnimatingMove | null>(null);
+  let slideActive = $state<boolean>(false);
+  let animationTimer: ReturnType<typeof setTimeout> | null = null;
 
   function isSquareSelected(r: number, c: number): boolean {
     return game.selectedPiece !== null && game.selectedPiece.row === r && game.selectedPiece.col === c;
@@ -32,17 +41,72 @@
     return game.validTargets.some(t => t.row === r && t.col === c);
   }
 
+  function clearAnimation() {
+    if (animationTimer) {
+      clearTimeout(animationTimer);
+      animationTimer = null;
+    }
+    animatingMove = null;
+    slideActive = false;
+  }
+
+  $effect(() => {
+    // Cancel in-flight animation on level switch
+    game.levelIndex;
+    clearAnimation();
+  });
+
+  function animateAndMove(from: Position, to: Position) {
+    if (animatingMove) return;
+
+    const attacker = getPieceAt(game.pieces, from.row, from.col);
+    if (!attacker) {
+      game.makeMove(from, to);
+      return;
+    }
+
+    animatingMove = {
+      attacker: { ...attacker },
+      from: { ...from },
+      to: { ...to },
+    };
+    slideActive = false;
+
+    // Clear board highlights so target boxes vanish during glide
+    game.selectedPiece = null;
+    game.validTargets = [];
+
+    // Trigger CSS transform on next paint
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (animatingMove) {
+          slideActive = true;
+        }
+      });
+    });
+
+    animationTimer = setTimeout(() => {
+      if (animatingMove) {
+        const moveFrom = animatingMove.from;
+        const moveTo = animatingMove.to;
+        animatingMove = null;
+        slideActive = false;
+        animationTimer = null;
+        game.makeMove(moveFrom, moveTo);
+      }
+    }, 180);
+  }
+
   function handlePointerDown(e: PointerEvent, piece: Piece, r: number, c: number) {
     if (e.button !== 0) return; // Only primary button
-    if (game.status === 'cleared') return;
+    if (game.status === 'cleared' || animatingMove !== null) return;
 
     // Check if this piece is a valid capture target for an already selected piece
     if (game.selectedPiece && game.selectedPiece.id !== piece.id) {
       const isTarget = game.validTargets.some(t => t.row === r && t.col === c);
       if (isTarget) {
-        // User might be clicking to capture, or might want to drag this piece instead.
-        // Record drag state without switching selection yet.
-        const targetEl = (e.currentTarget as HTMLElement);
+        // Record drag state without switching selection yet
+        const targetEl = e.currentTarget as HTMLElement;
         const rect = targetEl.getBoundingClientRect();
         dragState = {
           piece,
@@ -62,7 +126,7 @@
     // Select this piece and prepare drag
     game.selectSquare({ row: r, col: c });
 
-    const targetEl = (e.currentTarget as HTMLElement);
+    const targetEl = e.currentTarget as HTMLElement;
     const rect = targetEl.getBoundingClientRect();
 
     dragState = {
@@ -128,13 +192,13 @@
         );
       }
     } else {
-      // Short click: if previously selected piece has this as valid target, execute capture
+      // Short click: if previously selected piece has this as valid target, execute capture with slide animation
       if (
         game.selectedPiece &&
         game.selectedPiece.id !== currentDrag.piece.id &&
         game.validTargets.some(t => t.row === currentDrag.startRow && t.col === currentDrag.startCol)
       ) {
-        game.makeMove(
+        animateAndMove(
           { row: game.selectedPiece.row, col: game.selectedPiece.col },
           { row: currentDrag.startRow, col: currentDrag.startCol }
         );
@@ -162,7 +226,7 @@
   <div class="w-full aspect-square p-2.5 bg-muted/40 border-2 border-border rounded-2xl flex flex-col">
     <div
       bind:this={gridElement}
-      class="flex-1 grid grid-rows-5 w-full h-full rounded-xl overflow-hidden border border-border/80 touch-none"
+      class="relative flex-1 grid grid-rows-5 w-full h-full rounded-xl overflow-hidden border border-border/80 touch-none"
     >
       {#each rows as r (r)}
         <div class="grid grid-cols-5 w-full h-full">
@@ -173,6 +237,7 @@
             {@const isTarget = isValidTarget(r, c)}
             {@const isHovered = hoveredTarget !== null && hoveredTarget.row === r && hoveredTarget.col === c}
             {@const isBeingDragged = dragState !== null && dragState.isDragging && dragState.piece.id === piece?.id}
+            {@const isAttackerOrigin = animatingMove !== null && animatingMove.from.row === r && animatingMove.from.col === c}
 
             <button
               type="button"
@@ -180,6 +245,7 @@
                 {piece ? (dragState?.isDragging ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-default'}
                 {isDark ? 'bg-zinc-300/80 dark:bg-zinc-800/90' : 'bg-zinc-100 dark:bg-zinc-700/60'}"
               onpointerdown={(e) => {
+                if (animatingMove) return;
                 if (piece) {
                   handlePointerDown(e, piece, r, c);
                 } else if (!dragState?.isDragging) {
@@ -214,7 +280,8 @@
               {#if piece}
                 <div
                   class="relative z-0 flex items-center justify-center p-2 text-foreground transition-opacity
-                    {isBeingDragged ? 'opacity-20' : 'opacity-100'}"
+                    {isBeingDragged ? 'opacity-20' : ''}
+                    {isAttackerOrigin ? 'opacity-0' : 'opacity-100'}"
                 >
                   <ChessPiece
                     type={piece.type}
@@ -226,6 +293,28 @@
           {/each}
         </div>
       {/each}
+
+      <!-- Animating capturing piece gliding across the board -->
+      {#if animatingMove}
+        {@const dx = (animatingMove.to.col - animatingMove.from.col) * 100}
+        {@const dy = (animatingMove.to.row - animatingMove.from.row) * 100}
+        <div
+          class="absolute pointer-events-none z-30 flex items-center justify-center p-2 text-foreground will-change-transform"
+          style="
+            left: {animatingMove.from.col * 20}%;
+            top: {animatingMove.from.row * 20}%;
+            width: 20%;
+            height: 20%;
+            transform: translate3d({slideActive ? dx : 0}%, {slideActive ? dy : 0}%, 0);
+            transition: transform 180ms cubic-bezier(0.2, 0, 0.2, 1);
+          "
+        >
+          <ChessPiece
+            type={animatingMove.attacker.type}
+            class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14"
+          />
+        </div>
+      {/if}
     </div>
   </div>
 
