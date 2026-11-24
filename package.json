@@ -4,10 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write .",
     "dev": "vite",
-    "build": "vite build",
+    "dev:pages": "bun run build && wrangler pages dev",
+    "preview": "bunx vite preview",
+    "build": "tsc -b && bunx vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "deploy": "bun run build && wrangler pages deploy"
   },
   "devDependencies": {
     "@iconify-json/fa7-solid": "^1.2.5",
