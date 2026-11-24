@@ -80,13 +80,6 @@ export class GameStore {
     this.showPuzzlePicker = !this.showPuzzlePicker;
   }
 
-  setDifficulty(diff: Difficulty) {
-    const firstIdx = LEVELS.findIndex(l => l.difficulty === diff);
-    if (firstIdx !== -1) {
-      this.setLevel(firstIdx);
-    }
-  }
-
   nextLevel() {
     if (this.levelIndex < LEVELS.length - 1) {
       this.setLevel(this.levelIndex + 1);

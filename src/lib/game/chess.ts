@@ -14,14 +14,6 @@ export function positionToNotation(pos: Position): string {
   return `${FILES[pos.col]}${RANKS[pos.row]}`;
 }
 
-export function notationToPosition(notation: string): Position | null {
-  if (notation.length !== 2) return null;
-  const col = FILES.indexOf(notation[0] as any);
-  const row = RANKS.indexOf(notation[1] as any);
-  if (col === -1 || row === -1) return null;
-  return { row, col };
-}
-
 export function getPieceSymbol(type: PieceType): string {
   switch (type) {
     case 'king': return 'K';
