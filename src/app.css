@@ -20,26 +20,16 @@
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.35 0 0);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.88 0 0);
-  --input: oklch(0.88 0 0);
-  --ring: oklch(0.5 0 0);
-
-  /* Monochrome Chess Board Theme */
-  --board-light: oklch(0.94 0 0);
-  --board-dark: oklch(0.82 0 0);
-  --board-selected: oklch(0.65 0 0);
-  --board-target: oklch(0.35 0 0);
   --board-square-light: var(--color-zinc-100);
   --board-square-dark: color-mix(
     in srgb,
     var(--color-zinc-300) 80%,
     var(--background)
   );
-  --board-progress-empty: color-mix(
-    in srgb,
-    var(--muted-foreground) 20%,
-    var(--background)
-  );
+  --border: var(--board-square-dark);
+  --input: var(--border);
+  --ring: oklch(0.5 0 0);
+  --board-progress-empty: var(--board-square-dark);
 }
 
 .dark {
@@ -59,8 +49,8 @@
   --accent-foreground: oklch(0.96 0 0);
   --destructive: oklch(0.8 0 0);
   --destructive-foreground: oklch(0.15 0 0);
-  --border: oklch(0.25 0 0);
-  --input: oklch(0.25 0 0);
+  --border: var(--board-square-light);
+  --input: var(--border);
   --ring: oklch(0.6 0 0);
 
   /* Monochrome Chess Board Theme (Dark) */
@@ -70,11 +60,7 @@
   --board-target: oklch(0.7 0 0);
   --board-square-light: oklch(0.23 0.006 250);
   --board-square-dark: oklch(0.18 0.006 250);
-  --board-progress-empty: color-mix(
-    in srgb,
-    var(--muted-foreground) 20%,
-    var(--background)
-  );
+  --board-progress-empty: var(--board-square-light);
 }
 
 @theme inline {

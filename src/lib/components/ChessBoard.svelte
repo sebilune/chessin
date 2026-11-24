@@ -254,7 +254,7 @@
   <!-- 5x5 Grid with File & Rank notations (Strictly 1:1 Aspect Ratio) -->
   <div
     bind:this={gridElement}
-    class="relative w-full aspect-square shrink-0 grid grid-rows-5 rounded-2xl overflow-hidden border-2 border-border shadow-xs touch-none"
+    class="relative w-full aspect-square shrink-0 grid grid-rows-5 rounded-2xl overflow-hidden border-4 border-border shadow-xs touch-none"
     style="aspect-ratio: 1 / 1;"
   >
     {#each rows as r (r)}

@@ -7,7 +7,7 @@
   let { class: className = '' }: { class?: string } = $props();
 </script>
 
-<div class="p-4 rounded-2xl border-2 border-border bg-background text-foreground flex flex-col min-h-0 overflow-hidden shadow-xs {className}">
+<div class="p-4 rounded-2xl border-4 border-border bg-background text-foreground flex flex-col min-h-0 overflow-hidden shadow-xs {className}">
   <div class="flex items-center justify-between pb-2 mb-2 border-b-2 border-border/80">
     <span class="font-bold text-sm sm:text-base text-foreground uppercase tracking-wide">Moves</span>
     <!-- Roomy, well-proportioned counter badge -->

@@ -13,7 +13,7 @@
 <div class="relative flex flex-col items-center justify-center w-full max-w-[460px] sm:max-w-[480px] lg:max-w-[520px] xl:max-w-[540px] select-none mx-auto">
   <!-- 8x8 Chessboard Grid (Strictly 1:1 Aspect Ratio) -->
   <div
-    class="relative w-full aspect-square shrink-0 grid grid-cols-8 grid-rows-8 rounded-2xl overflow-hidden border-2 border-border shadow-xs"
+    class="relative w-full aspect-square shrink-0 grid grid-cols-8 grid-rows-8 rounded-2xl overflow-hidden border-4 border-border shadow-xs"
     style="aspect-ratio: 1 / 1;"
   >
     {#each Array(64) as _, idx}

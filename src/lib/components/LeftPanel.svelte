@@ -36,7 +36,7 @@
       <Button
         variant={game.showPuzzlePicker ? 'default' : 'outline'}
         size="lg"
-        class="w-full h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2"
+        class="w-full h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
         onclick={() => game.togglePuzzlePicker()}
         title="Puzzles"
       >
@@ -48,7 +48,7 @@
         <Button
           variant="outline"
           size="lg"
-          class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2"
+          class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
           disabled={game.levelIndex === 0}
           onclick={() => game.prevLevel()}
           title="Previous Puzzle"
@@ -59,7 +59,7 @@
         <Button
           variant="outline"
           size="lg"
-          class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2"
+          class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
           disabled={game.levelIndex === game.totalLevels - 1}
           onclick={() => game.nextLevel()}
           title="Next Puzzle"
