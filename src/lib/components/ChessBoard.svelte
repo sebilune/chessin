@@ -56,6 +56,15 @@
     clearAnimation();
   });
 
+  $effect(() => {
+    if (dragState?.isDragging) {
+      document.body.classList.add('cursor-grabbing');
+      return () => {
+        document.body.classList.remove('cursor-grabbing');
+      };
+    }
+  });
+
   function animateAndMove(from: Position, to: Position) {
     if (animatingMove) return;
 
@@ -245,7 +254,7 @@
             <button
               type="button"
               class="relative flex items-center justify-center w-full h-full transition-none outline-none select-none
-                {piece ? (dragState?.isDragging ? 'cursor-grabbing' : 'cursor-pointer') : (isTarget ? 'cursor-pointer' : 'cursor-default')}
+                {dragState?.isDragging ? 'cursor-grabbing' : (piece ? 'cursor-pointer' : (isTarget ? 'cursor-pointer' : 'cursor-default'))}
                 {isDark ? 'bg-zinc-300/80 dark:bg-zinc-800/90' : 'bg-zinc-100 dark:bg-zinc-700/60'}"
               onpointerdown={(e) => {
                 if (animatingMove) return;
