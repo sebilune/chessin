@@ -6,9 +6,9 @@
   import MoveHistory from '$lib/components/MoveHistory.svelte';
 </script>
 
-<aside class="flex flex-col justify-between h-[500px] lg:h-[520px] max-h-[70vh] py-2 select-none">
+<aside class="flex flex-col h-[500px] lg:h-[520px] max-h-[70vh] py-2 select-none">
   <!-- Action Controls -->
-  <div class="space-y-2">
+  <div class="space-y-2 shrink-0">
     <!-- Row 1: Undo / Redo -->
     <div class="grid grid-cols-2 gap-2">
       <Button
@@ -64,6 +64,8 @@
     </div>
   </div>
 
-  <!-- Move History Card with Transparent Background on Outer Box -->
-  <MoveHistory class="flex-1 mt-3" />
+  <!-- Move History Card with Dynamic Height Expansion -->
+  <div class="flex-1 min-h-0 mt-3 flex flex-col justify-start">
+    <MoveHistory class="max-h-full" />
+  </div>
 </aside>
