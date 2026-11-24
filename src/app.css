@@ -75,7 +75,7 @@
   );
   --board-square-dark: color-mix(
     in srgb,
-    var(--color-zinc-800) 90%,
+    var(--color-zinc-900) 80%,
     var(--background)
   );
   --board-progress-empty: color-mix(
