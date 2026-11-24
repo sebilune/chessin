@@ -68,16 +68,8 @@
   --board-dark: oklch(0.18 0 0);
   --board-selected: oklch(0.45 0 0);
   --board-target: oklch(0.7 0 0);
-  --board-square-light: color-mix(
-    in srgb,
-    var(--color-zinc-700) 60%,
-    var(--background)
-  );
-  --board-square-dark: color-mix(
-    in srgb,
-    var(--color-zinc-900) 80%,
-    var(--background)
-  );
+  --board-square-light: oklch(0.23 0.006 250);
+  --board-square-dark: oklch(0.18 0.006 250);
   --board-progress-empty: color-mix(
     in srgb,
     var(--muted-foreground) 20%,
