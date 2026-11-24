@@ -1,12 +1,14 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
   import { Button } from '$lib/components/ui/button';
-  import { Undo2, Redo2, RotateCcw, Sparkles, ChevronLeft, ChevronRight } from '@lucide/svelte';
+  import { Undo2, Redo2, RotateCcw, Sparkles, ArrowRight } from '@lucide/svelte';
+  import { positionToNotation } from '$lib/game/chess';
+  import ChessPiece from '$lib/components/ChessPiece.svelte';
 </script>
 
 <aside class="flex flex-col justify-between h-[500px] max-h-[65vh] py-2 select-none">
-  <!-- All Action & Navigation Controls Grouped Together -->
-  <div class="space-y-2.5">
+  <!-- Action Controls -->
+  <div class="space-y-2">
     <!-- Row 1: Undo / Redo -->
     <div class="grid grid-cols-2 gap-2">
       <Button
@@ -60,38 +62,44 @@
         Hint
       </Button>
     </div>
-
-    <!-- Row 3: Prev / Next directly under the action buttons -->
-    <div class="grid grid-cols-2 gap-2">
-      <Button
-        variant="outline"
-        size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2"
-        disabled={game.levelIndex === 0}
-        onclick={() => game.prevLevel()}
-        title="Previous Puzzle"
-      >
-        <ChevronLeft class="size-5 mr-1 stroke-[2.5]" />
-        Prev
-      </Button>
-      <Button
-        variant="outline"
-        size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2"
-        disabled={game.levelIndex === game.totalLevels - 1}
-        onclick={() => game.nextLevel()}
-        title="Next Puzzle"
-      >
-        Next
-        <ChevronRight class="size-5 ml-1 stroke-[2.5]" />
-      </Button>
-    </div>
   </div>
 
-  <!-- Bottom: Keyboard Shortcuts Hint -->
-  <div class="text-xs text-muted-foreground font-mono font-bold flex items-center justify-between px-1">
-    <span>Z: Undo</span>
-    <span>R: Reset</span>
-    <span>H: Hint</span>
+  <!-- Move History Card with Transparent Background on Outer Box -->
+  <div class="flex-1 mt-3 p-4 rounded-2xl border-2 border-border bg-transparent flex flex-col min-h-0 overflow-hidden shadow-xs">
+    <div class="flex items-center justify-between pb-2 mb-2 border-b-2 border-border/80">
+      <span class="font-bold text-sm sm:text-base text-foreground uppercase tracking-wide">Moves</span>
+      <!-- Roomy, well-proportioned counter badge -->
+      <span class="min-w-7 h-7 px-2 rounded-lg bg-muted text-foreground font-mono text-xs font-bold flex items-center justify-center leading-none">
+        {game.moveHistory.length}
+      </span>
+    </div>
+
+    <div class="flex-1 overflow-y-auto space-y-2 pr-1">
+      {#if game.moveHistory.length === 0}
+        <div class="h-full flex items-center justify-center text-center text-muted-foreground text-xs sm:text-sm px-2 font-medium">
+          Captures played will appear here
+        </div>
+      {:else}
+        {#each game.moveHistory as move, idx}
+          {@const targetSquare = positionToNotation(move.to)}
+          <div class="flex items-center justify-between py-1.5 px-3 rounded-xl bg-card border border-border/80 text-foreground text-sm font-bold shadow-2xs">
+            <span class="text-muted-foreground font-mono text-xs font-bold leading-none translate-y-px">#{idx + 1}</span>
+
+            <!-- Friendly visual move: (piece) -> square -->
+            <div class="flex items-center gap-2">
+              <span class="size-6 flex items-center justify-center text-foreground">
+                <ChessPiece type={move.attackerType} class="size-5" />
+              </span>
+
+              <ArrowRight class="size-3.5 stroke-[3] text-muted-foreground" />
+
+              <span class="font-mono font-black text-sm uppercase leading-none translate-y-0.5">
+                {targetSquare}
+              </span>
+            </div>
+          </div>
+        {/each}
+      {/if}
+    </div>
   </div>
 </aside>
