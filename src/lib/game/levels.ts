@@ -367,5 +367,487 @@ export const LEVELS: Level[] = [
       { type: "pawn", row: 4, col: 1 },
       { type: "king", row: 4, col: 3 },
     ]
-  }
+  },
+  {
+    id: 31,
+    name: "Gauntlet",
+    difficulty: "hard",
+    pieces: [
+      { type: "rook", row: 1, col: 1 },
+      { type: "knight", row: 1, col: 2 },
+      { type: "rook", row: 1, col: 3 },
+      { type: "bishop", row: 2, col: 1 },
+      { type: "rook", row: 2, col: 2 },
+      { type: "king", row: 3, col: 0 },
+    ]
+  },
+  {
+    id: 32,
+    name: "Crossfire",
+    difficulty: "hard",
+    pieces: [
+      { type: "knight", row: 1, col: 3 },
+      { type: "rook", row: 1, col: 4 },
+      { type: "knight", row: 2, col: 4 },
+      { type: "king", row: 3, col: 3 },
+      { type: "pawn", row: 3, col: 4 },
+      { type: "bishop", row: 4, col: 3 },
+    ]
+  },
+  {
+    id: 33,
+    name: "The Bastion",
+    difficulty: "hard",
+    pieces: [
+      { type: "knight", row: 0, col: 1 },
+      { type: "rook", row: 1, col: 3 },
+      { type: "rook", row: 2, col: 1 },
+      { type: "bishop", row: 3, col: 2 },
+      { type: "bishop", row: 4, col: 0 },
+      { type: "king", row: 4, col: 1 },
+    ]
+  },
+  {
+    id: 34,
+    name: "Silent Knight",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 0, col: 1 },
+      { type: "king", row: 0, col: 2 },
+      { type: "knight", row: 2, col: 0 },
+      { type: "bishop", row: 2, col: 2 },
+      { type: "pawn", row: 3, col: 1 },
+      { type: "pawn", row: 4, col: 3 },
+    ]
+  },
+  {
+    id: 35,
+    name: "Broken Wing",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 0, col: 0 },
+      { type: "bishop", row: 0, col: 2 },
+      { type: "pawn", row: 1, col: 1 },
+      { type: "knight", row: 3, col: 3 },
+      { type: "knight", row: 4, col: 1 },
+      { type: "bishop", row: 4, col: 4 },
+    ]
+  },
+  {
+    id: 36,
+    name: "Iron Grasp",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 0, col: 3 },
+      { type: "knight", row: 1, col: 4 },
+      { type: "bishop", row: 2, col: 3 },
+      { type: "king", row: 2, col: 4 },
+      { type: "rook", row: 3, col: 2 },
+      { type: "knight", row: 4, col: 3 },
+    ]
+  },
+  {
+    id: 37,
+    name: "Shadow Pin",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 0, col: 2 },
+      { type: "rook", row: 1, col: 4 },
+      { type: "rook", row: 3, col: 4 },
+      { type: "pawn", row: 4, col: 2 },
+      { type: "king", row: 4, col: 3 },
+      { type: "rook", row: 4, col: 4 },
+    ]
+  },
+  {
+    id: 38,
+    name: "Forked Road",
+    difficulty: "hard",
+    pieces: [
+      { type: "king", row: 1, col: 1 },
+      { type: "knight", row: 1, col: 2 },
+      { type: "bishop", row: 1, col: 4 },
+      { type: "pawn", row: 2, col: 0 },
+      { type: "bishop", row: 3, col: 0 },
+      { type: "pawn", row: 4, col: 1 },
+    ]
+  },
+  {
+    id: 39,
+    name: "Double Trouble",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 2, col: 2 },
+      { type: "king", row: 2, col: 3 },
+      { type: "knight", row: 3, col: 1 },
+      { type: "rook", row: 3, col: 2 },
+      { type: "knight", row: 3, col: 3 },
+      { type: "bishop", row: 4, col: 0 },
+      { type: "bishop", row: 4, col: 2 },
+    ]
+  },
+  {
+    id: 40,
+    name: "Labyrinth",
+    difficulty: "hard",
+    pieces: [
+      { type: "rook", row: 2, col: 1 },
+      { type: "king", row: 2, col: 2 },
+      { type: "knight", row: 3, col: 2 },
+      { type: "knight", row: 3, col: 3 },
+      { type: "rook", row: 4, col: 1 },
+      { type: "rook", row: 4, col: 2 },
+      { type: "pawn", row: 4, col: 3 },
+    ]
+  },
+  {
+    id: 41,
+    name: "Shattered Pawn",
+    difficulty: "hard",
+    pieces: [
+      { type: "rook", row: 1, col: 0 },
+      { type: "bishop", row: 1, col: 4 },
+      { type: "pawn", row: 2, col: 1 },
+      { type: "knight", row: 2, col: 2 },
+      { type: "knight", row: 3, col: 2 },
+      { type: "bishop", row: 4, col: 3 },
+      { type: "king", row: 4, col: 4 },
+    ]
+  },
+  {
+    id: 42,
+    name: "Ghost Bishop",
+    difficulty: "hard",
+    pieces: [
+      { type: "knight", row: 0, col: 3 },
+      { type: "knight", row: 1, col: 1 },
+      { type: "knight", row: 2, col: 2 },
+      { type: "pawn", row: 3, col: 0 },
+      { type: "king", row: 3, col: 2 },
+      { type: "bishop", row: 3, col: 3 },
+      { type: "pawn", row: 4, col: 2 },
+    ]
+  },
+  {
+    id: 43,
+    name: "Siege Engine",
+    difficulty: "hard",
+    pieces: [
+      { type: "rook", row: 0, col: 0 },
+      { type: "knight", row: 0, col: 3 },
+      { type: "bishop", row: 1, col: 1 },
+      { type: "bishop", row: 2, col: 0 },
+      { type: "knight", row: 2, col: 1 },
+      { type: "bishop", row: 2, col: 2 },
+      { type: "pawn", row: 3, col: 1 },
+    ]
+  },
+  {
+    id: 44,
+    name: "Black Citadel",
+    difficulty: "hard",
+    pieces: [
+      { type: "knight", row: 0, col: 3 },
+      { type: "bishop", row: 1, col: 1 },
+      { type: "bishop", row: 1, col: 2 },
+      { type: "bishop", row: 2, col: 1 },
+      { type: "pawn", row: 3, col: 0 },
+      { type: "rook", row: 3, col: 1 },
+      { type: "knight", row: 3, col: 3 },
+    ]
+  },
+  {
+    id: 45,
+    name: "Deadly Gambit",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 0, col: 0 },
+      { type: "rook", row: 0, col: 1 },
+      { type: "king", row: 1, col: 0 },
+      { type: "knight", row: 1, col: 2 },
+      { type: "bishop", row: 2, col: 1 },
+      { type: "rook", row: 2, col: 4 },
+      { type: "knight", row: 4, col: 0 },
+    ]
+  },
+  {
+    id: 46,
+    name: "Venom Strike",
+    difficulty: "hard",
+    pieces: [
+      { type: "knight", row: 0, col: 3 },
+      { type: "bishop", row: 0, col: 4 },
+      { type: "bishop", row: 1, col: 1 },
+      { type: "knight", row: 1, col: 3 },
+      { type: "rook", row: 2, col: 1 },
+      { type: "pawn", row: 2, col: 2 },
+      { type: "king", row: 2, col: 3 },
+    ]
+  },
+  {
+    id: 47,
+    name: "Overwatch",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 1, col: 0 },
+      { type: "pawn", row: 1, col: 2 },
+      { type: "rook", row: 2, col: 0 },
+      { type: "king", row: 2, col: 3 },
+      { type: "rook", row: 3, col: 2 },
+      { type: "bishop", row: 3, col: 4 },
+      { type: "bishop", row: 4, col: 2 },
+    ]
+  },
+  {
+    id: 48,
+    name: "The Redoubt",
+    difficulty: "hard",
+    pieces: [
+      { type: "king", row: 0, col: 4 },
+      { type: "bishop", row: 1, col: 0 },
+      { type: "bishop", row: 1, col: 4 },
+      { type: "knight", row: 2, col: 1 },
+      { type: "rook", row: 2, col: 2 },
+      { type: "rook", row: 3, col: 3 },
+      { type: "bishop", row: 4, col: 3 },
+    ]
+  },
+  {
+    id: 49,
+    name: "Phalanx",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 0, col: 3 },
+      { type: "king", row: 1, col: 3 },
+      { type: "pawn", row: 3, col: 1 },
+      { type: "bishop", row: 3, col: 3 },
+      { type: "rook", row: 4, col: 1 },
+      { type: "bishop", row: 4, col: 2 },
+      { type: "knight", row: 4, col: 3 },
+    ]
+  },
+  {
+    id: 50,
+    name: "Vortex II",
+    difficulty: "hard",
+    pieces: [
+      { type: "knight", row: 0, col: 0 },
+      { type: "bishop", row: 1, col: 0 },
+      { type: "rook", row: 1, col: 1 },
+      { type: "rook", row: 2, col: 0 },
+      { type: "bishop", row: 3, col: 1 },
+      { type: "bishop", row: 3, col: 3 },
+      { type: "rook", row: 4, col: 0 },
+    ]
+  },
+  {
+    id: 51,
+    name: "Iron Curtain",
+    difficulty: "hard",
+    pieces: [
+      { type: "rook", row: 1, col: 2 },
+      { type: "bishop", row: 1, col: 4 },
+      { type: "king", row: 2, col: 1 },
+      { type: "rook", row: 2, col: 2 },
+      { type: "pawn", row: 3, col: 1 },
+      { type: "rook", row: 3, col: 4 },
+      { type: "bishop", row: 4, col: 1 },
+      { type: "bishop", row: 4, col: 4 },
+    ]
+  },
+  {
+    id: 52,
+    name: "Bloodhound",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 0, col: 4 },
+      { type: "knight", row: 1, col: 3 },
+      { type: "rook", row: 1, col: 4 },
+      { type: "rook", row: 2, col: 0 },
+      { type: "king", row: 2, col: 3 },
+      { type: "knight", row: 2, col: 4 },
+      { type: "knight", row: 3, col: 3 },
+      { type: "bishop", row: 3, col: 4 },
+    ]
+  },
+  {
+    id: 53,
+    name: "Steel Trap",
+    difficulty: "hard",
+    pieces: [
+      { type: "knight", row: 0, col: 2 },
+      { type: "king", row: 1, col: 2 },
+      { type: "pawn", row: 1, col: 3 },
+      { type: "pawn", row: 1, col: 4 },
+      { type: "bishop", row: 2, col: 2 },
+      { type: "knight", row: 2, col: 3 },
+      { type: "pawn", row: 2, col: 4 },
+      { type: "rook", row: 4, col: 3 },
+    ]
+  },
+  {
+    id: 54,
+    name: "Storming Heaven",
+    difficulty: "hard",
+    pieces: [
+      { type: "king", row: 1, col: 2 },
+      { type: "rook", row: 2, col: 0 },
+      { type: "rook", row: 2, col: 2 },
+      { type: "knight", row: 2, col: 3 },
+      { type: "knight", row: 2, col: 4 },
+      { type: "bishop", row: 3, col: 2 },
+      { type: "knight", row: 4, col: 1 },
+      { type: "pawn", row: 4, col: 3 },
+    ]
+  },
+  {
+    id: 55,
+    name: "Dragon's Tail",
+    difficulty: "hard",
+    pieces: [
+      { type: "king", row: 1, col: 1 },
+      { type: "rook", row: 1, col: 2 },
+      { type: "rook", row: 1, col: 4 },
+      { type: "rook", row: 2, col: 1 },
+      { type: "pawn", row: 2, col: 2 },
+      { type: "pawn", row: 3, col: 1 },
+      { type: "bishop", row: 3, col: 4 },
+      { type: "knight", row: 4, col: 2 },
+    ]
+  },
+  {
+    id: 56,
+    name: "Castle Siege",
+    difficulty: "hard",
+    pieces: [
+      { type: "rook", row: 0, col: 1 },
+      { type: "bishop", row: 0, col: 3 },
+      { type: "bishop", row: 1, col: 0 },
+      { type: "rook", row: 1, col: 1 },
+      { type: "pawn", row: 1, col: 2 },
+      { type: "pawn", row: 2, col: 1 },
+      { type: "king", row: 2, col: 3 },
+      { type: "bishop", row: 3, col: 2 },
+    ]
+  },
+  {
+    id: 57,
+    name: "Checkmate Alley",
+    difficulty: "hard",
+    pieces: [
+      { type: "knight", row: 0, col: 1 },
+      { type: "knight", row: 0, col: 3 },
+      { type: "bishop", row: 0, col: 4 },
+      { type: "pawn", row: 1, col: 0 },
+      { type: "king", row: 1, col: 1 },
+      { type: "pawn", row: 2, col: 2 },
+      { type: "bishop", row: 3, col: 1 },
+      { type: "rook", row: 4, col: 0 },
+    ]
+  },
+  {
+    id: 58,
+    name: "Grandmaster's Trap",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 0, col: 0 },
+      { type: "rook", row: 0, col: 1 },
+      { type: "bishop", row: 1, col: 0 },
+      { type: "king", row: 1, col: 1 },
+      { type: "knight", row: 2, col: 1 },
+      { type: "bishop", row: 3, col: 2 },
+      { type: "pawn", row: 4, col: 0 },
+      { type: "rook", row: 4, col: 1 },
+    ]
+  },
+  {
+    id: 59,
+    name: "The Crucible",
+    difficulty: "hard",
+    pieces: [
+      { type: "knight", row: 0, col: 4 },
+      { type: "knight", row: 1, col: 2 },
+      { type: "bishop", row: 2, col: 1 },
+      { type: "rook", row: 2, col: 2 },
+      { type: "pawn", row: 2, col: 4 },
+      { type: "pawn", row: 3, col: 0 },
+      { type: "rook", row: 3, col: 2 },
+      { type: "knight", row: 4, col: 3 },
+    ]
+  },
+  {
+    id: 60,
+    name: "Anvil & Hammer",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 2, col: 0 },
+      { type: "bishop", row: 2, col: 2 },
+      { type: "rook", row: 2, col: 3 },
+      { type: "knight", row: 2, col: 4 },
+      { type: "pawn", row: 3, col: 1 },
+      { type: "pawn", row: 4, col: 0 },
+      { type: "king", row: 4, col: 1 },
+      { type: "pawn", row: 4, col: 2 },
+    ]
+  },
+  {
+    id: 61,
+    name: "Endgame Enigma",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 0, col: 0 },
+      { type: "bishop", row: 0, col: 4 },
+      { type: "rook", row: 1, col: 3 },
+      { type: "rook", row: 2, col: 2 },
+      { type: "bishop", row: 2, col: 4 },
+      { type: "king", row: 3, col: 2 },
+      { type: "pawn", row: 3, col: 3 },
+      { type: "pawn", row: 4, col: 2 },
+    ]
+  },
+  {
+    id: 62,
+    name: "Obsidian Core",
+    difficulty: "hard",
+    pieces: [
+      { type: "king", row: 0, col: 0 },
+      { type: "pawn", row: 1, col: 2 },
+      { type: "knight", row: 1, col: 3 },
+      { type: "rook", row: 2, col: 0 },
+      { type: "pawn", row: 2, col: 1 },
+      { type: "bishop", row: 3, col: 0 },
+      { type: "pawn", row: 3, col: 1 },
+      { type: "knight", row: 4, col: 1 },
+    ]
+  },
+  {
+    id: 63,
+    name: "Crown of Thorns",
+    difficulty: "hard",
+    pieces: [
+      { type: "rook", row: 0, col: 1 },
+      { type: "king", row: 0, col: 3 },
+      { type: "knight", row: 1, col: 1 },
+      { type: "knight", row: 1, col: 2 },
+      { type: "pawn", row: 2, col: 2 },
+      { type: "pawn", row: 2, col: 4 },
+      { type: "bishop", row: 3, col: 1 },
+      { type: "knight", row: 4, col: 3 },
+    ]
+  },
+  {
+    id: 64,
+    name: "Immortal Solitaire",
+    difficulty: "hard",
+    pieces: [
+      { type: "rook", row: 0, col: 2 },
+      { type: "king", row: 1, col: 3 },
+      { type: "pawn", row: 1, col: 4 },
+      { type: "bishop", row: 2, col: 1 },
+      { type: "knight", row: 2, col: 2 },
+      { type: "knight", row: 2, col: 3 },
+      { type: "knight", row: 3, col: 3 },
+      { type: "bishop", row: 4, col: 1 },
+    ]
+  },
 ];
