@@ -298,16 +298,11 @@
               </span>
             {/if}
 
-            <!-- Dotted border on capturable pieces or hint targets (disappears when hovered) -->
-            {#if (isTarget || isHint) && !isHovered}
+            <!-- Dotted outline on capturable pieces or hint targets: expands to full tile bounds on drag hover -->
+            {#if isTarget || isHint}
               <span
-                class="absolute inset-1.5 rounded-lg border-2 border-dashed border-foreground/90 pointer-events-none z-10"
+                class="absolute border-4 border-dashed border-foreground pointer-events-none z-10 transition-all duration-150 ease-out {isHovered ? 'inset-0 rounded-none opacity-100' : 'inset-1.5 rounded-lg opacity-80'}"
               ></span>
-            {/if}
-
-            <!-- Color change applied to square when hovered -->
-            {#if isHovered}
-              <span class="absolute inset-0 bg-foreground/15 pointer-events-none"></span>
             {/if}
 
             <!-- Chess Piece SVG: Proportional to square size -->
