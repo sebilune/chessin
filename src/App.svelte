@@ -17,13 +17,6 @@
     ChevronRight,
     Check,
   } from '@lucide/svelte';
-  import type { Difficulty } from '$lib/types';
-
-  const difficulties: { label: string; value: Difficulty }[] = [
-    { label: 'Easy', value: 'easy' },
-    { label: 'Med', value: 'medium' },
-    { label: 'Hard', value: 'hard' },
-  ];
 
   function handleKeyDown(event: KeyboardEvent) {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes((event.target as HTMLElement)?.tagName)) {
@@ -124,30 +117,20 @@
     </div>
   </header>
 
-  <!-- Mobile Only Level Header (< md) with 3 Difficulty Buttons -->
+  <!-- Mobile Only Level Header (< md) -->
   <div class="md:hidden flex items-center justify-between py-2 border-b-2 border-border text-sm">
-    <div class="flex items-center gap-1">
-      {#each difficulties as diff}
-        {@const isActive = game.currentLevel.difficulty === diff.value}
-        <Button
-          variant={isActive ? 'default' : 'outline'}
-          size="sm"
-          class="h-8 px-2 text-xs font-bold rounded-lg border-2 {isActive ? 'border-primary' : 'border-border'}"
-          onclick={() => game.setDifficulty(diff.value)}
-        >
-          {diff.label}
-        </Button>
-      {/each}
-      <div class="flex items-center gap-1 ml-1.5">
-        <span class="font-mono font-bold text-foreground">
-          #{String(game.currentLevel.id).padStart(2, '0')}
+    <div class="flex items-center gap-2">
+      <span class="font-bold text-base text-foreground">
+        {game.currentLevel.name}
+      </span>
+      <span class="font-mono font-bold text-muted-foreground text-xs">
+        #{String(game.currentLevel.id).padStart(2, '0')}
+      </span>
+      {#if game.isLevelCompleted}
+        <span class="size-4 rounded-full bg-foreground text-background flex items-center justify-center shrink-0">
+          <Check class="size-2.5 stroke-[3.5]" />
         </span>
-        {#if game.isLevelCompleted}
-          <span class="size-4 rounded-full bg-foreground text-background flex items-center justify-center shrink-0">
-            <Check class="size-2.5 stroke-[3.5]" />
-          </span>
-        {/if}
-      </div>
+      {/if}
     </div>
     <div class="flex items-center gap-1.5">
       <Button

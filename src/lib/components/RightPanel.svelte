@@ -1,12 +1,13 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
   import { Button } from '$lib/components/ui/button';
-  import { Undo2, Redo2, RotateCcw, Sparkles } from '@lucide/svelte';
+  import { Undo2, Redo2, RotateCcw, Sparkles, ChevronLeft, ChevronRight } from '@lucide/svelte';
 </script>
 
 <aside class="flex flex-col justify-between h-[500px] max-h-[65vh] py-2 select-none">
-  <!-- Action Buttons -->
+  <!-- All Action & Navigation Controls Grouped Together -->
   <div class="space-y-2.5">
+    <!-- Row 1: Undo / Redo -->
     <div class="grid grid-cols-2 gap-2">
       <Button
         variant="outline"
@@ -33,8 +34,8 @@
       </Button>
     </div>
 
+    <!-- Row 2: Reset / Hint -->
     <div class="grid grid-cols-2 gap-2">
-      <!-- Reset Button: highlighted with variant="default" (solid fill) when stuck so it becomes intuitive to restart -->
       <Button
         variant={game.status === 'stuck' ? 'default' : 'outline'}
         size="lg"
@@ -59,32 +60,35 @@
         Hint
       </Button>
     </div>
+
+    <!-- Row 3: Prev / Next directly under the action buttons -->
+    <div class="grid grid-cols-2 gap-2">
+      <Button
+        variant="outline"
+        size="lg"
+        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2"
+        disabled={game.levelIndex === 0}
+        onclick={() => game.prevLevel()}
+        title="Previous Puzzle"
+      >
+        <ChevronLeft class="size-5 mr-1 stroke-[2.5]" />
+        Prev
+      </Button>
+      <Button
+        variant="outline"
+        size="lg"
+        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-2"
+        disabled={game.levelIndex === game.totalLevels - 1}
+        onclick={() => game.nextLevel()}
+        title="Next Puzzle"
+      >
+        Next
+        <ChevronRight class="size-5 ml-1 stroke-[2.5]" />
+      </Button>
+    </div>
   </div>
 
-  <!-- Move History Card -->
-  <div class="flex-1 my-3 p-4 rounded-xl border-2 border-border bg-card flex flex-col min-h-0 overflow-hidden shadow-xs">
-    <div class="flex items-center justify-between pb-2 mb-2 border-b-2 border-border/80">
-      <span class="font-bold text-sm sm:text-base text-foreground uppercase tracking-wide">Captures</span>
-      <span class="font-mono text-xs font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded-md">{game.moveHistory.length} moves</span>
-    </div>
-
-    <div class="flex-1 overflow-y-auto space-y-1.5 pr-1 font-mono text-sm">
-      {#if game.moveHistory.length === 0}
-        <div class="h-full flex items-center justify-center text-center text-muted-foreground text-xs sm:text-sm px-2 font-sans font-medium">
-          Select a piece to view valid capture targets
-        </div>
-      {:else}
-        {#each game.moveHistory as move, idx}
-          <div class="flex items-center justify-between py-1 px-2.5 rounded-lg bg-muted/60 text-foreground text-xs sm:text-sm">
-            <span class="text-muted-foreground font-bold">#{idx + 1}</span>
-            <span class="font-extrabold">{move.notation}</span>
-          </div>
-        {/each}
-      {/if}
-    </div>
-  </div>
-
-  <!-- Keyboard Shortcuts Hint -->
+  <!-- Bottom: Keyboard Shortcuts Hint -->
   <div class="text-xs text-muted-foreground font-mono font-bold flex items-center justify-between px-1">
     <span>Z: Undo</span>
     <span>R: Reset</span>
