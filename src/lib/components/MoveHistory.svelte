@@ -16,7 +16,7 @@
     </span>
   </div>
 
-  <div class="flex-1 overflow-y-auto space-y-2 pr-1 max-h-64 lg:max-h-none">
+  <div class="flex-1 overflow-y-auto space-y-2 max-h-64 lg:max-h-none">
     {#if game.moveHistory.length === 0}
       <div class="py-6 flex items-center justify-center text-center text-muted-foreground text-xs sm:text-sm px-2 font-medium">
         Captures played will appear here
