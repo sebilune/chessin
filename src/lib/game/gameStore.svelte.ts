@@ -1,7 +1,7 @@
 import type { Piece, Position, Move, GameStatus, Level, Difficulty } from '../types';
 import { getPieceAt, getLegalCapturesForPiece, getAllLegalCaptures, executeCapture } from './chess';
 import { LEVELS } from './levels';
-import { getHint } from './solver';
+import { getHintTargets } from './solver';
 import { sound } from './audio';
 import { loadPersistedState, savePersistedState } from './storage';
 
@@ -12,7 +12,7 @@ export class GameStore {
   validTargets = $state<Position[]>([]);
   moveHistory = $state<Move[]>([]);
   undoneMoves = $state<Move[]>([]);
-  hintMove = $state<{ from: Position; to: Position } | null>(null);
+  hintTargets = $state<Position[]>([]);
   completedLevels = $state<number[]>([]);
   status = $state<GameStatus>('in_progress');
   soundEnabled = $state<boolean>(true);
@@ -66,7 +66,7 @@ export class GameStore {
     this.validTargets = [];
     this.moveHistory = [];
     this.undoneMoves = [];
-    this.hintMove = null;
+    this.hintTargets = [];
     this.status = 'in_progress';
 
     savePersistedState({ currentLevelId: lvl.id });
@@ -97,6 +97,8 @@ export class GameStore {
 
   selectSquare(pos: Position) {
     if (this.status === 'cleared') return;
+
+    this.hintTargets = [];
 
     const clickedPiece = getPieceAt(this.pieces, pos.row, pos.col);
 
@@ -146,7 +148,7 @@ export class GameStore {
     this.undoneMoves = [];
     this.selectedPiece = null;
     this.validTargets = [];
-    this.hintMove = null;
+    this.hintTargets = [];
 
     sound.playCapture();
 
@@ -197,7 +199,7 @@ export class GameStore {
     this.pieces = restoredPieces;
     this.selectedPiece = null;
     this.validTargets = [];
-    this.hintMove = null;
+    this.hintTargets = [];
     this.status = 'in_progress';
 
     sound.playUndo();
@@ -216,7 +218,7 @@ export class GameStore {
     this.moveHistory = [...this.moveHistory, outcome.move];
     this.selectedPiece = null;
     this.validTargets = [];
-    this.hintMove = null;
+    this.hintTargets = [];
 
     sound.playCapture();
 
@@ -251,16 +253,21 @@ export class GameStore {
     sound.playUndo();
   }
 
+  clearHints() {
+    this.hintTargets = [];
+  }
+
   requestHint() {
     if (!this.canHint) return;
-    const hint = getHint(this.pieces);
-    if (hint) {
-      this.hintMove = hint;
-      const piece = getPieceAt(this.pieces, hint.from.row, hint.from.col);
-      if (piece) {
-        this.selectedPiece = piece;
-        this.validTargets = getLegalCapturesForPiece(piece, this.pieces);
-      }
+    if (this.hintTargets.length > 0) {
+      this.hintTargets = [];
+      return;
+    }
+    const targets = getHintTargets(this.pieces);
+    if (targets.length > 0) {
+      this.hintTargets = targets;
+      this.selectedPiece = null;
+      this.validTargets = [];
       sound.playSelect();
     }
   }

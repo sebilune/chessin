@@ -41,6 +41,10 @@
     return game.validTargets.some(t => t.row === r && t.col === c);
   }
 
+  function isHintTarget(r: number, c: number): boolean {
+    return game.hintTargets.some(t => t.row === r && t.col === c);
+  }
+
   function clearAnimation() {
     if (animationTimer) {
       clearTimeout(animationTimer);
@@ -109,6 +113,10 @@
   function handlePointerDown(e: PointerEvent, piece: Piece, r: number, c: number) {
     if (e.button !== 0) return; // Only primary button
     if (game.status === 'cleared' || animatingMove !== null) return;
+
+    if (game.hintTargets.length > 0) {
+      game.clearHints();
+    }
 
     // Check if this piece is a valid capture target for an already selected piece
     if (game.selectedPiece && game.selectedPiece.id !== piece.id) {
@@ -247,6 +255,7 @@
             {@const piece = getPieceAt(game.pieces, r, c)}
             {@const isSelected = isSquareSelected(r, c)}
             {@const isTarget = isValidTarget(r, c)}
+            {@const isHint = isHintTarget(r, c)}
             {@const isHovered = hoveredTarget !== null && hoveredTarget.row === r && hoveredTarget.col === c}
             {@const isBeingDragged = dragState !== null && dragState.isDragging && dragState.piece.id === piece?.id}
             {@const isAttackerOrigin = animatingMove !== null && animatingMove.from.row === r && animatingMove.from.col === c}
@@ -280,8 +289,8 @@
                 </span>
               {/if}
 
-              <!-- Dotted border on capturable pieces (disappears when hovered) -->
-              {#if isTarget && !isHovered}
+              <!-- Dotted border on capturable pieces or hint targets (disappears when hovered) -->
+              {#if (isTarget || isHint) && !isHovered}
                 <span
                   class="absolute inset-1.5 rounded-lg border-2 border-dashed border-foreground/90 pointer-events-none z-10"
                 ></span>
