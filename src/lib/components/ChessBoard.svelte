@@ -34,16 +34,16 @@
               onclick={() => game.selectSquare({ row: r, col: c })}
               aria-label="{FILES[c]}{RANKS[r]}{piece ? ` - ${piece.type}` : ''}"
             >
-              <!-- Rank label on col 0 (top-left of square): larger, bolder, identical size to file labels, more opaque -->
+              <!-- Rank label on col 0 (top-left of square): subtle & transparent -->
               {#if c === 0}
-                <span class="absolute top-1.5 left-2 text-sm sm:text-base font-mono font-black leading-none pointer-events-none {isDark ? 'text-zinc-800 dark:text-zinc-200' : 'text-zinc-700 dark:text-zinc-300'}">
+                <span class="absolute top-1.5 left-2 text-sm sm:text-base font-mono font-black leading-none pointer-events-none text-foreground/40">
                   {RANKS[r]}
                 </span>
               {/if}
 
-              <!-- File label on row 4 (bottom-right of square): larger, bolder, identical size to rank labels, more opaque -->
+              <!-- File label on row 4 (bottom-right of square): subtle & transparent -->
               {#if r === 4}
-                <span class="absolute bottom-1.5 right-2 text-sm sm:text-base font-mono font-black leading-none pointer-events-none {isDark ? 'text-zinc-800 dark:text-zinc-200' : 'text-zinc-700 dark:text-zinc-300'}">
+                <span class="absolute bottom-1.5 right-2 text-sm sm:text-base font-mono font-black leading-none pointer-events-none text-foreground/40">
                   {FILES[c]}
                 </span>
               {/if}
