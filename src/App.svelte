@@ -129,7 +129,7 @@
   <div class="lg:hidden flex flex-col items-center w-full max-w-[480px] mx-auto py-2 space-y-4">
     <!-- Title & Puzzle Number directly above the board -->
     <div class="flex items-center justify-center gap-2.5 text-center">
-      <h2 class="text-xl sm:text-2xl font-black tracking-tight uppercase">
+      <h2 class="text-xl sm:text-2xl font-black tracking-tight">
         <span class="text-muted-foreground">#{game.currentLevel.id}</span>
         <span class="text-foreground">{game.currentLevel.name}</span>
       </h2>
