@@ -2,13 +2,22 @@
   import { game } from '$lib/game/gameStore.svelte';
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
-  import { Undo, Redo, RotateCcw, Sparkles } from '@animateicons/vanilla/lucide';
+  import { Undo, Redo, RotateCcw, Eye, EyeClosed } from '@animateicons/vanilla/lucide';
 
   interface Props {
     showShortcuts?: boolean;
   }
 
   let { showShortcuts = false }: Props = $props();
+
+  const isHintActive = $derived(game.hintTargets.length > 0);
+  let hasToggledHint = $state(false);
+
+  $effect(() => {
+    if (isHintActive) {
+      hasToggledHint = true;
+    }
+  });
 </script>
 
 <div class="space-y-2">
@@ -59,7 +68,14 @@
       onclick={() => game.requestHint()}
       title={game.hintDisabledReason ?? (showShortcuts ? 'Get Hint (H)' : 'Get Hint')}
     >
-      <AnimateIcon icon={Sparkles} size={22} class="size-5.5" />
+      {#key isHintActive}
+        <AnimateIcon
+          icon={isHintActive ? Eye : EyeClosed}
+          size={22}
+          class="size-5.5"
+          autoplay={hasToggledHint}
+        />
+      {/key}
       Hint
     </Button>
   </div>
