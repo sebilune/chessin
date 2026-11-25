@@ -88,6 +88,6 @@
 
   {#snippet footer()}
     <!-- Height placeholder matching capture progress bar to maintain exact board container height -->
-    <div class="h-3 w-full mt-3 px-1 invisible" aria-hidden="true"></div>
+    <div class="hidden lg:block h-3 w-full mt-3 px-1 invisible" aria-hidden="true"></div>
   {/snippet}
 </BoardFrame>

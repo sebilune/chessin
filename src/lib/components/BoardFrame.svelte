@@ -19,7 +19,7 @@
 </script>
 
 <div
-  class="relative flex flex-col items-center justify-center w-full max-w-[460px] sm:max-w-[480px] lg:max-w-[520px] xl:max-w-[540px] select-none mx-auto {className}"
+  class="relative flex flex-col items-center justify-center w-full max-w-[480px] lg:max-w-[520px] xl:max-w-[540px] select-none mx-auto {className}"
 >
   <!-- Concentric 2-layer board frame: p-1 (4px) bg-border outer frame + rounded-xl inner surface avoids subpixel border gaps without covering perimeter tiles -->
   <div

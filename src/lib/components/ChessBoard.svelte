@@ -426,6 +426,7 @@
     <CaptureProgressBar
       totalCaptures={game.initialPieceCount - 1}
       capturesCompleted={game.initialPieceCount - game.piecesRemaining}
+      class="hidden lg:flex mt-3 px-1"
     />
   {/snippet}
 </BoardFrame>

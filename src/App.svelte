@@ -6,13 +6,14 @@
   import LeftPanel from '$lib/components/LeftPanel.svelte';
   import RightPanel from '$lib/components/RightPanel.svelte';
   import ActionControls from '$lib/components/ActionControls.svelte';
-  import LevelNavigation from '$lib/components/LevelNavigation.svelte';
+  import MobileActionBar from '$lib/components/MobileActionBar.svelte';
+  import CaptureProgressBar from '$lib/components/CaptureProgressBar.svelte';
   import MoveHistory from '$lib/components/MoveHistory.svelte';
   import { Button } from '$lib/components/ui/button';
   import ChessPiece from '$lib/components/ChessPiece.svelte';
   import VolumeSlider from '$lib/components/VolumeSlider.svelte';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
-  import { Volume2, VolumeX, Sun, Moon, Github } from '@animateicons/vanilla/lucide';
+  import { Volume2, VolumeX, Sun, Moon, Github, RotateCcw } from '@animateicons/vanilla/lucide';
 
   let volumeOpen = $state(false);
   let volumeHovered = $state(false);
@@ -129,11 +130,11 @@
     </div>
 
     <!-- Top Right Utility Buttons -->
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-1 sm:gap-2">
       <Button
-        variant="outline"
+        variant="ghost"
         size="icon"
-        class="size-10 sm:size-11 rounded-xl border-4 text-foreground"
+        class="size-10 sm:size-11 rounded-xl lg:border-border lg:bg-background text-foreground"
         href="https://github.com/sebilune/chessin"
         target="_blank"
         rel="noopener noreferrer"
@@ -168,9 +169,9 @@
         }}
       >
         <Button
-          variant="outline"
+          variant="ghost"
           size="icon"
-          class="size-10 sm:size-11 rounded-xl border-4 text-foreground"
+          class="size-10 sm:size-11 rounded-xl lg:border-border lg:bg-background text-foreground"
           onclick={() => game.toggleSound()}
           title={game.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
           aria-label={game.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
@@ -209,9 +210,9 @@
       </div>
 
       <Button
-        variant="outline"
+        variant="ghost"
         size="icon"
-        class="size-10 sm:size-11 rounded-xl border-4 text-foreground"
+        class="size-10 sm:size-11 rounded-xl lg:border-border lg:bg-background text-foreground"
         onclick={() => game.toggleTheme()}
         title="Toggle Theme"
         aria-label="Toggle Theme"
@@ -225,10 +226,31 @@
     </div>
   </header>
 
-  <!-- Mobile & Tablet Vertical Flow (< lg): Single continuous column matching wireframe -->
-  <div class="relative z-10 lg:hidden order-1 flex flex-col items-center w-full max-w-[480px] mx-auto py-2 space-y-4">
+  <!-- Mobile & Tablet Vertical Flow (< lg): Sketch layout -->
+  <div class="relative z-10 lg:hidden order-1 flex flex-col items-center w-full max-w-[480px] mx-auto py-1 space-y-3">
+    <!-- Top Row: Reset Button + Capture Progress Bar -->
+    <div class="flex items-center gap-3 w-full">
+      <Button
+        variant="ghost"
+        size="icon"
+        class="size-10 sm:size-11 rounded-xl shrink-0 text-foreground"
+        disabled={game.showPuzzlePicker || game.moveHistory.length === 0}
+        onclick={() => game.reset()}
+        title="Reset Puzzle"
+        aria-label="Reset Puzzle"
+      >
+        <AnimateIcon icon={RotateCcw} size={24} class="size-6" />
+      </Button>
+
+      <CaptureProgressBar
+        totalCaptures={game.initialPieceCount - 1}
+        capturesCompleted={game.initialPieceCount - game.piecesRemaining}
+        class="flex-1 mt-0 px-0"
+      />
+    </div>
+
     <!-- Title & Puzzle Number directly above the board -->
-    <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-center">
+    <h2 class="w-full text-2xl sm:text-3xl font-black tracking-tight text-left">
       <span class="text-muted-foreground">#{game.currentLevel.id}</span>
       <span class="text-foreground">{game.currentLevel.name}</span>
     </h2>
@@ -242,14 +264,13 @@
       {/if}
     </div>
 
-    <!-- Controls falling cleanly under the board -->
-    <div class="w-full space-y-2 pt-1">
-      <ActionControls />
-      <LevelNavigation />
+    <!-- Single row of 4 icon controls under the board -->
+    <div class="w-full pt-0.5">
+      <MobileActionBar />
     </div>
 
     <!-- Move History Box underneath the buttons -->
-    <div class="w-full pt-1">
+    <div class="w-full">
       <MoveHistory />
     </div>
   </div>
