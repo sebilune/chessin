@@ -8,7 +8,7 @@
     "dev": "vite",
     "dev:pages": "bun run build && wrangler pages dev",
     "preview": "bunx vite preview",
-    "build": "bunx vite build",
+    "build": "bun run format && bunx vite build",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
     "deploy": "bun run build && wrangler pages deploy"
   },
