@@ -14,7 +14,7 @@
 >
   <!-- Header: Title and Counter Badge -->
   <div class="flex items-center justify-between shrink-0 {hasMoves ? 'pb-3 mb-3 border-b-4 border-border' : ''}">
-    <span class="font-black text-base sm:text-lg text-zinc-400 dark:text-zinc-400 uppercase tracking-wide">Moves</span>
+    <span class="font-black text-sm sm:text-base text-zinc-400 dark:text-zinc-400 uppercase tracking-wide">Moves</span>
     <span
       class="h-7 min-w-7 px-1.5 rounded-full bg-foreground text-background text-sm sm:text-base font-black flex items-center justify-center leading-none shadow-xs"
     >
