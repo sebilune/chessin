@@ -2,7 +2,9 @@
   import { game } from '$lib/game/gameStore.svelte';
   import { positionToNotation } from '$lib/game/chess';
   import ChessPiece from '$lib/components/ChessPiece.svelte';
+  import AnimateIcon from '$lib/components/AnimateIcon.svelte';
   import { ArrowRight } from '@lucide/svelte';
+  import { Footprints } from '@animateicons/vanilla/lucide';
 
   let { class: className = '' }: { class?: string } = $props();
 
@@ -14,7 +16,15 @@
 >
   <!-- Header: Title and Counter Badge -->
   <div class="flex items-center justify-between shrink-0 {hasMoves ? 'pb-3 mb-3 border-b-4 border-border' : ''}">
-    <span class="font-black text-sm sm:text-base text-zinc-400 dark:text-zinc-400 uppercase tracking-wide">Moves</span>
+    <div class="flex items-center gap-2">
+      <AnimateIcon
+        icon={Footprints}
+        size={20}
+        strokeWidth={2.5}
+        class="size-5 text-foreground cursor-pointer"
+      />
+      <span class="font-black text-sm sm:text-base text-foreground tracking-wide">Moves</span>
+    </div>
     <span
       class="h-7 min-w-7 px-1.5 rounded-full bg-foreground text-background text-sm sm:text-base font-black flex items-center justify-center leading-none shadow-xs"
     >

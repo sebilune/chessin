@@ -10,6 +10,7 @@
     strokeWidth?: number;
     triggerParent?: boolean;
     autoplay?: boolean;
+    animate?: boolean;
   }
 
   let {
@@ -21,6 +22,7 @@
     strokeWidth = 2.25,
     triggerParent = true,
     autoplay = false,
+    animate = true,
   }: Props = $props();
 
   let hostEl = $state<HTMLSpanElement | null>(null);
@@ -35,6 +37,7 @@
       size,
       color,
       duration,
+      isAnimated: animate,
     });
 
     const svg = hostEl.querySelector('svg');
@@ -46,13 +49,13 @@
       }
     }
 
-    if (autoplay) {
+    if (animate && autoplay) {
       requestAnimationFrame(() => {
         mounted?.startAnimation();
       });
     }
 
-    if (triggerParent) {
+    if (animate && triggerParent) {
       const parent = hostEl.closest('button, a, [role="button"]');
       if (parent && parent !== hostEl) {
         const onEnter = () => {
