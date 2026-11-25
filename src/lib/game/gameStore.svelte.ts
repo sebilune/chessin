@@ -318,7 +318,11 @@ export class GameStore {
       clearTimeout(this.advanceTimeout);
       this.advanceTimeout = null;
     }
+    const hadMoves = this.moveHistory.length > 0;
     this.loadCurrentLevel();
+    if (hadMoves) {
+      sound.playReset();
+    }
   }
 
   clearHints() {
