@@ -112,7 +112,7 @@
   });
 </script>
 
-<main class="relative min-h-screen w-full bg-background text-foreground select-none flex flex-col lg:justify-between p-3 sm:p-5 md:p-6 overflow-y-auto lg:h-screen lg:overflow-hidden">
+<main class="relative min-h-screen w-full bg-background text-foreground select-none flex flex-col xl:justify-between p-3 sm:p-5 md:p-6 overflow-y-auto xl:h-screen xl:overflow-hidden">
   <!-- Static ambient chess pattern background -->
   <div
     class="fixed inset-0 pointer-events-none z-0 chess-bg-pattern opacity-[0.018] dark:opacity-[0.0175]"
@@ -120,7 +120,7 @@
   ></div>
 
   <!-- Header: Logo on Left, Sound and Theme Toggles on Right -->
-  <header class="relative z-30 w-full max-w-[480px] lg:max-w-none mx-auto flex items-center justify-between pb-3 lg:pb-2 shrink-0">
+  <header class="relative z-30 w-full max-w-[480px] xl:max-w-none mx-auto flex items-center justify-between pb-3 xl:pb-2 shrink-0">
     <!-- Top Left Site Branding -->
     <div class="flex items-center gap-1.5">
       <ChessPiece type="queen" class="size-5 sm:size-6 text-foreground shrink-0" />
@@ -134,7 +134,7 @@
       <Button
         variant="ghost"
         size="icon"
-        class="size-10 sm:size-11 rounded-xl lg:border-border lg:bg-background text-foreground"
+        class="size-10 sm:size-11 rounded-xl xl:border-border xl:bg-background text-foreground"
         href="https://github.com/sebilune/chessin"
         target="_blank"
         rel="noopener noreferrer"
@@ -171,7 +171,7 @@
         <Button
           variant="ghost"
           size="icon"
-          class="size-10 sm:size-11 rounded-xl lg:border-border lg:bg-background text-foreground"
+          class="size-10 sm:size-11 rounded-xl xl:border-border xl:bg-background text-foreground"
           onclick={() => game.toggleSound()}
           title={game.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
           aria-label={game.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
@@ -209,7 +209,7 @@
       <Button
         variant="ghost"
         size="icon"
-        class="size-10 sm:size-11 rounded-xl lg:border-border lg:bg-background text-foreground"
+        class="size-10 sm:size-11 rounded-xl xl:border-border xl:bg-background text-foreground"
         onclick={() => game.toggleTheme()}
         title="Toggle Theme"
         aria-label="Toggle Theme"
@@ -223,8 +223,8 @@
     </div>
   </header>
 
-  <!-- Mobile & Tablet Vertical Flow (< lg): Sketch layout -->
-  <div class="relative z-10 lg:hidden flex flex-col items-center w-full max-w-[480px] mx-auto py-1 space-y-3">
+  <!-- Mobile & Tablet Vertical Flow (< xl): Sketch layout -->
+  <div class="relative z-10 xl:hidden flex flex-col items-center w-full max-w-[480px] mx-auto py-1 space-y-3">
     <!-- Top Row: Reset Button + Capture Progress Bar -->
     <div class="flex items-center gap-3 w-full">
       <Button
@@ -272,16 +272,16 @@
     </div>
   </div>
 
-  <!-- Desktop Arena Layout (>= lg): 3-column side-by-side view -->
-  <div class="relative z-10 hidden lg:flex lg:order-2 flex-1 items-center justify-center min-h-0 w-full max-w-7xl mx-auto py-2">
-    <div class="w-full flex items-center justify-center gap-8 lg:gap-12 xl:gap-14">
+  <!-- Desktop Arena Layout (>= xl): 3-column side-by-side view -->
+  <div class="relative z-10 hidden xl:flex flex-1 items-center justify-center min-h-0 w-full max-w-7xl mx-auto py-2">
+    <div class="w-full flex items-center justify-center gap-12 xl:gap-14">
       <!-- Left Controls Panel -->
-      <div class="w-56 lg:w-64 xl:w-72 shrink-0">
+      <div class="w-72 shrink-0">
         <LeftPanel />
       </div>
 
       <!-- Chess Board in Center -->
-      <div class="flex flex-col items-center justify-center flex-1 max-w-[500px] lg:max-w-[520px] xl:max-w-[540px] px-2">
+      <div class="flex flex-col items-center justify-center flex-1 max-w-[540px] px-2">
         {#if game.showPuzzlePicker}
           <PuzzlePicker />
         {:else}
@@ -290,7 +290,7 @@
       </div>
 
       <!-- Right Controls Panel -->
-      <div class="w-56 lg:w-64 xl:w-72 shrink-0">
+      <div class="w-72 shrink-0">
         <RightPanel />
       </div>
     </div>

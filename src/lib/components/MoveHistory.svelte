@@ -12,7 +12,7 @@
 </script>
 
 <div
-  class="w-full rounded-2xl border-4 border-border bg-background text-foreground flex flex-col min-h-0 overflow-hidden shadow-xs {hasMoves ? 'p-4 sm:p-5 max-h-80 lg:max-h-full' : 'h-14 px-4 sm:px-5 justify-center'} {className}"
+  class="w-full rounded-2xl border-4 border-border bg-background text-foreground flex flex-col min-h-0 overflow-hidden shadow-xs {hasMoves ? 'p-4 sm:p-5 max-h-80 xl:max-h-full' : 'h-14 px-4 sm:px-5 justify-center'} {className}"
 >
   <!-- Header: Title -->
   <div class="flex items-center justify-center shrink-0 {hasMoves ? 'pb-3 mb-3 border-b-4 border-border' : ''}">
