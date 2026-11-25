@@ -1,47 +1,55 @@
-# Svelte + TS + Vite
+# <img src="public/favicon.svg" width="32" height="32" valign="middle" /> Chessin
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+**A minimalist monochrome solo chess puzzle game.** Try it **[here](https://chessin.pages.dev)**.
 
-## Recommended IDE Setup
+## Description
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+Chessin is a 5x5 solo chess capture puzzle game where every move must capture another piece until only one remains on the board. Built with a clean, tactile monochrome interface and progressive difficulty across 64 puzzles.
 
-## Need an official Svelte framework?
+## Features
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+- 64 puzzles spanning Easy, Medium, and Hard tiers
+- Drag-and-drop or click-to-capture controls with piece travel and wobble animations
+- Full undo/redo history, board reset, and capture move log
+- Built-in solver hints for levels 1–48
+- Curated sound effects with a mute toggle and hover volume slider
+- Light and dark themes with local progress persistence
+- Keyboard shortcuts (`Z` / `ArrowLeft` undo, `Y` / `ArrowRight` redo, `R` reset, `H` hint, `ArrowUp` / `ArrowDown` level navigation)
 
-## Technical considerations
+## Build From Source
 
-**Why use this over SvelteKit?**
+Ensure you have the following installed on your system:
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+- **[Git](https://git-scm.com/)**
+- **[Bun](https://bun.sh/)**
 
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+Run the following commands to start the development server or build for production:
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
-
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
-
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
-
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `allowJs` in the TS template?**
-
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external store
-import { writable } from "svelte/store";
-export default writable(0);
+```bash
+git clone https://github.com/sebilune/chessin.git
+cd chessin
+bun install
+bun run dev
 ```
+
+To build the production bundle into `dist/`:
+
+```bash
+bun run build
+```
+
+## Technologies
+
+<p align="left">
+  <a href="https://github.com/sebilune">
+    <img src="https://skillicons.dev/icons?i=svelte,vite,tailwind,ts,bun,cloudflare&perline=8" />
+  </a>
+</p>
+
+- **[Svelte:](https://svelte.dev/)** Component framework.
+- **[TypeScript:](https://www.typescriptlang.org/)** Typed superset of JavaScript.
+- **[Vite:](https://vite.dev/)** Build tool for modern web apps.
+- **[Tailwind CSS:](https://tailwindcss.com/)** Utility CSS framework.
+- **[Lucide Svelte:](https://lucide.dev/)** Icons library.
+- **[Bun:](https://bun.sh/)** JavaScript runtime and package manager.
+- **[Cloudflare Pages:](https://pages.cloudflare.com/)** Static hosting and deployment via Wrangler.
