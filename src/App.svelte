@@ -12,84 +12,18 @@
   import MorseBar from '$lib/components/MorseBar.svelte';
   import MoveHistory from '$lib/components/MoveHistory.svelte';
   import { Button } from '$lib/components/ui/button';
+  import { Dropdown } from '$lib/components/ui/dropdown';
   import ChessPiece from '$lib/components/ChessPiece.svelte';
   import VolumeSlider from '$lib/components/VolumeSlider.svelte';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
   import { Volume2, VolumeX, Sun, Moon, Github, RotateCcw, Languages } from '@animateicons/vanilla/lucide';
 
-  let volumeOpen = $state(false);
-  let volumeHovered = $state(false);
   let volumeDragging = $state(false);
-  let volumeCloseTimer: ReturnType<typeof setTimeout> | null = null;
-  let volumeContainer: HTMLElement | null = $state(null);
-
-  let langOpen = $state(false);
-  let langCloseTimer: ReturnType<typeof setTimeout> | null = null;
-  let langContainer: HTMLElement | null = $state(null);
 
   const isChessinOrg =
     typeof window !== 'undefined' &&
     window.location.hostname.toLowerCase().replace(/^www\./, '') === 'chessin.org';
   const brandTitle = isChessinOrg ? 'CHESSIN.ORG' : 'CHESSIN';
-
-  function openVolumeMenu() {
-    if (volumeCloseTimer) {
-      clearTimeout(volumeCloseTimer);
-      volumeCloseTimer = null;
-    }
-    langOpen = false;
-    volumeOpen = true;
-  }
-
-  function scheduleCloseVolumeMenu() {
-    if (volumeDragging) return;
-    if (volumeCloseTimer) clearTimeout(volumeCloseTimer);
-    volumeCloseTimer = setTimeout(() => {
-      if (!volumeDragging && !volumeHovered) {
-        volumeOpen = false;
-      }
-      volumeCloseTimer = null;
-    }, 150);
-  }
-
-  function openLangMenu() {
-    if (langCloseTimer) {
-      clearTimeout(langCloseTimer);
-      langCloseTimer = null;
-    }
-    volumeOpen = false;
-    langOpen = true;
-  }
-
-  function scheduleCloseLangMenu() {
-    if (langCloseTimer) clearTimeout(langCloseTimer);
-    langCloseTimer = setTimeout(() => {
-      langOpen = false;
-      langCloseTimer = null;
-    }, 150);
-  }
-
-  function handlePointerDown(event: PointerEvent) {
-    const target = event.target as Node | null;
-    if (!target) return;
-
-    if (langOpen && langContainer && !langContainer.contains(target)) {
-      if (langCloseTimer) {
-        clearTimeout(langCloseTimer);
-        langCloseTimer = null;
-      }
-      langOpen = false;
-    }
-
-    if (volumeOpen && !volumeDragging && volumeContainer && !volumeContainer.contains(target)) {
-      if (volumeCloseTimer) {
-        clearTimeout(volumeCloseTimer);
-        volumeCloseTimer = null;
-      }
-      volumeHovered = false;
-      volumeOpen = false;
-    }
-  }
 
   function handleKeyDown(event: KeyboardEvent) {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes((event.target as HTMLElement)?.tagName)) {
@@ -145,11 +79,6 @@
           game.prevLevel();
           break;
         case 'escape':
-          if (langOpen || volumeOpen) {
-            langOpen = false;
-            volumeOpen = false;
-            break;
-          }
           if (game.showPuzzlePicker) {
             game.showPuzzlePicker = false;
           } else {
@@ -163,10 +92,8 @@
 
   onMount(() => {
     window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('pointerdown', handlePointerDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('pointerdown', handlePointerDown);
     };
   });
 </script>
@@ -203,129 +130,79 @@
         <AnimateIcon icon={Github} size={24} class="size-6" />
       </Button>
 
-      <div
-        bind:this={langContainer}
-        class="relative"
-        role="group"
-        aria-label={m.change_language({}, { locale: i18n.locale })}
-        onpointerenter={(e) => {
-          if (e.pointerType !== 'touch') openLangMenu();
-        }}
-        onpointerleave={(e) => {
-          if (e.pointerType !== 'touch') scheduleCloseLangMenu();
-        }}
-        onfocusin={openLangMenu}
-        onfocusout={(e) => {
-          const next = e.relatedTarget as Node | null;
-          if (!next || !e.currentTarget.contains(next)) {
-            langOpen = false;
-          }
-        }}
+      <Dropdown
+        ariaLabel={m.change_language({}, { locale: i18n.locale })}
+        panelClass="min-w-36 sm:min-w-40 w-max p-1.5 flex flex-col gap-1"
       >
-        <Button
-          variant="ghost"
-          size="icon"
-          class="size-10 sm:size-11 rounded-xl xl:border-border xl:bg-background text-foreground"
-          onclick={() => {
-            if (!langOpen) volumeOpen = false;
-            langOpen = !langOpen;
-          }}
-          title={m.change_language({}, { locale: i18n.locale })}
-          aria-label={m.change_language({}, { locale: i18n.locale })}
-          aria-expanded={langOpen}
-        >
-          <AnimateIcon icon={Languages} size={24} class="size-6" />
-        </Button>
-
-        {#if langOpen}
-          <div class="absolute top-full pt-2 left-1/2 -translate-x-1/2 z-50">
-            <div
-              class="min-w-36 sm:min-w-40 w-max rounded-xl border-4 border-border bg-background text-foreground p-1.5 flex flex-col gap-1 shadow-xs"
-            >
-              {#each orderedLocales as loc}
-                {@const isActive = i18n.locale === loc}
-                <button
-                  type="button"
-                  class="w-full px-3 py-2 rounded-lg text-sm sm:text-base font-bold text-left flex items-center justify-between gap-3 cursor-pointer transition-none
-                    {isActive
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-foreground hover:bg-border'}"
-                  onclick={() => {
-                    i18n.setLocale(loc);
-                    langOpen = false;
-                  }}
-                >
-                  <span>{LOCALE_LABELS[loc].name}</span>
-                  <span class="font-mono text-xs sm:text-sm opacity-70">{LOCALE_LABELS[loc].code}</span>
-                </button>
-              {/each}
-            </div>
-          </div>
-        {/if}
-      </div>
-
-      <div
-        bind:this={volumeContainer}
-        class="relative"
-        role="group"
-        aria-label={m.audio_controls({}, { locale: i18n.locale })}
-        onpointerenter={(e) => {
-          if (e.pointerType !== 'touch') {
-            volumeHovered = true;
-            openVolumeMenu();
-          }
-        }}
-        onpointerleave={(e) => {
-          if (e.pointerType !== 'touch') {
-            volumeHovered = false;
-            scheduleCloseVolumeMenu();
-          }
-        }}
-        onfocusin={openVolumeMenu}
-        onfocusout={(e) => {
-          const next = e.relatedTarget as Node | null;
-          if (!next || !e.currentTarget.contains(next)) {
-            volumeOpen = false;
-          }
-        }}
-      >
-        <Button
-          variant="ghost"
-          size="icon"
-          class="size-10 sm:size-11 rounded-xl xl:border-border xl:bg-background text-foreground"
-          onclick={() => game.toggleSound()}
-          title={game.soundEnabled ? m.mute_audio({}, { locale: i18n.locale }) : m.unmute_audio({}, { locale: i18n.locale })}
-          aria-label={game.soundEnabled ? m.mute_audio({}, { locale: i18n.locale }) : m.unmute_audio({}, { locale: i18n.locale })}
-        >
-          {#if game.soundEnabled}
-            <AnimateIcon icon={Volume2} size={24} class="size-6" />
-          {:else}
-            <AnimateIcon icon={VolumeX} size={24} class="size-6" />
-          {/if}
-        </Button>
-
-        {#if volumeOpen}
-          <div
-            class="absolute top-full pt-2 left-1/2 -translate-x-1/2 z-50"
+        {#snippet trigger({ open, toggle })}
+          <Button
+            variant="ghost"
+            size="icon"
+            class="size-10 sm:size-11 rounded-xl xl:border-border xl:bg-background text-foreground"
+            onclick={toggle}
+            title={m.change_language({}, { locale: i18n.locale })}
+            aria-label={m.change_language({}, { locale: i18n.locale })}
+            aria-expanded={open}
           >
-            <div
-              class="w-10 sm:w-11 rounded-xl border-4 border-border bg-background text-foreground py-2 flex flex-col items-center shadow-xs"
+            <AnimateIcon icon={Languages} size={24} class="size-6" />
+          </Button>
+        {/snippet}
+
+        {#snippet content({ close })}
+          {#each orderedLocales as loc}
+            {@const isActive = i18n.locale === loc}
+            <button
+              type="button"
+              class="w-full px-3 py-2 rounded-lg text-sm sm:text-base font-bold text-left flex items-center justify-between gap-3 cursor-pointer transition-none
+                {isActive
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-foreground hover:bg-border'}"
+              onclick={() => {
+                i18n.setLocale(loc);
+                close();
+              }}
             >
-              <VolumeSlider
-                value={game.soundEnabled ? game.soundVolume : 0}
-                onchange={(value) => game.setSoundVolume(value)}
-                ondragchange={(dragging) => {
-                  volumeDragging = dragging;
-                  if (!dragging && !volumeHovered) {
-                    scheduleCloseVolumeMenu();
-                  }
-                }}
-                aria-label={m.audio_volume({}, { locale: i18n.locale })}
-              />
-            </div>
-          </div>
-        {/if}
-      </div>
+              <span>{LOCALE_LABELS[loc].name}</span>
+              <span class="font-mono text-xs sm:text-sm opacity-70">{LOCALE_LABELS[loc].code}</span>
+            </button>
+          {/each}
+        {/snippet}
+      </Dropdown>
+
+      <Dropdown
+        ariaLabel={m.audio_controls({}, { locale: i18n.locale })}
+        panelClass="w-10 sm:w-11 py-2 flex flex-col items-center"
+        preventClose={() => volumeDragging}
+      >
+        {#snippet trigger({ open })}
+          <Button
+            variant="ghost"
+            size="icon"
+            class="size-10 sm:size-11 rounded-xl xl:border-border xl:bg-background text-foreground"
+            onclick={() => game.toggleSound()}
+            title={game.soundEnabled ? m.mute_audio({}, { locale: i18n.locale }) : m.unmute_audio({}, { locale: i18n.locale })}
+            aria-label={game.soundEnabled ? m.mute_audio({}, { locale: i18n.locale }) : m.unmute_audio({}, { locale: i18n.locale })}
+            aria-expanded={open}
+          >
+            {#if game.soundEnabled}
+              <AnimateIcon icon={Volume2} size={24} class="size-6" />
+            {:else}
+              <AnimateIcon icon={VolumeX} size={24} class="size-6" />
+            {/if}
+          </Button>
+        {/snippet}
+
+        {#snippet content()}
+          <VolumeSlider
+            value={game.soundEnabled ? game.soundVolume : 0}
+            onchange={(value) => game.setSoundVolume(value)}
+            ondragchange={(dragging) => {
+              volumeDragging = dragging;
+            }}
+            aria-label={m.audio_volume({}, { locale: i18n.locale })}
+          />
+        {/snippet}
+      </Dropdown>
 
       <Button
         variant="ghost"
