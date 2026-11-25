@@ -1,166 +1,152 @@
+type SoundName = 'capture' | 'stuck' | 'victory' | 'hint';
+
+const SOUND_PATHS: Record<SoundName, string> = {
+  capture: '/sounds/capture.mp3',
+  stuck: '/sounds/stuck.mp3',
+  victory: '/sounds/victory.mp3',
+  hint: '/sounds/hint.mp3',
+};
+
+const SOUND_VOLUMES: Record<SoundName, number> = {
+  capture: 0.68,
+  stuck: 0.75,
+  victory: 0.72,
+  hint: 0.7,
+};
+
+const MIN_REPEAT_MS = 35;
+const MAX_RESUME_WAIT_MS = 120;
+
+/**
+ * Loads and plays pre-decoded sound files via Web Audio API
+ * for low-latency, non-stacking playback across Firefox and Chrome.
+ */
 class SoundManager {
   private ctx: AudioContext | null = null;
-  public enabled: boolean = true;
+  private buffers = new Map<SoundName, AudioBuffer>();
+  private loadingPromise: Promise<void> | null = null;
+  private activeSource: AudioBufferSourceNode | null = null;
+  private lastPlayedAt = new Map<SoundName, number>();
+  private pendingPlayToken = 0;
 
-  constructor() {
-    // Lazy initialize AudioContext on first user interaction
-  }
+  public enabled = true;
 
-  private initContext() {
-    if (!this.ctx && typeof window !== "undefined") {
+  private getContext(): AudioContext | null {
+    if (typeof window === 'undefined') return null;
+
+    if (!this.ctx) {
       const AudioCtx =
-        window.AudioContext || (window as any).webkitAudioContext;
-      if (AudioCtx) {
-        this.ctx = new AudioCtx();
+        window.AudioContext ||
+        (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!AudioCtx) return null;
+      this.ctx = new AudioCtx({ latencyHint: 'interactive' });
+      void this.preload(this.ctx);
+    }
+
+    return this.ctx;
+  }
+
+  private preload(ctx: AudioContext): Promise<void> {
+    if (this.loadingPromise) return this.loadingPromise;
+
+    const entries = Object.entries(SOUND_PATHS) as [SoundName, string][];
+    this.loadingPromise = Promise.all(
+      entries.map(async ([name, url]) => {
+        try {
+          const res = await fetch(url);
+          if (!res.ok) return;
+          const data = await res.arrayBuffer();
+          const buffer = await ctx.decodeAudioData(data);
+          this.buffers.set(name, buffer);
+        } catch {
+          // Ignore individual load/decode failures
+        }
+      }),
+    ).then(() => undefined);
+
+    return this.loadingPromise;
+  }
+
+  private playBuffer(ctx: AudioContext, name: SoundName, allowOverlap: boolean): void {
+    const buffer = this.buffers.get(name);
+    if (!buffer) return;
+
+    if (!allowOverlap && this.activeSource) {
+      try {
+        this.activeSource.stop();
+      } catch {
+        // Source may have already finished
       }
+      this.activeSource = null;
     }
-    if (this.ctx && this.ctx.state === "suspended") {
-      this.ctx.resume();
+
+    const source = ctx.createBufferSource();
+    const gain = ctx.createGain();
+    source.buffer = buffer;
+    gain.gain.value = SOUND_VOLUMES[name];
+
+    source.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (!allowOverlap) {
+      this.activeSource = source;
     }
+
+    source.onended = () => {
+      if (this.activeSource === source) {
+        this.activeSource = null;
+      }
+      source.disconnect();
+      gain.disconnect();
+    };
+
+    source.start(0);
   }
 
-  public playCapture() {
+  private play(name: SoundName, allowOverlap = false): void {
     if (!this.enabled) return;
-    try {
-      this.initContext();
-      if (!this.ctx) return;
 
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
+    const nowMs = performance.now();
+    const prevMs = this.lastPlayedAt.get(name) ?? -Infinity;
+    if (!allowOverlap && nowMs - prevMs < MIN_REPEAT_MS) return;
+    this.lastPlayedAt.set(name, nowMs);
 
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(220, this.ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(
-        80,
-        this.ctx.currentTime + 0.08,
-      );
+    const ctx = this.getContext();
+    if (!ctx) return;
 
-      gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        this.ctx.currentTime + 0.08,
-      );
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start();
-      osc.stop(this.ctx.currentTime + 0.09);
-    } catch {
-      // Audio playback fails gracefully if blocked by browser policy
+    if (ctx.state === 'running' && this.buffers.has(name)) {
+      this.playBuffer(ctx, name, allowOverlap);
+      return;
     }
+
+    const token = ++this.pendingPlayToken;
+    const requestedAt = performance.now();
+
+    Promise.all([
+      ctx.state === 'suspended' ? ctx.resume().catch(() => undefined) : Promise.resolve(),
+      this.preload(ctx),
+    ]).then(() => {
+      if (!this.enabled || ctx.state !== 'running') return;
+      if (token !== this.pendingPlayToken) return;
+      if (performance.now() - requestedAt > MAX_RESUME_WAIT_MS) return;
+      this.playBuffer(ctx, name, allowOverlap);
+    });
   }
 
-  public playSelect() {
-    if (!this.enabled) return;
-    try {
-      this.initContext();
-      if (!this.ctx) return;
-
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(540, this.ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(
-        360,
-        this.ctx.currentTime + 0.04,
-      );
-
-      gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        this.ctx.currentTime + 0.04,
-      );
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start();
-      osc.stop(this.ctx.currentTime + 0.05);
-    } catch {}
+  public playCapture(): void {
+    this.play('capture');
   }
 
-  public playVictory() {
-    if (!this.enabled) return;
-    try {
-      this.initContext();
-      if (!this.ctx) return;
-
-      const notes = [440, 554.37, 659.25]; // A major triad
-      notes.forEach((freq, idx) => {
-        if (!this.ctx) return;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.1);
-
-        const startTime = this.ctx.currentTime + idx * 0.1;
-        gain.gain.setValueAtTime(0.15, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.35);
-
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-
-        osc.start(startTime);
-        osc.stop(startTime + 0.36);
-      });
-    } catch {}
+  public playStuck(): void {
+    this.play('stuck');
   }
 
-  public playUndo() {
-    if (!this.enabled) return;
-    try {
-      this.initContext();
-      if (!this.ctx) return;
-
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(320, this.ctx.currentTime);
-      osc.frequency.linearRampToValueAtTime(420, this.ctx.currentTime + 0.06);
-
-      gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        this.ctx.currentTime + 0.06,
-      );
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start();
-      osc.stop(this.ctx.currentTime + 0.07);
-    } catch {}
+  public playHint(): void {
+    this.play('hint');
   }
 
-  public playStuck() {
-    if (!this.enabled) return;
-    try {
-      this.initContext();
-      if (!this.ctx) return;
-
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = "sawtooth";
-      osc.frequency.setValueAtTime(140, this.ctx.currentTime);
-      osc.frequency.linearRampToValueAtTime(110, this.ctx.currentTime + 0.12);
-
-      gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        this.ctx.currentTime + 0.12,
-      );
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start();
-      osc.stop(this.ctx.currentTime + 0.13);
-    } catch {}
+  public playVictory(): void {
+    this.play('victory', true);
   }
 }
 

@@ -144,7 +144,6 @@ export class GameStore {
         const targets = getLegalCapturesForPiece(clickedPiece, this.pieces);
         this.selectedPiece = clickedPiece;
         this.validTargets = targets;
-        sound.playSelect();
         return;
       }
 
@@ -157,7 +156,6 @@ export class GameStore {
       const targets = getLegalCapturesForPiece(clickedPiece, this.pieces);
       this.selectedPiece = clickedPiece;
       this.validTargets = targets;
-      sound.playSelect();
     }
   }
 
@@ -227,8 +225,6 @@ export class GameStore {
     this.hintTargets = [];
     this.status = "in_progress";
     this.justCleared = false;
-
-    sound.playUndo();
   }
 
   redo() {
@@ -277,7 +273,6 @@ export class GameStore {
       this.advanceTimeout = null;
     }
     this.loadCurrentLevel();
-    sound.playUndo();
   }
 
   clearHints() {
@@ -295,7 +290,7 @@ export class GameStore {
       this.hintTargets = targets;
       this.selectedPiece = null;
       this.validTargets = [];
-      sound.playSelect();
+      sound.playHint();
     }
   }
 
