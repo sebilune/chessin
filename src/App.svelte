@@ -88,8 +88,8 @@
     aria-hidden="true"
   ></div>
 
-  <!-- Top Header: Logo on Left, Sound and Theme Toggles on Right -->
-  <header class="relative z-10 w-full flex items-center justify-between pb-2 shrink-0">
+  <!-- Header: Logo on Left, Sound and Theme Toggles on Right (Bottom on mobile, Top on desktop) -->
+  <header class="relative z-10 w-full max-w-[480px] lg:max-w-none mx-auto flex items-center justify-between order-2 lg:order-1 pt-4 lg:pt-0 lg:pb-2 shrink-0">
     <!-- Top Left Site Branding -->
     <div class="flex items-center">
       <span class="text-xl sm:text-2xl font-black tracking-tight text-foreground font-mono">
@@ -132,7 +132,7 @@
   </header>
 
   <!-- Mobile & Tablet Vertical Flow (< lg): Single continuous column matching wireframe -->
-  <div class="relative z-10 lg:hidden flex flex-col items-center w-full max-w-[480px] mx-auto py-2 space-y-4">
+  <div class="relative z-10 lg:hidden order-1 flex flex-col items-center w-full max-w-[480px] mx-auto py-2 space-y-4">
     <!-- Title & Puzzle Number directly above the board -->
     <h2 class="text-xl sm:text-2xl font-black tracking-tight text-center">
       <span class="text-muted-foreground">#{game.currentLevel.id}</span>
@@ -236,13 +236,13 @@
     </div>
 
     <!-- Move History Box underneath the buttons -->
-    <div class="w-full pt-1 pb-6">
+    <div class="w-full pt-1">
       <MoveHistory />
     </div>
   </div>
 
   <!-- Desktop Arena Layout (>= lg): 3-column side-by-side view -->
-  <div class="relative z-10 hidden lg:flex flex-1 items-center justify-center min-h-0 w-full max-w-7xl mx-auto py-2">
+  <div class="relative z-10 hidden lg:flex lg:order-2 flex-1 items-center justify-center min-h-0 w-full max-w-7xl mx-auto py-2">
     <div class="w-full flex items-center justify-center gap-8 lg:gap-12 xl:gap-14">
       <!-- Left Controls Panel -->
       <div class="w-56 lg:w-64 xl:w-72 shrink-0">
