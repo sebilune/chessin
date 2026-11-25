@@ -1,6 +1,7 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
   import BoardFrame from './BoardFrame.svelte';
+  import ChessPiece from './ChessPiece.svelte';
   import { Check } from '@lucide/svelte';
 
   function selectPuzzle(num: number) {
@@ -20,6 +21,8 @@
     {@const isCompleted = game.completedLevels.includes(puzzleNumber)}
     {@const isCurrent = game.currentLevel.id === puzzleNumber}
     {@const isAvailable = puzzleNumber <= game.totalLevels}
+    {@const isHighlightGroup = puzzleNumber >= 49 && puzzleNumber <= 64}
+    {@const isKingLevel = puzzleNumber === 64}
 
     <button
       type="button"
@@ -39,10 +42,21 @@
         >
           <Check class="size-3 sm:size-3.5 stroke-[3.5]" />
         </span>
+      {:else if isKingLevel}
+        <span
+          class="flex items-center justify-center
+            {isCurrent ? 'text-red-400' : 'text-red-500 dark:text-red-400'}"
+        >
+          <ChessPiece type="king" class="size-4 sm:size-5 lg:size-6" />
+        </span>
       {:else}
         <span
           class="font-mono font-bold text-xs sm:text-sm lg:text-base
-            {isCurrent ? 'text-background' : (isAvailable ? 'text-foreground' : 'text-foreground/45')}"
+            {isCurrent
+              ? (isHighlightGroup ? 'text-red-400' : 'text-background')
+              : (isAvailable
+                ? (isHighlightGroup ? 'text-red-500 dark:text-red-400' : 'text-foreground')
+                : 'text-foreground/45')}"
         >
           {puzzleNumber}
         </span>
