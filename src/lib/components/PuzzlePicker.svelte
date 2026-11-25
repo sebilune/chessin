@@ -26,7 +26,7 @@
 
     <button
       type="button"
-      class="relative flex items-center justify-center w-full h-full transition-none outline-none select-none
+      class="group relative flex items-center justify-center w-full h-full transition-none outline-none select-none
         {isAvailable ? 'cursor-pointer' : 'cursor-default'}
         {isCurrent
           ? 'bg-foreground text-background'
@@ -36,12 +36,32 @@
       aria-label={isCompleted ? `Puzzle ${puzzleNumber} (Completed)` : `Puzzle ${puzzleNumber}`}
     >
       {#if isCompleted}
+        <!-- Checkmark shown by default; hidden on hover -->
         <span
-          class="size-5 sm:size-6 rounded-full flex items-center justify-center shrink-0 shadow-xs
+          class="size-5 sm:size-6 rounded-full flex items-center justify-center shrink-0 shadow-xs group-hover:hidden
             {isCurrent ? 'bg-background text-foreground' : 'bg-foreground text-background'}"
         >
           <Check class="size-3 sm:size-3.5 stroke-[3.5]" />
         </span>
+
+        <!-- Number (or King icon for 64) shown on hover -->
+        {#if isKingLevel}
+          <span
+            class="hidden group-hover:flex items-center justify-center
+              {isCurrent ? 'text-red-400' : 'text-red-500 dark:text-red-400'}"
+          >
+            <ChessPiece type="king" class="size-4 sm:size-5 lg:size-6" />
+          </span>
+        {:else}
+          <span
+            class="hidden group-hover:inline font-mono font-bold text-xs sm:text-sm lg:text-base
+              {isCurrent
+                ? (isHighlightGroup ? 'text-red-400' : 'text-background')
+                : (isHighlightGroup ? 'text-red-500 dark:text-red-400' : 'text-foreground')}"
+          >
+            {puzzleNumber}
+          </span>
+        {/if}
       {:else if isKingLevel}
         <span
           class="flex items-center justify-center
