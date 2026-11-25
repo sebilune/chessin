@@ -38,7 +38,7 @@
       <div bind:this={titleWrapperEl} class="relative overflow-visible">
         {#if game.isLevelCompleted}
           <div
-            class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-foreground/10 dark:text-foreground/15 transition-all duration-200
+            class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-border transition-all duration-200
               {isMultiLine
                 ? 'left-[58%] -translate-x-1/2 size-32 lg:size-36'
                 : '-translate-x-[45%] size-24 lg:size-28'}"
