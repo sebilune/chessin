@@ -31,6 +31,12 @@ function localizedHtmlSeoPlugin(): Plugin {
       url: "https://chessin.org/ru/",
       ogLocale: "ru_RU",
     },
+    {
+      locale: "de",
+      dir: "de",
+      url: "https://chessin.org/de/",
+      ogLocale: "de_DE",
+    },
   ] as const;
 
   const hreflangTags = [
@@ -93,6 +99,7 @@ export default defineConfig({
             ["es", "/es/:path(.*)?"],
             ["ja", "/ja/:path(.*)?"],
             ["ru", "/ru/:path(.*)?"],
+            ["de", "/de/:path(.*)?"],
             ["en", "/:path(.*)?"],
           ],
         },
