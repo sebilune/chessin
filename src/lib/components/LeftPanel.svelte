@@ -93,7 +93,7 @@
         </h2>
       </div>
 
-      <span class="text-xs sm:text-sm font-mono font-bold text-muted-foreground uppercase tracking-wider block">
+      <span class="relative z-10 text-xs sm:text-sm font-mono font-bold text-muted-foreground uppercase tracking-wider block">
         Puzzle {String(game.currentLevel.id).padStart(2, '0')} / {game.totalLevels}
       </span>
     </div>
