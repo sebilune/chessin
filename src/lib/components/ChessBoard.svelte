@@ -4,6 +4,7 @@
   import type { Piece, Position } from '$lib/types';
   import { computeArrow } from '$lib/arrow';
   import BoardFrame from './BoardFrame.svelte';
+  import CaptureProgressBar from './CaptureProgressBar.svelte';
   import ChessPiece from './ChessPiece.svelte';
 
   const rows = [0, 1, 2, 3, 4];
@@ -131,6 +132,21 @@
     }, 180);
   }
 
+  function createDragState(e: PointerEvent, piece: Piece, row: number, col: number): DragState {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    return {
+      piece,
+      startRow: row,
+      startCol: col,
+      startX: e.clientX,
+      startY: e.clientY,
+      currentX: e.clientX,
+      currentY: e.clientY,
+      isDragging: false,
+      size: rect.width * 0.64,
+    };
+  }
+
   function handlePointerDown(e: PointerEvent, piece: Piece, r: number, c: number) {
     if (e.button !== 0) return; // Only primary button
     if (game.status === 'cleared' || animatingMove !== null) return;
@@ -144,40 +160,14 @@
       const isTarget = game.validTargets.some(t => t.row === r && t.col === c);
       if (isTarget) {
         // Record drag state without switching selection yet
-        const targetEl = e.currentTarget as HTMLElement;
-        const rect = targetEl.getBoundingClientRect();
-        dragState = {
-          piece,
-          startRow: r,
-          startCol: c,
-          startX: e.clientX,
-          startY: e.clientY,
-          currentX: e.clientX,
-          currentY: e.clientY,
-          isDragging: false,
-          size: rect.width * 0.64,
-        };
+        dragState = createDragState(e, piece, r, c);
         return;
       }
     }
 
     // Select this piece and prepare drag
     game.selectSquare({ row: r, col: c });
-
-    const targetEl = e.currentTarget as HTMLElement;
-    const rect = targetEl.getBoundingClientRect();
-
-    dragState = {
-      piece,
-      startRow: r,
-      startCol: c,
-      startX: e.clientX,
-      startY: e.clientY,
-      currentX: e.clientX,
-      currentY: e.clientY,
-      isDragging: false,
-      size: rect.width * 0.64,
-    };
+    dragState = createDragState(e, piece, r, c);
   }
 
   function handlePointerMove(e: PointerEvent) {
@@ -365,16 +355,10 @@
   {/if}
 
   {#snippet footer()}
-    <!-- Capture Progress Bars (Under the chess board, reverse bar: captures completed) -->
-    <div class="flex items-center gap-1.5 w-full mt-3 px-1">
-      {#each Array(game.initialPieceCount - 1) as _, idx}
-        {@const capturesCompleted = game.initialPieceCount - game.piecesRemaining}
-        {@const isFilled = idx < capturesCompleted}
-        <div
-          class="h-3 flex-1 rounded-md transition-none {isFilled ? 'bg-foreground' : 'bg-board-progress-empty'}"
-        ></div>
-      {/each}
-    </div>
+    <CaptureProgressBar
+      totalCaptures={game.initialPieceCount - 1}
+      capturesCompleted={game.initialPieceCount - game.piecesRemaining}
+    />
   {/snippet}
 </BoardFrame>
 

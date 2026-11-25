@@ -172,20 +172,7 @@ export class GameStore {
     }
   }
 
-  makeMove(from: Position, to: Position) {
-    const outcome = executeCapture(this.pieces, from, to);
-    if (!outcome) return;
-
-    this.pieces = outcome.nextPieces;
-    this.moveHistory = [...this.moveHistory, outcome.move];
-    this.undoneMoves = [];
-    this.selectedPiece = null;
-    this.validTargets = [];
-    this.hintTargets = [];
-
-    sound.playCapture();
-
-    // Check completion
+  private handlePostMoveState() {
     if (this.pieces.length === 1) {
       this.status = "cleared";
       this.justCleared = true;
@@ -208,6 +195,21 @@ export class GameStore {
         sound.playStuck();
       }
     }
+  }
+
+  makeMove(from: Position, to: Position) {
+    const outcome = executeCapture(this.pieces, from, to);
+    if (!outcome) return;
+
+    this.pieces = outcome.nextPieces;
+    this.moveHistory = [...this.moveHistory, outcome.move];
+    this.undoneMoves = [];
+    this.selectedPiece = null;
+    this.validTargets = [];
+    this.hintTargets = [];
+
+    sound.playCapture();
+    this.handlePostMoveState();
   }
 
   undo() {
@@ -256,28 +258,7 @@ export class GameStore {
     this.hintTargets = [];
 
     sound.playCapture();
-
-    if (this.pieces.length === 1) {
-      this.status = "cleared";
-      this.justCleared = true;
-      if (!this.completedLevels.includes(this.currentLevel.id)) {
-        this.completedLevels = [...this.completedLevels, this.currentLevel.id];
-        savePersistedState({ completedLevels: this.completedLevels });
-      }
-      sound.playVictory();
-
-      this.advanceTimeout = setTimeout(() => {
-        if (this.levelIndex < this.totalLevels - 1) {
-          this.nextLevel();
-        }
-      }, 700);
-    } else {
-      const remainingCaptures = getAllLegalCaptures(this.pieces);
-      if (remainingCaptures.length === 0) {
-        this.status = "stuck";
-        sound.playStuck();
-      }
-    }
+    this.handlePostMoveState();
   }
 
   reset() {
