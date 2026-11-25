@@ -36,7 +36,15 @@
         case 'z':
           game.undo();
           break;
+        case 'arrowleft':
+          event.preventDefault();
+          game.undo();
+          break;
         case 'y':
+          game.redo();
+          break;
+        case 'arrowright':
+          event.preventDefault();
           game.redo();
           break;
         case 'r':
@@ -45,11 +53,13 @@
         case 'h':
           game.requestHint();
           break;
-        case 'arrowleft':
-          game.prevLevel();
-          break;
-        case 'arrowright':
+        case 'arrowup':
+          event.preventDefault();
           game.nextLevel();
+          break;
+        case 'arrowdown':
+          event.preventDefault();
+          game.prevLevel();
           break;
         case 'escape':
           if (game.showPuzzlePicker) {
