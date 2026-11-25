@@ -38,7 +38,7 @@
     <Button
       variant="outline"
       size="lg"
-      disabled={game.levelIndex === game.totalLevels - 1}
+      disabled={!game.canNext}
       onclick={() => game.nextLevel()}
       title="Next Puzzle"
     >

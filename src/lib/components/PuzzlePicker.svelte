@@ -20,7 +20,7 @@
     {@const isDark = (row + col) % 2 === 1}
     {@const isCompleted = game.completedLevels.includes(puzzleNumber)}
     {@const isCurrent = game.currentLevel.id === puzzleNumber}
-    {@const isAvailable = puzzleNumber <= game.totalLevels}
+    {@const isAvailable = puzzleNumber <= game.totalLevels && idx <= game.maxUnlockedLevelIndex}
     {@const isChallengeTier = puzzleNumber >= 49 && puzzleNumber <= 64}
     {@const isKingLevel = puzzleNumber === 64}
 
@@ -65,7 +65,9 @@
       {:else if isKingLevel}
         <span
           class="flex items-center justify-center
-            {isCurrent ? 'text-challenge-active' : 'text-challenge'}"
+            {isCurrent
+              ? 'text-challenge-active'
+              : (isAvailable ? 'text-challenge' : 'text-challenge/45')}"
         >
           <ChessPiece type="king" class="size-4 sm:size-5 lg:size-6" />
         </span>
@@ -74,9 +76,9 @@
           class="font-mono font-bold text-xs sm:text-sm lg:text-base
             {isCurrent
               ? (isChallengeTier ? 'text-challenge-active' : 'text-background')
-              : (isAvailable
-                ? (isChallengeTier ? 'text-challenge' : 'text-foreground')
-                : 'text-foreground/45')}"
+              : (isChallengeTier
+                ? (isAvailable ? 'text-challenge' : 'text-challenge/45')
+                : (isAvailable ? 'text-foreground' : 'text-foreground/45'))}"
         >
           {puzzleNumber}
         </span>

@@ -61,6 +61,15 @@ export class GameStore {
   isLevelCompleted = $derived<boolean>(
     this.completedLevels.includes(this.currentLevel.id),
   );
+  maxUnlockedLevelIndex = $derived<number>(
+    (() => {
+      const firstUncompleted = LEVELS.findIndex(
+        (l) => !this.completedLevels.includes(l.id),
+      );
+      return firstUncompleted === -1 ? LEVELS.length - 1 : firstUncompleted;
+    })(),
+  );
+  canNext = $derived<boolean>(this.levelIndex < this.maxUnlockedLevelIndex);
 
   constructor() {
     this.init();
@@ -77,7 +86,8 @@ export class GameStore {
     const initialLvlIdx = LEVELS.findIndex(
       (l) => l.id === persisted.currentLevelId,
     );
-    this.levelIndex = initialLvlIdx !== -1 ? initialLvlIdx : 0;
+    const clampedIdx = initialLvlIdx !== -1 ? initialLvlIdx : 0;
+    this.levelIndex = Math.min(clampedIdx, this.maxUnlockedLevelIndex);
     this.loadCurrentLevel();
   }
 
@@ -106,7 +116,13 @@ export class GameStore {
   }
 
   setLevel(index: number) {
-    if (index < 0 || index >= LEVELS.length) return;
+    if (
+      index < 0 ||
+      index >= LEVELS.length ||
+      index > this.maxUnlockedLevelIndex
+    ) {
+      return;
+    }
     this.levelIndex = index;
     this.showPuzzlePicker = false;
     this.loadCurrentLevel();
