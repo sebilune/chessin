@@ -14,8 +14,8 @@
 <div
   class="w-full rounded-2xl border-4 border-border bg-background text-foreground flex flex-col min-h-0 overflow-hidden shadow-xs {hasMoves ? 'p-4 sm:p-5 max-h-80 lg:max-h-full' : 'h-14 px-4 sm:px-5 justify-center'} {className}"
 >
-  <!-- Header: Title and Counter Badge -->
-  <div class="flex items-center justify-between shrink-0 {hasMoves ? 'pb-3 mb-3 border-b-4 border-border' : ''}">
+  <!-- Header: Title -->
+  <div class="flex items-center justify-center shrink-0 {hasMoves ? 'pb-3 mb-3 border-b-4 border-border' : ''}">
     <div class="flex items-center gap-2">
       <AnimateIcon
         icon={Footprints}
@@ -25,11 +25,6 @@
       />
       <span class="font-black text-sm sm:text-base text-foreground tracking-wide">Moves</span>
     </div>
-    <span
-      class="h-7 min-w-7 px-1.5 rounded-full bg-foreground text-background text-sm sm:text-base font-black flex items-center justify-center leading-none shadow-xs"
-    >
-      {game.moveHistory.length}
-    </span>
   </div>
 
   {#if hasMoves}
@@ -40,8 +35,8 @@
         <div
           class="flex items-center justify-between h-12 px-3.5 rounded-xl bg-card border-4 border-border text-foreground font-bold shadow-xs transition-none"
         >
-          <!-- Move Index Number (Matches solid outline gray tone) -->
-          <span class="text-zinc-400 dark:text-zinc-400 font-black text-base sm:text-lg">
+          <!-- Move Index Number (Matches button text size) -->
+          <span class="text-zinc-400 dark:text-zinc-400 font-black text-sm sm:text-base">
             {idx + 1}
           </span>
 
