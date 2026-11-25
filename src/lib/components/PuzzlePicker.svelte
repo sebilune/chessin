@@ -3,6 +3,7 @@
   import { isChallengeTierLevel, isKingLevel } from '$lib/game/levelIcons';
   import BoardFrame from './BoardFrame.svelte';
   import ChessPiece from './ChessPiece.svelte';
+  import MorseBar from './MorseBar.svelte';
   import { Check } from '@lucide/svelte';
 
   function selectPuzzle(num: number) {
@@ -87,7 +88,6 @@
   {/each}
 
   {#snippet header()}
-    <!-- Height placeholder matching capture progress bar to maintain exact board container height -->
-    <div class="hidden xl:block h-3 w-full px-1 invisible" aria-hidden="true"></div>
+    <MorseBar class="hidden xl:flex mt-0 px-1" />
   {/snippet}
 </BoardFrame>

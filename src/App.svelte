@@ -8,6 +8,7 @@
   import ActionControls from '$lib/components/ActionControls.svelte';
   import MobileActionBar from '$lib/components/MobileActionBar.svelte';
   import CaptureProgressBar from '$lib/components/CaptureProgressBar.svelte';
+  import MorseBar from '$lib/components/MorseBar.svelte';
   import MoveHistory from '$lib/components/MoveHistory.svelte';
   import { Button } from '$lib/components/ui/button';
   import ChessPiece from '$lib/components/ChessPiece.svelte';
@@ -239,11 +240,15 @@
         <AnimateIcon icon={RotateCcw} size={24} class="size-6" />
       </Button>
 
-      <CaptureProgressBar
-        totalCaptures={game.initialPieceCount - 1}
-        capturesCompleted={game.initialPieceCount - game.piecesRemaining}
-        class="flex-1 mt-0 px-0"
-      />
+      {#if game.showPuzzlePicker}
+        <MorseBar class="flex-1 mt-0 px-0" />
+      {:else}
+        <CaptureProgressBar
+          totalCaptures={game.initialPieceCount - 1}
+          capturesCompleted={game.initialPieceCount - game.piecesRemaining}
+          class="flex-1 mt-0 px-0"
+        />
+      {/if}
     </div>
 
     <!-- Title & Puzzle Number directly above the board -->
