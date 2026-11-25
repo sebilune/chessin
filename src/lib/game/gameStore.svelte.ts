@@ -41,6 +41,7 @@ export class GameStore {
   showPuzzlePicker = $state<boolean>(false);
   isAdmin = $state<boolean>(false);
   lastPieceTransition = $state<PieceTransition | null>(null);
+  resetCount = $state<number>(0);
 
   private advanceTimeout: ReturnType<typeof setTimeout> | null = null;
   private transitionCounter = 0;
@@ -321,6 +322,7 @@ export class GameStore {
     const hadMoves = this.moveHistory.length > 0;
     this.loadCurrentLevel();
     if (hadMoves) {
+      this.resetCount += 1;
       sound.playReset();
     }
   }

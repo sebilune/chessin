@@ -64,9 +64,13 @@
   let slideActive = $state<boolean>(false);
   let animationTimer: ReturnType<typeof setTimeout> | null = null;
   let takeWobble = $state<{ row: number; col: number; key: number } | null>(null);
+  let isResetWobble = $state<boolean>(false);
+  let resetWobbleKey = $state<number>(0);
+  let resetWobbleTimer: ReturnType<typeof setTimeout> | null = null;
   let prevMoveCount = 0;
   let animationKey = 0;
   let lastHandledTransitionKey = 0;
+  let lastHandledResetCount = 0;
 
   function isSquareSelected(r: number, c: number): boolean {
     return game.selectedPiece !== null && game.selectedPiece.row === r && game.selectedPiece.col === c;
@@ -141,6 +145,29 @@
     void game.levelIndex;
     clearAnimation();
     takeWobble = null;
+    if (resetWobbleTimer) {
+      clearTimeout(resetWobbleTimer);
+      resetWobbleTimer = null;
+    }
+    isResetWobble = false;
+  });
+
+  $effect(() => {
+    const count = game.resetCount;
+    if (count === lastHandledResetCount) return;
+    lastHandledResetCount = count;
+
+    clearAnimation();
+    takeWobble = null;
+    if (resetWobbleTimer) {
+      clearTimeout(resetWobbleTimer);
+    }
+    resetWobbleKey = count;
+    isResetWobble = true;
+    resetWobbleTimer = setTimeout(() => {
+      isResetWobble = false;
+      resetWobbleTimer = null;
+    }, 180);
   });
 
   $effect(() => {
@@ -413,12 +440,12 @@
 
           <!-- Chess Piece SVG: Proportional to square size -->
           {#if piece}
-            {#key isTakeWobble ? takeWobble?.key : 0}
+            {#key isTakeWobble ? `take-${takeWobble?.key}` : `reset-${resetWobbleKey}`}
               <div
                 class="relative z-0 flex items-center justify-center w-full h-full
                   {isBeingDragged ? (isDark ? 'text-board-square-light' : 'text-board-square-dark') : 'text-foreground'}
                   {isHiddenForAnimation ? 'invisible' : ''}
-                  {isTakeWobble ? 'animate-piece-take-wobble' : ''}"
+                  {isTakeWobble || isResetWobble ? 'animate-piece-take-wobble' : ''}"
               >
                 <ChessPiece
                   type={piece.type}
