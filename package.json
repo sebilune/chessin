@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "lint": "eslint .",
     "format": "prettier --write .",
     "dev": "vite",
     "dev:pages": "bun run build && wrangler pages dev",
@@ -20,6 +19,7 @@
     "@tailwindcss/vite": "^4.3.5",
     "@tsconfig/svelte": "^5.0.8",
     "@types/node": "^24.19.2",
+    "prettier": "^3.10.1",
     "svelte": "^5.57.3",
     "svelte-check": "^4.7.7",
     "tailwind-variants": "^3.3.0",
