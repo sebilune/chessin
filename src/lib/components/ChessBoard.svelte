@@ -56,13 +56,21 @@
     return game.hintTargets.some(t => t.row === r && t.col === c);
   }
 
+  const TUTORIAL_ARROW_OPTIONS = {
+    startPad: 11.5,
+    endPad: 11.0,
+    headLen: 3.5,
+    headWidth: 2.5,
+    shaftWidth: 0.9,
+  } as const;
+
   const tutorialArrow = $derived.by(() => {
     if (game.currentLevel.id !== 1 || game.status === 'cleared') return null;
     if (game.moveHistory.length === 0) {
-      return computeArrow({ row: 2, col: 1 }, { row: 2, col: 3 }, { startPad: 8.5, endPad: 8.0, headLen: 3.5, headWidth: 2.5, shaftWidth: 0.9 });
+      return computeArrow({ row: 2, col: 1 }, { row: 2, col: 3 }, TUTORIAL_ARROW_OPTIONS);
     }
     if (game.moveHistory.length === 1) {
-      return computeArrow({ row: 2, col: 3 }, { row: 4, col: 3 }, { startPad: 8.5, endPad: 8.0, headLen: 3.5, headWidth: 2.5, shaftWidth: 0.9 });
+      return computeArrow({ row: 2, col: 3 }, { row: 4, col: 3 }, TUTORIAL_ARROW_OPTIONS);
     }
     return null;
   });
