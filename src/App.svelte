@@ -205,7 +205,7 @@
         {#if langOpen}
           <div class="absolute top-full pt-2 left-1/2 -translate-x-1/2 z-50">
             <div
-              class="w-28 rounded-xl border-4 border-border bg-background text-foreground p-1.5 flex flex-col gap-1 shadow-xs"
+              class="min-w-32 w-max rounded-xl border-4 border-border bg-background text-foreground p-1.5 flex flex-col gap-1 shadow-xs"
             >
               {#each locales as loc}
                 {@const isActive = i18n.locale === loc}
