@@ -21,7 +21,7 @@
     {@const isCompleted = game.completedLevels.includes(puzzleNumber)}
     {@const isCurrent = game.currentLevel.id === puzzleNumber}
     {@const isAvailable = puzzleNumber <= game.totalLevels}
-    {@const isHighlightGroup = puzzleNumber >= 49 && puzzleNumber <= 64}
+    {@const isChallengeTier = puzzleNumber >= 49 && puzzleNumber <= 64}
     {@const isKingLevel = puzzleNumber === 64}
 
     <button
@@ -48,7 +48,7 @@
         {#if isKingLevel}
           <span
             class="hidden group-hover:flex items-center justify-center
-              {isCurrent ? 'text-red-400' : 'text-red-500 dark:text-red-400'}"
+              {isCurrent ? 'text-challenge-active' : 'text-challenge'}"
           >
             <ChessPiece type="king" class="size-4 sm:size-5 lg:size-6" />
           </span>
@@ -56,8 +56,8 @@
           <span
             class="hidden group-hover:inline font-mono font-bold text-xs sm:text-sm lg:text-base
               {isCurrent
-                ? (isHighlightGroup ? 'text-red-400' : 'text-background')
-                : (isHighlightGroup ? 'text-red-500 dark:text-red-400' : 'text-foreground')}"
+                ? (isChallengeTier ? 'text-challenge-active' : 'text-background')
+                : (isChallengeTier ? 'text-challenge' : 'text-foreground')}"
           >
             {puzzleNumber}
           </span>
@@ -65,7 +65,7 @@
       {:else if isKingLevel}
         <span
           class="flex items-center justify-center
-            {isCurrent ? 'text-red-400' : 'text-red-500 dark:text-red-400'}"
+            {isCurrent ? 'text-challenge-active' : 'text-challenge'}"
         >
           <ChessPiece type="king" class="size-4 sm:size-5 lg:size-6" />
         </span>
@@ -73,9 +73,9 @@
         <span
           class="font-mono font-bold text-xs sm:text-sm lg:text-base
             {isCurrent
-              ? (isHighlightGroup ? 'text-red-400' : 'text-background')
+              ? (isChallengeTier ? 'text-challenge-active' : 'text-background')
               : (isAvailable
-                ? (isHighlightGroup ? 'text-red-500 dark:text-red-400' : 'text-foreground')
+                ? (isChallengeTier ? 'text-challenge' : 'text-foreground')
                 : 'text-foreground/45')}"
         >
           {puzzleNumber}

@@ -30,6 +30,8 @@
   --input: var(--border);
   --ring: oklch(0.5 0 0);
   --board-progress-empty: var(--board-square-dark);
+  --challenge: var(--color-red-500);
+  --challenge-active: var(--color-red-400);
 }
 
 .dark {
@@ -53,14 +55,11 @@
   --input: var(--border);
   --ring: oklch(0.6 0 0);
 
-  /* Monochrome Chess Board Theme (Dark) */
-  --board-light: oklch(0.28 0 0);
-  --board-dark: oklch(0.18 0 0);
-  --board-selected: oklch(0.45 0 0);
-  --board-target: oklch(0.7 0 0);
   --board-square-light: oklch(0.23 0.006 250);
   --board-square-dark: oklch(0.18 0.006 250);
   --board-progress-empty: var(--board-square-light);
+  --challenge: var(--color-red-400);
+  --challenge-active: var(--color-red-400);
 }
 
 @theme inline {
@@ -84,13 +83,11 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-board-light: var(--board-light);
-  --color-board-dark: var(--board-dark);
-  --color-board-selected: var(--board-selected);
-  --color-board-target: var(--board-target);
   --color-board-square-light: var(--board-square-light);
   --color-board-square-dark: var(--board-square-dark);
   --color-board-progress-empty: var(--board-progress-empty);
+  --color-challenge: var(--challenge);
+  --color-challenge-active: var(--challenge-active);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

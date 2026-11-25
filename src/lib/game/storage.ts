@@ -4,7 +4,7 @@ export interface PersistedState {
   completedLevels: number[];
   currentLevelId: number;
   soundEnabled: boolean;
-  theme: "dark" | "light" | "system";
+  theme: "dark" | "light";
 }
 
 const DEFAULT_STATE: PersistedState = {
@@ -14,13 +14,19 @@ const DEFAULT_STATE: PersistedState = {
   theme: "dark",
 };
 
+let cachedState: PersistedState | null = null;
+
 export function loadPersistedState(): PersistedState {
   if (typeof window === "undefined") return DEFAULT_STATE;
+  if (cachedState) return cachedState;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return DEFAULT_STATE;
+    if (!raw) {
+      cachedState = { ...DEFAULT_STATE };
+      return cachedState;
+    }
     const parsed = JSON.parse(raw);
-    return {
+    cachedState = {
       completedLevels: Array.isArray(parsed.completedLevels)
         ? parsed.completedLevels
         : [],
@@ -33,16 +39,19 @@ export function loadPersistedState(): PersistedState {
           ? parsed.theme
           : "dark",
     };
+    return cachedState;
   } catch {
-    return DEFAULT_STATE;
+    cachedState = { ...DEFAULT_STATE };
+    return cachedState;
   }
 }
 
 export function savePersistedState(state: Partial<PersistedState>) {
   if (typeof window === "undefined") return;
   try {
-    const current = loadPersistedState();
-    const updated = { ...current, ...state };
+    const current = cachedState ?? loadPersistedState();
+    const updated: PersistedState = { ...current, ...state };
+    cachedState = updated;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   } catch {}
 }

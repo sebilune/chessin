@@ -36,7 +36,7 @@
           class="flex items-center justify-between h-12 px-3.5 rounded-xl bg-card border-4 border-border text-foreground font-bold shadow-xs transition-none"
         >
           <!-- Move Index Number (Matches button text size) -->
-          <span class="text-zinc-400 dark:text-zinc-400 font-black text-sm sm:text-base">
+          <span class="text-muted-foreground font-black text-sm sm:text-base">
             {idx + 1}
           </span>
 
