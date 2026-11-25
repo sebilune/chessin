@@ -9,8 +9,28 @@
   import LevelNavigation from '$lib/components/LevelNavigation.svelte';
   import MoveHistory from '$lib/components/MoveHistory.svelte';
   import { Button } from '$lib/components/ui/button';
+  import VolumeSlider from '$lib/components/VolumeSlider.svelte';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
   import { Volume2, VolumeX, Sun, Moon, Github } from '@animateicons/vanilla/lucide';
+
+  let volumeOpen = $state(false);
+  let volumeCloseTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function openVolumeMenu() {
+    if (volumeCloseTimer) {
+      clearTimeout(volumeCloseTimer);
+      volumeCloseTimer = null;
+    }
+    volumeOpen = true;
+  }
+
+  function scheduleCloseVolumeMenu() {
+    if (volumeCloseTimer) clearTimeout(volumeCloseTimer);
+    volumeCloseTimer = setTimeout(() => {
+      volumeOpen = false;
+      volumeCloseTimer = null;
+    }, 120);
+  }
 
   function handleKeyDown(event: KeyboardEvent) {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes((event.target as HTMLElement)?.tagName)) {
@@ -116,20 +136,58 @@
         <AnimateIcon icon={Github} size={24} class="size-6" />
       </Button>
 
-      <Button
-        variant="outline"
-        size="icon"
-        class="size-10 sm:size-11 rounded-xl border-4 text-foreground"
-        onclick={() => game.toggleSound()}
-        title={game.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
-        aria-label={game.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
+      <div
+        class="relative"
+        role="group"
+        aria-label="Audio Controls"
+        onpointerenter={(e) => {
+          if (e.pointerType !== 'touch') openVolumeMenu();
+        }}
+        onpointerleave={(e) => {
+          if (e.pointerType !== 'touch') scheduleCloseVolumeMenu();
+        }}
+        onfocusin={openVolumeMenu}
+        onfocusout={(e) => {
+          const next = e.relatedTarget as Node | null;
+          if (!next || !e.currentTarget.contains(next)) {
+            volumeOpen = false;
+          }
+        }}
       >
-        {#if game.soundEnabled}
-          <AnimateIcon icon={Volume2} size={24} class="size-6" />
-        {:else}
-          <AnimateIcon icon={VolumeX} size={24} class="size-6" />
+        <Button
+          variant="outline"
+          size="icon"
+          class="size-10 sm:size-11 rounded-xl border-4 text-foreground"
+          onclick={() => game.toggleSound()}
+          title={game.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
+          aria-label={game.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
+        >
+          {#if game.soundEnabled}
+            <AnimateIcon icon={Volume2} size={24} class="size-6" />
+          {:else}
+            <AnimateIcon icon={VolumeX} size={24} class="size-6" />
+          {/if}
+        </Button>
+
+        {#if volumeOpen}
+          <div
+            class="absolute bottom-full pb-2 left-1/2 -translate-x-1/2 lg:bottom-auto lg:pb-0 lg:top-full lg:pt-2 z-50"
+          >
+            <div
+              class="w-10 sm:w-11 rounded-xl border-4 border-border bg-background text-foreground py-2.5 flex flex-col items-center gap-2 shadow-xs"
+            >
+              <VolumeSlider
+                value={game.soundEnabled ? game.soundVolume : 0}
+                onchange={(value) => game.setSoundVolume(value)}
+                aria-label="Audio Volume"
+              />
+              <span class="text-xs sm:text-sm lg:text-base font-mono font-bold text-primary tabular-nums leading-none">
+                {game.soundEnabled ? game.soundVolume : 0}
+              </span>
+            </div>
+          </div>
         {/if}
-      </Button>
+      </div>
 
       <Button
         variant="outline"

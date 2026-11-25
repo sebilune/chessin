@@ -4,6 +4,7 @@ export interface PersistedState {
   completedLevels: number[];
   currentLevelId: number;
   soundEnabled: boolean;
+  soundVolume: number;
   theme: "dark" | "light";
 }
 
@@ -11,6 +12,7 @@ const DEFAULT_STATE: PersistedState = {
   completedLevels: [],
   currentLevelId: 1,
   soundEnabled: true,
+  soundVolume: 100,
   theme: "dark",
 };
 
@@ -34,6 +36,11 @@ export function loadPersistedState(): PersistedState {
         typeof parsed.currentLevelId === "number" ? parsed.currentLevelId : 1,
       soundEnabled:
         typeof parsed.soundEnabled === "boolean" ? parsed.soundEnabled : true,
+      soundVolume:
+        typeof parsed.soundVolume === "number" &&
+        Number.isFinite(parsed.soundVolume)
+          ? Math.max(0, Math.min(100, Math.round(parsed.soundVolume)))
+          : 100,
       theme:
         parsed.theme === "light" || parsed.theme === "dark"
           ? parsed.theme

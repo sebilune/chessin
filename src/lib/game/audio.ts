@@ -36,6 +36,7 @@ class SoundManager {
   private pendingPlayToken = 0;
 
   public enabled = true;
+  public volume = 1;
 
   private getContext(): AudioContext | null {
     if (typeof window === 'undefined') return null;
@@ -89,7 +90,7 @@ class SoundManager {
     const source = ctx.createBufferSource();
     const gain = ctx.createGain();
     source.buffer = buffer;
-    gain.gain.value = SOUND_VOLUMES[name];
+    gain.gain.value = SOUND_VOLUMES[name] * this.volume;
 
     source.connect(gain);
     gain.connect(ctx.destination);
@@ -110,7 +111,7 @@ class SoundManager {
   }
 
   private play(name: SoundName, allowOverlap = false): void {
-    if (!this.enabled) return;
+    if (!this.enabled || this.volume <= 0) return;
 
     const nowMs = performance.now();
     const prevMs = this.lastPlayedAt.get(name) ?? -Infinity;

@@ -49,6 +49,7 @@ export class GameStore {
   status = $state<GameStatus>("in_progress");
   justCleared = $state<boolean>(false);
   soundEnabled = $state<boolean>(true);
+  soundVolume = $state<number>(100);
   theme = $state<"dark" | "light">("dark");
   showPuzzlePicker = $state<boolean>(false);
   isAdmin = $state<boolean>(false);
@@ -103,7 +104,9 @@ export class GameStore {
     const persisted = loadPersistedState();
     this.completedLevels = persisted.completedLevels;
     this.soundEnabled = persisted.soundEnabled;
+    this.soundVolume = persisted.soundVolume;
     sound.enabled = this.soundEnabled;
+    sound.volume = this.soundVolume / 100;
     this.theme = persisted.theme === "light" ? "light" : "dark";
     this.applyTheme();
 
@@ -368,8 +371,34 @@ export class GameStore {
 
   toggleSound() {
     this.soundEnabled = !this.soundEnabled;
+    if (this.soundEnabled && this.soundVolume === 0) {
+      this.soundVolume = 100;
+      sound.volume = 1;
+    }
     sound.enabled = this.soundEnabled;
-    savePersistedState({ soundEnabled: this.soundEnabled });
+    savePersistedState({
+      soundEnabled: this.soundEnabled,
+      soundVolume: this.soundVolume,
+    });
+  }
+
+  setSoundVolume(volume: number) {
+    const clamped = Math.max(0, Math.min(100, Math.round(volume)));
+    this.soundVolume = clamped;
+    sound.volume = clamped / 100;
+
+    if (clamped === 0 && this.soundEnabled) {
+      this.soundEnabled = false;
+      sound.enabled = false;
+    } else if (clamped > 0 && !this.soundEnabled) {
+      this.soundEnabled = true;
+      sound.enabled = true;
+    }
+
+    savePersistedState({
+      soundEnabled: this.soundEnabled,
+      soundVolume: this.soundVolume,
+    });
   }
 
   toggleTheme() {
