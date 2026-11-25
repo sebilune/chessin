@@ -13,6 +13,7 @@
     "deploy": "bun run build && wrangler pages deploy"
   },
   "devDependencies": {
+    "@inlang/paraglide-js": "^3.2.2",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@tailwindcss/vite": "^4.3.5",
     "@tsconfig/svelte": "^5.0.8",

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
+  import { i18n, m } from '$lib/i18n.svelte';
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
   import { Undo, Redo, Puzzle, Eye, EyeClosed } from '@animateicons/vanilla/lucide';
@@ -20,8 +21,8 @@
     size="lg"
     disabled={game.showPuzzlePicker || !game.canUndo}
     onclick={() => game.undo()}
-    title="Undo Move"
-    aria-label="Undo Move"
+    title={m.undo_move({}, { locale: i18n.locale })}
+    aria-label={m.undo_move({}, { locale: i18n.locale })}
   >
     <AnimateIcon icon={Undo} size={22} class="size-5.5" />
   </Button>
@@ -30,8 +31,8 @@
     variant={game.showPuzzlePicker ? 'default' : 'outline'}
     size="lg"
     onclick={() => game.togglePuzzlePicker()}
-    title="Puzzles"
-    aria-label="Puzzles"
+    title={m.puzzles({}, { locale: i18n.locale })}
+    aria-label={m.puzzles({}, { locale: i18n.locale })}
   >
     <AnimateIcon icon={Puzzle} size={22} class="size-5.5" />
   </Button>
@@ -42,8 +43,8 @@
     class="shadow-xs disabled:pointer-events-auto"
     disabled={!game.canHint}
     onclick={() => game.requestHint()}
-    title={game.hintDisabledReason ?? 'Get Hint'}
-    aria-label={game.hintDisabledReason ?? 'Get Hint'}
+    title={game.hintDisabledReason ?? m.get_hint({}, { locale: i18n.locale })}
+    aria-label={game.hintDisabledReason ?? m.get_hint({}, { locale: i18n.locale })}
   >
     {#key isHintActive}
       <AnimateIcon
@@ -60,8 +61,8 @@
     size="lg"
     disabled={game.showPuzzlePicker || !game.canRedo}
     onclick={() => game.redo()}
-    title="Redo Move"
-    aria-label="Redo Move"
+    title={m.redo_move({}, { locale: i18n.locale })}
+    aria-label={m.redo_move({}, { locale: i18n.locale })}
   >
     <AnimateIcon icon={Redo} size={22} class="size-5.5" />
   </Button>

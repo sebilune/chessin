@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { game } from '$lib/game/gameStore.svelte';
+  import { getLevelName, i18n, LOCALE_LABELS, locales, m } from '$lib/i18n.svelte';
   import ChessBoard from '$lib/components/ChessBoard.svelte';
   import PuzzlePicker from '$lib/components/PuzzlePicker.svelte';
   import LeftPanel from '$lib/components/LeftPanel.svelte';
@@ -14,12 +15,16 @@
   import ChessPiece from '$lib/components/ChessPiece.svelte';
   import VolumeSlider from '$lib/components/VolumeSlider.svelte';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
+  import { Languages } from '@lucide/svelte';
   import { Volume2, VolumeX, Sun, Moon, Github, RotateCcw } from '@animateicons/vanilla/lucide';
 
   let volumeOpen = $state(false);
   let volumeHovered = $state(false);
   let volumeDragging = $state(false);
   let volumeCloseTimer: ReturnType<typeof setTimeout> | null = null;
+
+  let langOpen = $state(false);
+  let langCloseTimer: ReturnType<typeof setTimeout> | null = null;
 
   const isChessinOrg =
     typeof window !== 'undefined' &&
@@ -42,6 +47,22 @@
         volumeOpen = false;
       }
       volumeCloseTimer = null;
+    }, 150);
+  }
+
+  function openLangMenu() {
+    if (langCloseTimer) {
+      clearTimeout(langCloseTimer);
+      langCloseTimer = null;
+    }
+    langOpen = true;
+  }
+
+  function scheduleCloseLangMenu() {
+    if (langCloseTimer) clearTimeout(langCloseTimer);
+    langCloseTimer = setTimeout(() => {
+      langOpen = false;
+      langCloseTimer = null;
     }, 150);
   }
 
@@ -144,8 +165,8 @@
         href="https://github.com/sebilune/chessin"
         target="_blank"
         rel="noopener noreferrer"
-        title="GitHub Repository"
-        aria-label="GitHub Repository"
+        title={m.github_repo({}, { locale: i18n.locale })}
+        aria-label={m.github_repo({}, { locale: i18n.locale })}
       >
         <AnimateIcon icon={Github} size={24} class="size-6" />
       </Button>
@@ -153,7 +174,66 @@
       <div
         class="relative"
         role="group"
-        aria-label="Audio Controls"
+        aria-label={m.change_language({}, { locale: i18n.locale })}
+        onpointerenter={(e) => {
+          if (e.pointerType !== 'touch') openLangMenu();
+        }}
+        onpointerleave={(e) => {
+          if (e.pointerType !== 'touch') scheduleCloseLangMenu();
+        }}
+        onfocusin={openLangMenu}
+        onfocusout={(e) => {
+          const next = e.relatedTarget as Node | null;
+          if (!next || !e.currentTarget.contains(next)) {
+            langOpen = false;
+          }
+        }}
+      >
+        <Button
+          variant="ghost"
+          size="icon"
+          class="size-10 sm:size-11 rounded-xl xl:border-border xl:bg-background text-foreground"
+          onclick={() => {
+            langOpen = !langOpen;
+          }}
+          title={m.change_language({}, { locale: i18n.locale })}
+          aria-label={m.change_language({}, { locale: i18n.locale })}
+          aria-expanded={langOpen}
+        >
+          <Languages class="size-6 stroke-[2.25]" />
+        </Button>
+
+        {#if langOpen}
+          <div class="absolute top-full pt-2 left-1/2 -translate-x-1/2 z-50">
+            <div
+              class="w-28 rounded-xl border-4 border-border bg-background text-foreground p-1.5 flex flex-col gap-1 shadow-xs"
+            >
+              {#each locales as loc}
+                {@const isActive = i18n.locale === loc}
+                <button
+                  type="button"
+                  class="w-full px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold text-left flex items-center justify-between cursor-pointer transition-none
+                    {isActive
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-foreground hover:bg-muted'}"
+                  onclick={() => {
+                    i18n.setLocale(loc);
+                    langOpen = false;
+                  }}
+                >
+                  <span>{LOCALE_LABELS[loc].name}</span>
+                  <span class="font-mono text-xs opacity-70">{LOCALE_LABELS[loc].code}</span>
+                </button>
+              {/each}
+            </div>
+          </div>
+        {/if}
+      </div>
+
+      <div
+        class="relative"
+        role="group"
+        aria-label={m.audio_controls({}, { locale: i18n.locale })}
         onpointerenter={(e) => {
           if (e.pointerType !== 'touch') {
             volumeHovered = true;
@@ -179,8 +259,8 @@
           size="icon"
           class="size-10 sm:size-11 rounded-xl xl:border-border xl:bg-background text-foreground"
           onclick={() => game.toggleSound()}
-          title={game.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
-          aria-label={game.soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
+          title={game.soundEnabled ? m.mute_audio({}, { locale: i18n.locale }) : m.unmute_audio({}, { locale: i18n.locale })}
+          aria-label={game.soundEnabled ? m.mute_audio({}, { locale: i18n.locale }) : m.unmute_audio({}, { locale: i18n.locale })}
         >
           {#if game.soundEnabled}
             <AnimateIcon icon={Volume2} size={24} class="size-6" />
@@ -205,7 +285,7 @@
                     scheduleCloseVolumeMenu();
                   }
                 }}
-                aria-label="Audio Volume"
+                aria-label={m.audio_volume({}, { locale: i18n.locale })}
               />
             </div>
           </div>
@@ -217,8 +297,8 @@
         size="icon"
         class="size-10 sm:size-11 rounded-xl xl:border-border xl:bg-background text-foreground"
         onclick={() => game.toggleTheme()}
-        title="Toggle Theme"
-        aria-label="Toggle Theme"
+        title={m.toggle_theme({}, { locale: i18n.locale })}
+        aria-label={m.toggle_theme({}, { locale: i18n.locale })}
       >
         {#if game.theme === 'dark'}
           <AnimateIcon icon={Sun} size={24} class="size-6" />
@@ -239,8 +319,8 @@
         class="relative size-6 border-0 rounded-md shrink-0 text-foreground after:absolute after:-inset-2.5"
         disabled={game.showPuzzlePicker || game.moveHistory.length === 0}
         onclick={() => game.reset()}
-        title="Reset Puzzle"
-        aria-label="Reset Puzzle"
+        title={m.reset_puzzle({}, { locale: i18n.locale })}
+        aria-label={m.reset_puzzle({}, { locale: i18n.locale })}
       >
         <AnimateIcon icon={RotateCcw} size={24} class="size-6" />
       </Button>
@@ -259,7 +339,7 @@
     <!-- Title & Puzzle Number directly above the board -->
     <h2 class="w-full text-2xl sm:text-3xl font-black tracking-tight text-left">
       <span class="text-muted-foreground">#{game.currentLevel.id}</span>
-      <span class="text-foreground">{game.currentLevel.name}</span>
+      <span class="text-foreground">{getLevelName(game.currentLevel.id, game.currentLevel.name)}</span>
     </h2>
 
     <!-- Chess Board in Center (aspect-square, never squished) -->

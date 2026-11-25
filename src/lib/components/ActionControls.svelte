@@ -1,5 +1,6 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
+  import { i18n, m } from '$lib/i18n.svelte';
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
   import { Undo, Redo, RotateCcw, Eye, EyeClosed } from '@animateicons/vanilla/lucide';
@@ -28,10 +29,10 @@
       size="lg"
       disabled={game.showPuzzlePicker || !game.canUndo}
       onclick={() => game.undo()}
-      title={showShortcuts ? 'Undo Move (Z)' : 'Undo Move'}
+      title={showShortcuts ? m.undo_move_shortcut({}, { locale: i18n.locale }) : m.undo_move({}, { locale: i18n.locale })}
     >
       <AnimateIcon icon={Undo} size={22} class="size-5.5" />
-      Undo
+      {m.undo({}, { locale: i18n.locale })}
     </Button>
 
     <Button
@@ -39,10 +40,10 @@
       size="lg"
       disabled={game.showPuzzlePicker || !game.canRedo}
       onclick={() => game.redo()}
-      title={showShortcuts ? 'Redo Move (Y)' : 'Redo Move'}
+      title={showShortcuts ? m.redo_move_shortcut({}, { locale: i18n.locale }) : m.redo_move({}, { locale: i18n.locale })}
     >
       <AnimateIcon icon={Redo} size={22} class="size-5.5" />
-      Redo
+      {m.redo({}, { locale: i18n.locale })}
     </Button>
   </div>
 
@@ -54,10 +55,10 @@
       class={game.status === 'stuck' ? 'border-primary' : ''}
       disabled={game.showPuzzlePicker || game.moveHistory.length === 0}
       onclick={() => game.reset()}
-      title={showShortcuts ? 'Reset Puzzle (R)' : 'Reset Puzzle'}
+      title={showShortcuts ? m.reset_puzzle_shortcut({}, { locale: i18n.locale }) : m.reset_puzzle({}, { locale: i18n.locale })}
     >
       <AnimateIcon icon={RotateCcw} size={22} class="size-5.5" />
-      Reset
+      {m.reset({}, { locale: i18n.locale })}
     </Button>
 
     <Button
@@ -66,7 +67,7 @@
       class="shadow-xs disabled:pointer-events-auto"
       disabled={!game.canHint}
       onclick={() => game.requestHint()}
-      title={game.hintDisabledReason ?? (showShortcuts ? 'Get Hint (H)' : 'Get Hint')}
+      title={game.hintDisabledReason ?? (showShortcuts ? m.get_hint_shortcut({}, { locale: i18n.locale }) : m.get_hint({}, { locale: i18n.locale }))}
     >
       {#key isHintActive}
         <AnimateIcon
@@ -76,7 +77,7 @@
           autoplay={hasToggledHint}
         />
       {/key}
-      Hint
+      {m.hint({}, { locale: i18n.locale })}
     </Button>
   </div>
 </div>

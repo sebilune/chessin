@@ -1,5 +1,6 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
+  import { getLevelName, i18n, m } from '$lib/i18n.svelte';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
   import ChessPiece from '$lib/components/ChessPiece.svelte';
   import LevelNavigation from '$lib/components/LevelNavigation.svelte';
@@ -21,7 +22,7 @@
   );
 
   $effect(() => {
-    void [game.currentLevel.name, isFischersRiddle, customAnimatedIcon];
+    void [game.currentLevel.name, i18n.locale, isFischersRiddle, customAnimatedIcon];
 
     function updateAnchor() {
       if (anchorEl && titleWrapperEl) {
@@ -89,11 +90,11 @@
           bind:clientHeight={titleHeight}
           class="text-3xl lg:text-4xl xl:text-[2.65rem] font-black tracking-tight text-foreground leading-tight"
         >
-          {game.currentLevel.name}<span bind:this={anchorEl} class="inline-block w-0 h-0 invisible"></span>
+          {getLevelName(game.currentLevel.id, game.currentLevel.name)}<span bind:this={anchorEl} class="inline-block w-0 h-0 invisible"></span>
         </h2>
 
         <span class="text-xs sm:text-sm font-mono font-bold text-muted-foreground uppercase tracking-wider block">
-          Puzzle {String(game.currentLevel.id).padStart(2, '0')} / {game.totalLevels}
+          {m.puzzle_counter({ current: String(game.currentLevel.id).padStart(2, '0'), total: String(game.totalLevels) }, { locale: i18n.locale })}
         </span>
       </div>
     </div>

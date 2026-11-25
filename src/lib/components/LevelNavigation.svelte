@@ -1,5 +1,6 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
+  import { i18n, m } from '$lib/i18n.svelte';
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
   import { ChevronLeft, ChevronRight, Puzzle } from '@animateicons/vanilla/lucide';
@@ -17,10 +18,10 @@
     size="lg"
     class="w-full"
     onclick={() => game.togglePuzzlePicker()}
-    title="Puzzles"
+    title={m.puzzles({}, { locale: i18n.locale })}
   >
     <AnimateIcon icon={Puzzle} size={22} class="size-5.5" />
-    Puzzles
+    {m.puzzles({}, { locale: i18n.locale })}
   </Button>
 
   <div class="grid grid-cols-2 gap-2">
@@ -29,10 +30,10 @@
       size="lg"
       disabled={game.levelIndex === 0}
       onclick={() => game.prevLevel()}
-      title="Previous Puzzle"
+      title={m.previous_puzzle({}, { locale: i18n.locale })}
     >
       <AnimateIcon icon={ChevronLeft} size={24} class="size-6" />
-      Prev
+      {m.prev({}, { locale: i18n.locale })}
     </Button>
 
     <Button
@@ -40,9 +41,9 @@
       size="lg"
       disabled={!game.canNext}
       onclick={() => game.nextLevel()}
-      title="Next Puzzle"
+      title={m.next_puzzle({}, { locale: i18n.locale })}
     >
-      Next
+      {m.next({}, { locale: i18n.locale })}
       <AnimateIcon icon={ChevronRight} size={24} class="size-6" />
     </Button>
   </div>

@@ -17,6 +17,7 @@ import { getHintTargets } from "./solver";
 import { sound } from "./audio";
 import { loadPersistedState, savePersistedState } from "./storage";
 import { isChallengeTierLevel, isKingLevel } from "./levelIcons";
+import { i18n, m } from "$lib/i18n.svelte";
 
 export type BoardAnimation =
   | {
@@ -72,9 +73,9 @@ export class GameStore {
   );
   hintDisabledReason = $derived<string | null>(
     isKingLevel(this.currentLevel.id)
-      ? "I hate chess"
+      ? m.hint_hate_chess({}, { locale: i18n.locale })
       : this.areHintsDisabled
-        ? "Prove yourself"
+        ? m.hint_prove_yourself({}, { locale: i18n.locale })
         : null,
   );
   canHint = $derived<boolean>(

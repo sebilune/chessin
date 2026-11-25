@@ -1,5 +1,6 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
+  import { i18n, m } from '$lib/i18n.svelte';
   import { isChallengeTierLevel, isKingLevel } from '$lib/game/levelIcons';
   import BoardFrame from './BoardFrame.svelte';
   import ChessPiece from './ChessPiece.svelte';
@@ -34,7 +35,7 @@
           : (isDark ? 'bg-board-square-dark' : 'bg-board-square-light')}"
       disabled={!isAvailable}
       onclick={() => selectPuzzle(puzzleNumber)}
-      aria-label={isCompleted ? `Puzzle ${puzzleNumber} (Completed)` : `Puzzle ${puzzleNumber}`}
+      aria-label={isCompleted ? m.puzzle_completed_aria({ number: String(puzzleNumber) }, { locale: i18n.locale }) : m.puzzle_aria({ number: String(puzzleNumber) }, { locale: i18n.locale })}
     >
       {#if isCompleted}
         <!-- Checkmark shown by default; hidden on hover -->

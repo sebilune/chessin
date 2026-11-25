@@ -1,5 +1,6 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
+  import { i18n, m } from '$lib/i18n.svelte';
   import { positionToNotation } from '$lib/game/chess';
   import ChessPiece from '$lib/components/ChessPiece.svelte';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
@@ -23,7 +24,7 @@
         strokeWidth={2.5}
         class="size-5 text-foreground cursor-pointer"
       />
-      <span class="font-black text-sm sm:text-base text-foreground tracking-wide">Moves</span>
+      <span class="font-black text-sm sm:text-base text-foreground tracking-wide">{m.moves({}, { locale: i18n.locale })}</span>
     </div>
   </div>
 
