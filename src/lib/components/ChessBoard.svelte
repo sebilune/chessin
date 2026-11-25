@@ -415,8 +415,8 @@
           {#if piece}
             {#key isTakeWobble ? takeWobble?.key : 0}
               <div
-                class="relative z-0 flex items-center justify-center w-full h-full text-foreground transition-opacity
-                  {isBeingDragged ? 'opacity-20' : ''}
+                class="relative z-0 flex items-center justify-center w-full h-full
+                  {isBeingDragged ? (isDark ? 'text-board-square-light' : 'text-board-square-dark') : 'text-foreground'}
                   {isHiddenForAnimation ? 'invisible' : ''}
                   {isTakeWobble ? 'animate-piece-take-wobble' : ''}"
               >
