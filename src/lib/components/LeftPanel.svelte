@@ -4,6 +4,7 @@
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
   import ChessPiece from '$lib/components/ChessPiece.svelte';
   import { ChevronLeft, ChevronRight, Puzzle, CircleCheckBig } from '@animateicons/vanilla/lucide';
+  import { getLevelAnimatedIcon } from '$lib/game/levelIcons';
 
   let titleWrapperEl = $state<HTMLElement | null>(null);
   let anchorEl = $state<HTMLElement | null>(null);
@@ -14,10 +15,12 @@
   const isFischersRiddle = $derived(
     game.currentLevel.id === 64 || game.currentLevel.name.toLowerCase().includes('fischer')
   );
+  const customAnimatedIcon = $derived(getLevelAnimatedIcon(game.currentLevel.id));
 
   $effect(() => {
     const _ = game.currentLevel.name;
     const __ = isFischersRiddle;
+    const ___ = customAnimatedIcon;
     function updateAnchor() {
       if (anchorEl && titleWrapperEl) {
         const parentRect = titleWrapperEl.getBoundingClientRect();
@@ -41,6 +44,29 @@
     <div class="space-y-1.5">
       <!-- Title block with dynamic adaptive underlay watermark -->
       <div bind:this={titleWrapperEl} class="relative overflow-visible">
+        <!-- Custom Animated Lucide underlay watermark for levels 48-63 -->
+        {#if customAnimatedIcon && !game.isLevelCompleted}
+          {#key game.currentLevel.id}
+            <div
+              class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-border transition-all duration-200
+                {isMultiLine
+                  ? 'left-[58%] -translate-x-1/2 size-32 lg:size-36'
+                  : '-translate-x-[45%] size-24 lg:size-28'}"
+              style={isMultiLine ? '' : (anchorX !== null ? `left: ${anchorX}px;` : 'left: 70%;')}
+              aria-hidden="true"
+            >
+              <div class="w-full h-full flex items-center justify-center">
+                <AnimateIcon
+                  icon={customAnimatedIcon}
+                  size={isMultiLine ? 144 : 112}
+                  class="w-full h-full text-border"
+                  autoplay={true}
+                />
+              </div>
+            </div>
+          {/key}
+        {/if}
+
         <!-- King underlay watermark for Fischer's Riddle (normally) using updateAnchor -->
         {#if isFischersRiddle && !game.isLevelCompleted}
           <div
