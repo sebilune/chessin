@@ -137,7 +137,7 @@
   <!-- Mobile & Tablet Vertical Flow (< lg): Single continuous column matching wireframe -->
   <div class="relative z-10 lg:hidden order-1 flex flex-col items-center w-full max-w-[480px] mx-auto py-2 space-y-4">
     <!-- Title & Puzzle Number directly above the board -->
-    <h2 class="text-xl sm:text-2xl font-black tracking-tight text-center">
+    <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-center">
       <span class="text-muted-foreground">#{game.currentLevel.id}</span>
       <span class="text-foreground">{game.currentLevel.name}</span>
     </h2>
