@@ -1,4 +1,4 @@
-import type { IconData } from '@animateicons/vanilla';
+import type { IconData } from "@animateicons/vanilla";
 import {
   Layers,
   Tornado,
@@ -14,8 +14,8 @@ import {
   Hammer,
   Key,
   Gem,
-  Crown
-} from '@animateicons/vanilla/lucide';
+  Crown,
+} from "@animateicons/vanilla/lucide";
 
 /**
  * Animated icon mapping for levels 49 to 63.
@@ -36,7 +36,7 @@ export const LEVEL_ANIMATED_ICONS: Record<number, IconData> = {
   60: Hammer, // Anvil & Hammer
   61: Key, // Endgame Enigma
   62: Crown, // Crown of Thorns
-  63: Fish // Stockfish's Pond
+  63: Fish, // Stockfish's Pond
 };
 
 export const CHALLENGE_TIER_START_ID = 49;

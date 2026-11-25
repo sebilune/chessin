@@ -1,5 +1,5 @@
-import { BOARD_SIZE } from '$lib/game/chess';
-import type { Piece, Position } from '$lib/types';
+import { BOARD_SIZE } from "$lib/game/chess";
+import type { Piece, Position } from "$lib/types";
 
 export interface DragState {
   piece: Piece;
@@ -17,7 +17,11 @@ export interface DragState {
  * Builds an SVG path for a target/hint square outline that rounds into the
  * board's outer corners when hovered during drag.
  */
-export function getOutlinePath(isHovered: boolean, row: number, col: number): string {
+export function getOutlinePath(
+  isHovered: boolean,
+  row: number,
+  col: number,
+): string {
   const min = 2.5;
   const max = 97.5;
   const last = BOARD_SIZE - 1;
@@ -30,17 +34,17 @@ export function getOutlinePath(isHovered: boolean, row: number, col: number): st
   return [
     `M ${min + tl} ${min}`,
     `L ${max - tr} ${min}`,
-    tr ? `A ${tr} ${tr} 0 0 1 ${max} ${min + tr}` : '',
+    tr ? `A ${tr} ${tr} 0 0 1 ${max} ${min + tr}` : "",
     `L ${max} ${max - br}`,
-    br ? `A ${br} ${br} 0 0 1 ${max - br} ${max}` : '',
+    br ? `A ${br} ${br} 0 0 1 ${max - br} ${max}` : "",
     `L ${min + bl} ${max}`,
-    bl ? `A ${bl} ${bl} 0 0 1 ${min} ${max - bl}` : '',
+    bl ? `A ${bl} ${bl} 0 0 1 ${min} ${max - bl}` : "",
     `L ${min} ${min + tl}`,
-    tl ? `A ${tl} ${tl} 0 0 1 ${min + tl} ${min}` : '',
-    'Z',
+    tl ? `A ${tl} ${tl} 0 0 1 ${min + tl} ${min}` : "",
+    "Z",
   ]
     .filter(Boolean)
-    .join(' ');
+    .join(" ");
 }
 
 /**

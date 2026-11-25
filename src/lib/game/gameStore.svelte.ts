@@ -67,7 +67,7 @@ export class GameStore {
   areHintsDisabled = $derived<boolean>(
     Boolean(
       this.currentLevel.hintsDisabled ||
-        isChallengeTierLevel(this.currentLevel.id),
+      isChallengeTierLevel(this.currentLevel.id),
     ),
   );
   hintDisabledReason = $derived<string | null>(

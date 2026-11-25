@@ -1,13 +1,14 @@
-type SoundName = 'capture' | 'stuck' | 'victory' | 'hint' | 'undo' | 'redo' | 'reset';
+type SoundName =
+  "capture" | "stuck" | "victory" | "hint" | "undo" | "redo" | "reset";
 
 const SOUND_PATHS: Record<SoundName, string> = {
-  capture: '/sounds/capture.mp3',
-  stuck: '/sounds/stuck.mp3',
-  victory: '/sounds/victory.mp3',
-  hint: '/sounds/hint.mp3',
-  undo: '/sounds/undo.mp3',
-  redo: '/sounds/redo.mp3',
-  reset: '/sounds/reset.mp3',
+  capture: "/sounds/capture.mp3",
+  stuck: "/sounds/stuck.mp3",
+  victory: "/sounds/victory.mp3",
+  hint: "/sounds/hint.mp3",
+  undo: "/sounds/undo.mp3",
+  redo: "/sounds/redo.mp3",
+  reset: "/sounds/reset.mp3",
 };
 
 const SOUND_VOLUMES: Record<SoundName, number> = {
@@ -39,14 +40,15 @@ class SoundManager {
   public volume = 1;
 
   private getContext(): AudioContext | null {
-    if (typeof window === 'undefined') return null;
+    if (typeof window === "undefined") return null;
 
     if (!this.ctx) {
       const AudioCtx =
         window.AudioContext ||
-        (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        (window as Window & { webkitAudioContext?: typeof AudioContext })
+          .webkitAudioContext;
       if (!AudioCtx) return null;
-      this.ctx = new AudioCtx({ latencyHint: 'interactive' });
+      this.ctx = new AudioCtx({ latencyHint: "interactive" });
       void this.preload(this.ctx);
     }
 
@@ -74,7 +76,11 @@ class SoundManager {
     return this.loadingPromise;
   }
 
-  private playBuffer(ctx: AudioContext, name: SoundName, allowOverlap: boolean): void {
+  private playBuffer(
+    ctx: AudioContext,
+    name: SoundName,
+    allowOverlap: boolean,
+  ): void {
     const buffer = this.buffers.get(name);
     if (!buffer) return;
 
@@ -121,7 +127,7 @@ class SoundManager {
     const ctx = this.getContext();
     if (!ctx) return;
 
-    if (ctx.state === 'running' && this.buffers.has(name)) {
+    if (ctx.state === "running" && this.buffers.has(name)) {
       this.playBuffer(ctx, name, allowOverlap);
       return;
     }
@@ -130,10 +136,12 @@ class SoundManager {
     const requestedAt = performance.now();
 
     Promise.all([
-      ctx.state === 'suspended' ? ctx.resume().catch(() => undefined) : Promise.resolve(),
+      ctx.state === "suspended"
+        ? ctx.resume().catch(() => undefined)
+        : Promise.resolve(),
       this.preload(ctx),
     ]).then(() => {
-      if (!this.enabled || ctx.state !== 'running') return;
+      if (!this.enabled || ctx.state !== "running") return;
       if (token !== this.pendingPlayToken) return;
       if (performance.now() - requestedAt > MAX_RESUME_WAIT_MS) return;
       this.playBuffer(ctx, name, allowOverlap);
@@ -141,31 +149,31 @@ class SoundManager {
   }
 
   public playCapture(): void {
-    this.play('capture');
+    this.play("capture");
   }
 
   public playStuck(): void {
-    this.play('stuck');
+    this.play("stuck");
   }
 
   public playHint(): void {
-    this.play('hint');
+    this.play("hint");
   }
 
   public playUndo(): void {
-    this.play('undo');
+    this.play("undo");
   }
 
   public playRedo(): void {
-    this.play('redo');
+    this.play("redo");
   }
 
   public playReset(): void {
-    this.play('reset');
+    this.play("reset");
   }
 
   public playVictory(): void {
-    this.play('victory', true);
+    this.play("victory", true);
   }
 }
 
