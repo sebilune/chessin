@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { game } from '$lib/game/gameStore.svelte';
-  import { getLevelName, i18n, LOCALE_LABELS, locales, m } from '$lib/i18n.svelte';
+  import { getLevelName, i18n, LOCALE_LABELS, m, orderedLocales } from '$lib/i18n.svelte';
   import ChessBoard from '$lib/components/ChessBoard.svelte';
   import PuzzlePicker from '$lib/components/PuzzlePicker.svelte';
   import LeftPanel from '$lib/components/LeftPanel.svelte';
@@ -207,7 +207,7 @@
             <div
               class="min-w-32 w-max rounded-xl border-4 border-border bg-background text-foreground p-1.5 flex flex-col gap-1 shadow-xs"
             >
-              {#each locales as loc}
+              {#each orderedLocales as loc}
                 {@const isActive = i18n.locale === loc}
                 <button
                   type="button"

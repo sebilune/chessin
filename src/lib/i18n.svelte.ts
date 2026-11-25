@@ -47,4 +47,9 @@ export function getLevelName(id: number, fallback: string): string {
   return fn ? fn({}, { locale: i18n.locale }) : fallback;
 }
 
+export const orderedLocales: Locale[] = [
+  'en',
+  ...locales.filter((l) => l !== 'en').sort((a, b) => a.localeCompare(b)),
+];
+
 export { locales, m, type Locale };
