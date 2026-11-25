@@ -20,12 +20,14 @@
     const key = event.key.toLowerCase();
 
     if ((event.ctrlKey || event.metaKey) && key === 'z' && !event.shiftKey) {
+      if (game.showPuzzlePicker) return;
       event.preventDefault();
       game.undo();
       return;
     }
 
     if ((event.ctrlKey || event.metaKey) && (key === 'y' || (key === 'z' && event.shiftKey))) {
+      if (game.showPuzzlePicker) return;
       event.preventDefault();
       game.redo();
       return;
@@ -34,24 +36,26 @@
     if (!event.ctrlKey && !event.metaKey && !event.altKey) {
       switch (key) {
         case 'z':
-          game.undo();
+          if (!game.showPuzzlePicker) game.undo();
           break;
         case 'arrowleft':
+          if (game.showPuzzlePicker) break;
           event.preventDefault();
           game.undo();
           break;
         case 'y':
-          game.redo();
+          if (!game.showPuzzlePicker) game.redo();
           break;
         case 'arrowright':
+          if (game.showPuzzlePicker) break;
           event.preventDefault();
           game.redo();
           break;
         case 'r':
-          game.reset();
+          if (!game.showPuzzlePicker) game.reset();
           break;
         case 'h':
-          game.requestHint();
+          if (!game.showPuzzlePicker) game.requestHint();
           break;
         case 'arrowup':
           event.preventDefault();

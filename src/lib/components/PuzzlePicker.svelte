@@ -1,5 +1,6 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
+  import { isChallengeTierLevel, isKingLevel } from '$lib/game/levelIcons';
   import BoardFrame from './BoardFrame.svelte';
   import ChessPiece from './ChessPiece.svelte';
   import { Check } from '@lucide/svelte';
@@ -7,7 +8,6 @@
   function selectPuzzle(num: number) {
     if (num <= game.totalLevels) {
       game.setLevel(num - 1);
-      game.showPuzzlePicker = false;
     }
   }
 </script>
@@ -21,8 +21,8 @@
     {@const isCompleted = game.completedLevels.includes(puzzleNumber)}
     {@const isCurrent = game.currentLevel.id === puzzleNumber}
     {@const isAvailable = puzzleNumber <= game.totalLevels && idx <= game.maxUnlockedLevelIndex}
-    {@const isChallengeTier = puzzleNumber >= 49 && puzzleNumber <= 64}
-    {@const isKingLevel = puzzleNumber === 64}
+    {@const isChallengeTier = isChallengeTierLevel(puzzleNumber)}
+    {@const isKingTile = isKingLevel(puzzleNumber)}
 
     <button
       type="button"
@@ -45,7 +45,7 @@
         </span>
 
         <!-- Number (or King icon for 64) shown on hover -->
-        {#if isKingLevel}
+        {#if isKingTile}
           <span
             class="hidden group-hover:flex items-center justify-center
               {isCurrent ? 'text-challenge-active' : 'text-challenge'}"
@@ -62,7 +62,7 @@
             {puzzleNumber}
           </span>
         {/if}
-      {:else if isKingLevel}
+      {:else if isKingTile}
         <span
           class="flex items-center justify-center
             {isCurrent

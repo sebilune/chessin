@@ -16,6 +16,7 @@ import { LEVELS } from "./levels";
 import { getHintTargets } from "./solver";
 import { sound } from "./audio";
 import { loadPersistedState, savePersistedState } from "./storage";
+import { isChallengeTierLevel, isKingLevel } from "./levelIcons";
 
 export type BoardAnimation =
   | {
@@ -65,11 +66,11 @@ export class GameStore {
   areHintsDisabled = $derived<boolean>(
     Boolean(
       this.currentLevel.hintsDisabled ||
-        (this.currentLevel.id >= 49 && this.currentLevel.id <= 64),
+        isChallengeTierLevel(this.currentLevel.id),
     ),
   );
   hintDisabledReason = $derived<string | null>(
-    this.currentLevel.id === 64
+    isKingLevel(this.currentLevel.id)
       ? "I hate chess"
       : this.areHintsDisabled
         ? "Prove yourself"

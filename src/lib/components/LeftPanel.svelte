@@ -4,7 +4,7 @@
   import ChessPiece from '$lib/components/ChessPiece.svelte';
   import LevelNavigation from '$lib/components/LevelNavigation.svelte';
   import { CircleCheckBig } from '@animateicons/vanilla/lucide';
-  import { getLevelAnimatedIcon } from '$lib/game/levelIcons';
+  import { getLevelAnimatedIcon, isKingLevel } from '$lib/game/levelIcons';
 
   let titleWrapperEl = $state<HTMLElement | null>(null);
   let anchorEl = $state<HTMLElement | null>(null);
@@ -13,7 +13,7 @@
 
   const isMultiLine = $derived(titleHeight > 65);
   const isFischersRiddle = $derived(
-    game.currentLevel.id === 64 || game.currentLevel.name.toLowerCase().includes('fischer')
+    isKingLevel(game.currentLevel.id) || game.currentLevel.name.toLowerCase().includes('fischer')
   );
   const customAnimatedIcon = $derived(getLevelAnimatedIcon(game.currentLevel.id));
   const showWatermark = $derived(
