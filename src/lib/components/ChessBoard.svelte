@@ -50,9 +50,12 @@
   }
 
   interface AnimatingMove {
+    key: number;
     attacker: Piece;
     from: Position;
     to: Position;
+    hideAt: 'from' | 'to';
+    onComplete?: () => void;
   }
 
   let dragState = $state<DragState | null>(null);
@@ -62,6 +65,8 @@
   let animationTimer: ReturnType<typeof setTimeout> | null = null;
   let takeWobble = $state<{ row: number; col: number; key: number } | null>(null);
   let prevMoveCount = 0;
+  let animationKey = 0;
+  let lastHandledTransitionKey = 0;
 
   function isSquareSelected(r: number, c: number): boolean {
     return game.selectedPiece !== null && game.selectedPiece.row === r && game.selectedPiece.col === c;
@@ -103,6 +108,34 @@
     slideActive = false;
   }
 
+  function startPieceSlide(options: Omit<AnimatingMove, 'key'>) {
+    clearAnimation();
+
+    const currentKey = ++animationKey;
+    animatingMove = {
+      key: currentKey,
+      ...options,
+    };
+    slideActive = false;
+
+    // Trigger CSS transform and travel arc on the same paint frame, then finish after 180ms
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (animatingMove?.key !== currentKey) return;
+        slideActive = true;
+        animationTimer = setTimeout(() => {
+          if (animatingMove?.key === currentKey) {
+            const complete = animatingMove.onComplete;
+            animatingMove = null;
+            slideActive = false;
+            animationTimer = null;
+            complete?.();
+          }
+        }, 180);
+      });
+    });
+  }
+
   $effect(() => {
     // Cancel in-flight animation on level switch
     void game.levelIndex;
@@ -113,12 +146,34 @@
   $effect(() => {
     const count = game.moveHistory.length;
     if (count > prevMoveCount) {
-      const lastMove = game.moveHistory[count - 1];
-      takeWobble = { row: lastMove.to.row, col: lastMove.to.col, key: count };
+      if (game.lastPieceTransition?.kind !== 'redo') {
+        const lastMove = game.moveHistory[count - 1];
+        takeWobble = { row: lastMove.to.row, col: lastMove.to.col, key: count };
+      }
     } else if (count < prevMoveCount) {
       takeWobble = null;
     }
     prevMoveCount = count;
+  });
+
+  $effect(() => {
+    const transition = game.lastPieceTransition;
+    if (!transition || transition.key === lastHandledTransitionKey) return;
+    lastHandledTransitionKey = transition.key;
+
+    const moveCount = game.moveHistory.length;
+    startPieceSlide({
+      attacker: { ...transition.piece },
+      from: { ...transition.from },
+      to: { ...transition.to },
+      hideAt: 'to',
+      onComplete:
+        transition.kind === 'redo'
+          ? () => {
+              takeWobble = { row: transition.to.row, col: transition.to.col, key: moveCount };
+            }
+          : undefined,
+    });
   });
 
   $effect(() => {
@@ -139,36 +194,17 @@
       return;
     }
 
-    animatingMove = {
-      attacker: { ...attacker },
-      from: { ...from },
-      to: { ...to },
-    };
-    slideActive = false;
-
     // Clear board highlights so target boxes vanish during glide
     game.selectedPiece = null;
     game.validTargets = [];
 
-    // Trigger CSS transform on next paint
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (animatingMove) {
-          slideActive = true;
-        }
-      });
+    startPieceSlide({
+      attacker: { ...attacker },
+      from: { ...from },
+      to: { ...to },
+      hideAt: 'from',
+      onComplete: () => game.makeMove(from, to),
     });
-
-    animationTimer = setTimeout(() => {
-      if (animatingMove) {
-        const moveFrom = animatingMove.from;
-        const moveTo = animatingMove.to;
-        animatingMove = null;
-        slideActive = false;
-        animationTimer = null;
-        game.makeMove(moveFrom, moveTo);
-      }
-    }, 180);
   }
 
   function createDragState(e: PointerEvent, piece: Piece, row: number, col: number): DragState {
@@ -321,7 +357,7 @@
         {@const isHint = isHintTarget(r, c)}
         {@const isHovered = hoveredTarget !== null && hoveredTarget.row === r && hoveredTarget.col === c}
         {@const isBeingDragged = dragState !== null && dragState.isDragging && dragState.piece.id === piece?.id}
-        {@const isAttackerOrigin = animatingMove !== null && animatingMove.from.row === r && animatingMove.from.col === c}
+        {@const isHiddenForAnimation = animatingMove !== null && ((animatingMove.hideAt === 'from' && animatingMove.from.row === r && animatingMove.from.col === c) || (animatingMove.hideAt === 'to' && animatingMove.to.row === r && animatingMove.to.col === c))}
         {@const isTakeWobble = takeWobble !== null && takeWobble.row === r && takeWobble.col === c}
 
         <button
@@ -381,7 +417,7 @@
               <div
                 class="relative z-0 flex items-center justify-center w-full h-full text-foreground transition-opacity
                   {isBeingDragged ? 'opacity-20' : ''}
-                  {isAttackerOrigin ? 'opacity-0' : 'opacity-100'}
+                  {isHiddenForAnimation ? 'invisible' : ''}
                   {isTakeWobble ? 'animate-piece-take-wobble' : ''}"
               >
                 <ChessPiece
@@ -398,24 +434,26 @@
 
   <!-- Animating capturing piece gliding across the board -->
   {#if animatingMove}
-    {@const dx = (animatingMove.to.col - animatingMove.from.col) * 100}
-    {@const dy = (animatingMove.to.row - animatingMove.from.row) * 100}
-    <div
-      class="absolute pointer-events-none z-30 flex items-center justify-center text-foreground will-change-transform"
-      style="
-        left: {animatingMove.from.col * 20}%;
-        top: {animatingMove.from.row * 20}%;
-        width: 20%;
-        height: 20%;
-        transform: translate3d({slideActive ? dx : 0}%, {slideActive ? dy : 0}%, 0);
-        transition: transform 180ms cubic-bezier(0.2, 0, 0.2, 1);
-      "
-    >
-      <ChessPiece
-        type={animatingMove.attacker.type}
-        class="w-[64%] h-[64%] max-w-[65px] max-h-[65px] animate-piece-travel-arc"
-      />
-    </div>
+    {#key animatingMove.key}
+      {@const dx = (animatingMove.to.col - animatingMove.from.col) * 100}
+      {@const dy = (animatingMove.to.row - animatingMove.from.row) * 100}
+      <div
+        class="absolute pointer-events-none z-30 flex items-center justify-center text-foreground will-change-transform"
+        style="
+          left: {animatingMove.from.col * 20}%;
+          top: {animatingMove.from.row * 20}%;
+          width: 20%;
+          height: 20%;
+          transform: translate3d({slideActive ? dx : 0}%, {slideActive ? dy : 0}%, 0);
+          transition: transform 180ms cubic-bezier(0.2, 0, 0.2, 1);
+        "
+      >
+        <ChessPiece
+          type={animatingMove.attacker.type}
+          class="w-[64%] h-[64%] max-w-[65px] max-h-[65px] {slideActive ? 'animate-piece-travel-arc' : ''}"
+        />
+      </div>
+    {/key}
   {/if}
 
   <!-- Tutorial guidance arrow for Level 1 -->

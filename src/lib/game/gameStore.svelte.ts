@@ -17,6 +17,14 @@ import { getHintTargets } from "./solver";
 import { sound } from "./audio";
 import { loadPersistedState, savePersistedState } from "./storage";
 
+export interface PieceTransition {
+  piece: Piece;
+  from: Position;
+  to: Position;
+  kind: "undo" | "redo";
+  key: number;
+}
+
 export class GameStore {
   levelIndex = $state<number>(0);
   pieces = $state<Piece[]>([]);
@@ -32,8 +40,10 @@ export class GameStore {
   theme = $state<"dark" | "light">("dark");
   showPuzzlePicker = $state<boolean>(false);
   isAdmin = $state<boolean>(false);
+  lastPieceTransition = $state<PieceTransition | null>(null);
 
   private advanceTimeout: ReturnType<typeof setTimeout> | null = null;
+  private transitionCounter = 0;
 
   currentLevel = $derived<Level>(LEVELS[this.levelIndex] || LEVELS[0]);
   totalLevels = $derived<number>(LEVELS.length);
@@ -113,6 +123,7 @@ export class GameStore {
     this.hintTargets = [];
     this.status = "in_progress";
     this.justCleared = false;
+    this.lastPieceTransition = null;
 
     savePersistedState({ currentLevelId: lvl.id });
   }
@@ -225,6 +236,7 @@ export class GameStore {
     this.selectedPiece = null;
     this.validTargets = [];
     this.hintTargets = [];
+    this.lastPieceTransition = null;
 
     sound.playCapture();
     this.handlePostMoveState();
@@ -245,10 +257,13 @@ export class GameStore {
     const attacker = getPieceAt(this.pieces, lastMove.to.row, lastMove.to.col);
     if (!attacker) return;
 
+    const movedBackPiece: Piece = {
+      ...attacker,
+      row: lastMove.from.row,
+      col: lastMove.from.col,
+    };
     const restoredPieces = this.pieces.map((p) =>
-      p.id === attacker.id
-        ? { ...p, row: lastMove.from.row, col: lastMove.from.col }
-        : p,
+      p.id === attacker.id ? movedBackPiece : p,
     );
     restoredPieces.push(lastMove.capturedPiece);
 
@@ -258,6 +273,13 @@ export class GameStore {
     this.hintTargets = [];
     this.status = "in_progress";
     this.justCleared = false;
+    this.lastPieceTransition = {
+      piece: movedBackPiece,
+      from: { ...lastMove.to },
+      to: { ...lastMove.from },
+      kind: "undo",
+      key: ++this.transitionCounter,
+    };
     sound.playUndo();
   }
 
@@ -275,6 +297,17 @@ export class GameStore {
     this.selectedPiece = null;
     this.validTargets = [];
     this.hintTargets = [];
+
+    const movedPiece = getPieceAt(outcome.nextPieces, move.to.row, move.to.col);
+    this.lastPieceTransition = movedPiece
+      ? {
+          piece: { ...movedPiece },
+          from: { ...move.from },
+          to: { ...move.to },
+          kind: "redo",
+          key: ++this.transitionCounter,
+        }
+      : null;
 
     sound.playRedo();
     this.handlePostMoveState();
