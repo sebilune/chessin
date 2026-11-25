@@ -65,9 +65,11 @@
                 />
               </div>
             {:else if isFischersRiddle}
-              <div class="w-full h-full flex items-center justify-center">
-                <ChessPiece type="king" class="w-full h-full text-border" />
-              </div>
+              {#key game.currentLevel.id}
+                <div class="w-full h-full flex items-center justify-center animate-king-watermark">
+                  <ChessPiece type="king" class="w-full h-full text-border" />
+                </div>
+              {/key}
             {:else if customAnimatedIcon}
               {#key game.currentLevel.id}
                 <div class="w-full h-full flex items-center justify-center">
