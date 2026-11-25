@@ -84,12 +84,11 @@
 </script>
 
 <main class="relative min-h-screen w-full bg-background text-foreground select-none flex flex-col justify-between p-3 sm:p-5 md:p-6 overflow-y-auto lg:h-screen lg:overflow-hidden">
-  <!-- Ambient floating chess pattern background (GPU transform drift) -->
-  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-    <div
-      class="absolute -top-[192px] -left-[192px] w-[calc(100%+384px)] h-[calc(100%+384px)] chess-bg-pattern text-foreground opacity-[0.018] dark:opacity-[0.025]"
-    ></div>
-  </div>
+  <!-- Static ambient chess pattern background -->
+  <div
+    class="fixed inset-0 pointer-events-none z-0 chess-bg-pattern opacity-[0.018] dark:opacity-[0.025]"
+    aria-hidden="true"
+  ></div>
 
   <!-- Top Header: Logo on Left, Sound and Theme Toggles on Right -->
   <header class="relative z-10 w-full flex items-center justify-between pb-2 shrink-0">
