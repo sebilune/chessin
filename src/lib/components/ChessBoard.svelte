@@ -209,6 +209,25 @@
     dragState = createDragState(e, piece, r, c);
   }
 
+  function getSquareAtPointer(clientX: number, clientY: number): Position | null {
+    if (!gridElement) return null;
+    const rect = gridElement.getBoundingClientRect();
+    if (
+      clientX < rect.left ||
+      clientX > rect.right ||
+      clientY < rect.top ||
+      clientY > rect.bottom
+    ) {
+      return null;
+    }
+    const col = Math.floor(((clientX - rect.left) / rect.width) * 5);
+    const row = Math.floor(((clientY - rect.top) / rect.height) * 5);
+    return {
+      row: Math.max(0, Math.min(4, row)),
+      col: Math.max(0, Math.min(4, col)),
+    };
+  }
+
   function handlePointerMove(e: PointerEvent) {
     const currentDrag = dragState;
     if (!currentDrag) return;
@@ -227,27 +246,16 @@
       }
     }
 
-    if (currentDrag.isDragging && gridElement) {
-      const rect = gridElement.getBoundingClientRect();
-      if (
-        e.clientX >= rect.left &&
-        e.clientX <= rect.right &&
-        e.clientY >= rect.top &&
-        e.clientY <= rect.bottom
-      ) {
-        const col = Math.floor(((e.clientX - rect.left) / rect.width) * 5);
-        const row = Math.floor(((e.clientY - rect.top) / rect.height) * 5);
-        const clampedRow = Math.max(0, Math.min(4, row));
-        const clampedCol = Math.max(0, Math.min(4, col));
-        const isValid = game.validTargets.some(t => t.row === clampedRow && t.col === clampedCol);
-        hoveredTarget = isValid ? { row: clampedRow, col: clampedCol } : null;
-      } else {
-        hoveredTarget = null;
-      }
+    if (currentDrag.isDragging) {
+      const square = getSquareAtPointer(e.clientX, e.clientY);
+      const isValid =
+        square !== null &&
+        game.validTargets.some(t => t.row === square.row && t.col === square.col);
+      hoveredTarget = isValid ? square : null;
     }
   }
 
-  function handlePointerUp() {
+  function handlePointerUp(e: PointerEvent) {
     const currentDrag = dragState;
     if (!currentDrag) return;
 
@@ -257,6 +265,16 @@
           { row: currentDrag.startRow, col: currentDrag.startCol },
           { row: hoveredTarget.row, col: hoveredTarget.col }
         );
+      } else {
+        const releaseSquare = getSquareAtPointer(e.clientX, e.clientY);
+        const releasedOnOrigin =
+          releaseSquare !== null &&
+          releaseSquare.row === currentDrag.startRow &&
+          releaseSquare.col === currentDrag.startCol;
+        if (!releasedOnOrigin) {
+          game.selectedPiece = null;
+          game.validTargets = [];
+        }
       }
     } else {
       // Short click: if previously selected piece has this as valid target, execute capture with slide animation
