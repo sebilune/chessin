@@ -3,6 +3,12 @@
   import { BOARD_SIZE, FILES, RANKS, getPieceAt } from '$lib/game/chess';
   import type { Piece, Position } from '$lib/types';
   import { computeArrow } from '$lib/arrow';
+  import {
+    type DragState,
+    createDragState,
+    getOutlinePath,
+    getSquareAtPointer,
+  } from '$lib/boardInteraction';
   import BoardFrame from './BoardFrame.svelte';
   import CaptureProgressBar from './CaptureProgressBar.svelte';
   import ChessPiece from './ChessPiece.svelte';
@@ -11,45 +17,7 @@
   const cols = Array.from({ length: BOARD_SIZE }, (_, i) => i);
   const squarePercent = 100 / BOARD_SIZE;
 
-  function getOutlinePath(isHovered: boolean, row: number, col: number): string {
-    const min = 2.5;
-    const max = 97.5;
-    const last = BOARD_SIZE - 1;
-    const tl = isHovered ? (row === 0 && col === 0 ? 13 : 0) : 9;
-    const tr = isHovered ? (row === 0 && col === last ? 13 : 0) : 9;
-    const br = isHovered ? (row === last && col === last ? 13 : 0) : 9;
-    const bl = isHovered ? (row === last && col === 0 ? 13 : 0) : 9;
-
-    // Clockwise rounded-rect path so negative stroke-dashoffset marches clockwise
-    return [
-      `M ${min + tl} ${min}`,
-      `L ${max - tr} ${min}`,
-      tr ? `A ${tr} ${tr} 0 0 1 ${max} ${min + tr}` : '',
-      `L ${max} ${max - br}`,
-      br ? `A ${br} ${br} 0 0 1 ${max - br} ${max}` : '',
-      `L ${min + bl} ${max}`,
-      bl ? `A ${bl} ${bl} 0 0 1 ${min} ${max - bl}` : '',
-      `L ${min} ${min + tl}`,
-      tl ? `A ${tl} ${tl} 0 0 1 ${min + tl} ${min}` : '',
-      'Z',
-    ]
-      .filter(Boolean)
-      .join(' ');
-  }
-
   let gridElement: HTMLDivElement | null = $state(null);
-
-  interface DragState {
-    piece: Piece;
-    startRow: number;
-    startCol: number;
-    startX: number;
-    startY: number;
-    currentX: number;
-    currentY: number;
-    isDragging: boolean;
-    size: number;
-  }
 
   interface AnimatingMove {
     key: number;
@@ -228,21 +196,6 @@
     });
   }
 
-  function createDragState(e: PointerEvent, piece: Piece, row: number, col: number): DragState {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    return {
-      piece,
-      startRow: row,
-      startCol: col,
-      startX: e.clientX,
-      startY: e.clientY,
-      currentX: e.clientX,
-      currentY: e.clientY,
-      isDragging: false,
-      size: rect.width * 0.64,
-    };
-  }
-
   function handlePointerDown(e: PointerEvent, piece: Piece, r: number, c: number) {
     if (e.button !== 0) return; // Only primary button
     if (game.status === 'cleared' || animatingMove !== null) return;
@@ -266,25 +219,6 @@
     dragState = createDragState(e, piece, r, c);
   }
 
-  function getSquareAtPointer(clientX: number, clientY: number): Position | null {
-    if (!gridElement) return null;
-    const rect = gridElement.getBoundingClientRect();
-    if (
-      clientX < rect.left ||
-      clientX > rect.right ||
-      clientY < rect.top ||
-      clientY > rect.bottom
-    ) {
-      return null;
-    }
-    const col = Math.floor(((clientX - rect.left) / rect.width) * BOARD_SIZE);
-    const row = Math.floor(((clientY - rect.top) / rect.height) * BOARD_SIZE);
-    return {
-      row: Math.max(0, Math.min(BOARD_SIZE - 1, row)),
-      col: Math.max(0, Math.min(BOARD_SIZE - 1, col)),
-    };
-  }
-
   function handlePointerMove(e: PointerEvent) {
     const currentDrag = dragState;
     if (!currentDrag) return;
@@ -304,7 +238,7 @@
     }
 
     if (currentDrag.isDragging) {
-      const square = getSquareAtPointer(e.clientX, e.clientY);
+      const square = getSquareAtPointer(gridElement, e.clientX, e.clientY);
       const isValid =
         square !== null &&
         game.validTargets.some(t => t.row === square.row && t.col === square.col);
@@ -323,7 +257,7 @@
           { row: hoveredTarget.row, col: hoveredTarget.col }
         );
       } else {
-        const releaseSquare = getSquareAtPointer(e.clientX, e.clientY);
+        const releaseSquare = getSquareAtPointer(gridElement, e.clientX, e.clientY);
         const releasedOnOrigin =
           releaseSquare !== null &&
           releaseSquare.row === currentDrag.startRow &&
