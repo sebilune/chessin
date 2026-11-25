@@ -9,6 +9,7 @@
   import LevelNavigation from '$lib/components/LevelNavigation.svelte';
   import MoveHistory from '$lib/components/MoveHistory.svelte';
   import { Button } from '$lib/components/ui/button';
+  import ChessPiece from '$lib/components/ChessPiece.svelte';
   import VolumeSlider from '$lib/components/VolumeSlider.svelte';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
   import { Volume2, VolumeX, Sun, Moon, Github } from '@animateicons/vanilla/lucide';
@@ -115,7 +116,8 @@
   <!-- Header: Logo on Left, Sound and Theme Toggles on Right (Bottom on mobile, Top on desktop) -->
   <header class="relative z-10 w-full max-w-[480px] lg:max-w-none mx-auto flex items-center justify-between order-2 lg:order-1 pt-4 lg:pt-0 lg:pb-2 shrink-0">
     <!-- Top Left Site Branding -->
-    <div class="flex items-center">
+    <div class="flex items-center gap-1.5">
+      <ChessPiece type="queen" class="size-5 sm:size-6 text-foreground shrink-0" />
       <span class="text-xl sm:text-2xl font-black tracking-tight text-foreground font-mono">
         CHESSIN{game.isAdmin ? ' (ADMIN)' : ''}
       </span>
