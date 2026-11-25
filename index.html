@@ -14,12 +14,68 @@
     </script>
     <meta
       name="description"
-      content="Chessin: A minimalist monochrome solo chess puzzle game."
+      content="Play Chessin, a free solo chess puzzle game. Capture pieces on a 5x5 board until only one piece is left across 64 levels."
     />
-    <title>Chessin</title>
+    <meta
+      name="keywords"
+      content="chessin, solo chess, solitaire chess, chess puzzle, 5x5 chess, logic puzzle, browser chess game"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0f0f0f" />
+    <link rel="canonical" href="https://chessin.org/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Chessin" />
+    <meta property="og:title" content="Chessin - Solo Chess Puzzle Game" />
+    <meta
+      property="og:description"
+      content="Play Chessin, a free solo chess puzzle game. Capture pieces on a 5x5 board until only one piece is left across 64 levels."
+    />
+    <meta property="og:url" content="https://chessin.org/" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Chessin - Solo Chess Puzzle Game" />
+    <meta
+      name="twitter:description"
+      content="Play Chessin, a free solo chess puzzle game. Capture pieces on a 5x5 board until only one piece is left across 64 levels."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Chessin",
+        "url": "https://chessin.org/",
+        "description": "Play Chessin, a free solo chess puzzle game. Capture pieces on a 5x5 board until only one piece is left across 64 levels.",
+        "genre": ["Puzzle", "Chess"],
+        "gamePlatform": "Web Browser",
+        "applicationCategory": "Game",
+        "operatingSystem": "Any",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+
+    <title>Chessin - Solo Chess Puzzle Game</title>
   </head>
   <body class="bg-background text-foreground antialiased select-none">
-    <div id="app" class="min-h-screen w-full"></div>
+    <div id="app" class="min-h-screen w-full">
+      <noscript>
+        <main>
+          <h1>Chessin</h1>
+          <p>
+            Play Chessin, a free solo chess puzzle game. Capture pieces on a 5x5
+            board until only one piece is left across 64 levels.
+          </p>
+        </main>
+      </noscript>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
