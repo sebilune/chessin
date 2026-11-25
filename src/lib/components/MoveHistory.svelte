@@ -42,13 +42,13 @@
 
           <!-- Visual move: Attacking Piece -> Target Square -->
           <div class="flex items-center gap-2.5">
-            <span class="size-7 flex items-center justify-center text-foreground">
-              <ChessPiece type={move.attackerType} class="size-6" />
+            <span class="size-5.5 flex items-center justify-center text-foreground">
+              <ChessPiece type={move.attackerType} class="size-5.5" />
             </span>
 
-            <ArrowRight class="size-5 stroke-[3.5] text-muted-foreground" />
+            <ArrowRight class="size-5.5 stroke-[3.5] text-muted-foreground" />
 
-            <span class="font-black text-base sm:text-lg text-foreground">
+            <span class="font-black text-sm sm:text-base text-foreground">
               {targetSquare}
             </span>
           </div>
