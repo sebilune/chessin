@@ -53,3 +53,7 @@ bun run build
 - **[Lucide Svelte:](https://lucide.dev/)** Icons library.
 - **[Bun:](https://bun.sh/)** JavaScript runtime and package manager.
 - **[Cloudflare Pages:](https://pages.cloudflare.com/)** Static hosting and deployment via Wrangler.
+
+## License
+
+This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for details.
