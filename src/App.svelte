@@ -21,6 +21,11 @@
   let volumeDragging = $state(false);
   let volumeCloseTimer: ReturnType<typeof setTimeout> | null = null;
 
+  const isChessinOrg =
+    typeof window !== 'undefined' &&
+    window.location.hostname.toLowerCase().replace(/^www\./, '') === 'chessin.org';
+  const brandTitle = isChessinOrg ? 'CHESSIN.ORG' : 'CHESSIN';
+
   function openVolumeMenu() {
     if (volumeCloseTimer) {
       clearTimeout(volumeCloseTimer);
@@ -126,7 +131,7 @@
     <div class="flex items-center gap-1.5">
       <ChessPiece type="queen" class="size-5 sm:size-6 text-foreground shrink-0" />
       <span class="text-xl sm:text-2xl font-black tracking-tight text-foreground font-mono">
-        CHESSIN{game.isAdmin ? ' (ADMIN)' : ''}
+        {brandTitle}{game.isAdmin ? ' (ADMIN)' : ''}
       </span>
     </div>
 
