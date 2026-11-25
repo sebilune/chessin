@@ -10,7 +10,7 @@
   import MoveHistory from '$lib/components/MoveHistory.svelte';
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
-  import { Volume2, VolumeX, Sun, Moon } from '@animateicons/vanilla/lucide';
+  import { Volume2, VolumeX, Sun, Moon, Github } from '@animateicons/vanilla/lucide';
 
   function handleKeyDown(event: KeyboardEvent) {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes((event.target as HTMLElement)?.tagName)) {
@@ -89,6 +89,19 @@
 
     <!-- Top Right Utility Buttons -->
     <div class="flex items-center gap-2">
+      <Button
+        variant="outline"
+        size="icon"
+        class="size-10 sm:size-11 rounded-xl border-4 text-foreground"
+        href="https://github.com/sebilune/chessin"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="GitHub Repository"
+        aria-label="GitHub Repository"
+      >
+        <AnimateIcon icon={Github} size={24} class="size-6" />
+      </Button>
+
       <Button
         variant="outline"
         size="icon"
