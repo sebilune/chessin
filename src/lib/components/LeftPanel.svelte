@@ -2,6 +2,7 @@
   import { game } from '$lib/game/gameStore.svelte';
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
+  import ChessPiece from '$lib/components/ChessPiece.svelte';
   import { ChevronLeft, ChevronRight, Puzzle, CircleCheckBig } from '@animateicons/vanilla/lucide';
 
   let titleWrapperEl = $state<HTMLElement | null>(null);
@@ -10,9 +11,13 @@
   let anchorX = $state<number | null>(null);
 
   const isMultiLine = $derived(titleHeight > 65);
+  const isFischersRiddle = $derived(
+    game.currentLevel.id === 64 || game.currentLevel.name.toLowerCase().includes('fischer')
+  );
 
   $effect(() => {
     const _ = game.currentLevel.name;
+    const __ = isFischersRiddle;
     function updateAnchor() {
       if (anchorEl && titleWrapperEl) {
         const parentRect = titleWrapperEl.getBoundingClientRect();
@@ -36,6 +41,25 @@
     <div class="space-y-1.5">
       <!-- Title block with dynamic adaptive underlay watermark -->
       <div bind:this={titleWrapperEl} class="relative overflow-visible">
+        <!-- King underlay watermark for Fischer's Riddle (normally) using updateAnchor -->
+        {#if isFischersRiddle && !game.isLevelCompleted}
+          <div
+            class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-border transition-all duration-200
+              {isMultiLine
+                ? 'left-[58%] -translate-x-1/2 size-32 lg:size-36'
+                : '-translate-x-[45%] size-24 lg:size-28'}"
+            style={isMultiLine ? '' : (anchorX !== null ? `left: ${anchorX}px;` : 'left: 70%;')}
+            aria-hidden="true"
+          >
+            <div class="w-full h-full flex items-center justify-center">
+              <ChessPiece
+                type="king"
+                class="w-full h-full text-border"
+              />
+            </div>
+          </div>
+        {/if}
+
         {#if game.isLevelCompleted}
           <div
             class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-border transition-all duration-200
