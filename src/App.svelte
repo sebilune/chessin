@@ -150,43 +150,7 @@
 
     <!-- Controls falling cleanly under the board -->
     <div class="w-full grid grid-cols-2 gap-2 pt-1">
-      <!-- Row 1: Puzzles (above Prev / Next) -->
-      <Button
-        variant={game.showPuzzlePicker ? 'default' : 'outline'}
-        size="lg"
-        class="w-full col-span-2 h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
-        onclick={() => game.togglePuzzlePicker()}
-        title="Puzzles"
-      >
-        <AnimateIcon icon={Puzzle} size={22} class="size-5.5 mr-2" />
-        Puzzles
-      </Button>
-
-      <!-- Row 2: Prev / Next -->
-      <Button
-        variant="outline"
-        size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
-        disabled={game.levelIndex === 0}
-        onclick={() => game.prevLevel()}
-        title="Previous Puzzle"
-      >
-        <AnimateIcon icon={ChevronLeft} size={24} class="size-6 mr-1.5" />
-        Prev
-      </Button>
-      <Button
-        variant="outline"
-        size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
-        disabled={game.levelIndex === game.totalLevels - 1}
-        onclick={() => game.nextLevel()}
-        title="Next Puzzle"
-      >
-        Next
-        <AnimateIcon icon={ChevronRight} size={24} class="size-6 ml-1.5" />
-      </Button>
-
-      <!-- Row 3: Undo / Redo -->
+      <!-- Row 1: Undo / Redo -->
       <Button
         variant="outline"
         size="lg"
@@ -210,7 +174,7 @@
         Redo
       </Button>
 
-      <!-- Row 4: Reset / Hint -->
+      <!-- Row 2: Reset / Hint -->
       <Button
         variant={game.status === 'stuck' ? 'default' : 'outline'}
         size="lg"
@@ -232,6 +196,42 @@
       >
         <AnimateIcon icon={Sparkles} size={22} class="size-5.5 mr-2" />
         Hint
+      </Button>
+
+      <!-- Row 3: Puzzles (above Prev / Next) -->
+      <Button
+        variant={game.showPuzzlePicker ? 'default' : 'outline'}
+        size="lg"
+        class="w-full col-span-2 h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
+        onclick={() => game.togglePuzzlePicker()}
+        title="Puzzles"
+      >
+        <AnimateIcon icon={Puzzle} size={22} class="size-5.5 mr-2" />
+        Puzzles
+      </Button>
+
+      <!-- Row 4: Prev / Next -->
+      <Button
+        variant="outline"
+        size="lg"
+        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
+        disabled={game.levelIndex === 0}
+        onclick={() => game.prevLevel()}
+        title="Previous Puzzle"
+      >
+        <AnimateIcon icon={ChevronLeft} size={24} class="size-6 mr-1.5" />
+        Prev
+      </Button>
+      <Button
+        variant="outline"
+        size="lg"
+        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
+        disabled={game.levelIndex === game.totalLevels - 1}
+        onclick={() => game.nextLevel()}
+        title="Next Puzzle"
+      >
+        Next
+        <AnimateIcon icon={ChevronRight} size={24} class="size-6 ml-1.5" />
       </Button>
     </div>
 
