@@ -17,13 +17,24 @@ import { getHintTargets } from "./solver";
 import { sound } from "./audio";
 import { loadPersistedState, savePersistedState } from "./storage";
 
-export interface PieceTransition {
-  piece: Piece;
-  from: Position;
-  to: Position;
-  kind: "undo" | "redo";
-  key: number;
-}
+export type BoardAnimation =
+  | {
+      type: "slide";
+      piece: Piece;
+      from: Position;
+      to: Position;
+      wobbleOnLand: boolean;
+      key: number;
+    }
+  | {
+      type: "take_wobble";
+      at: Position;
+      key: number;
+    }
+  | {
+      type: "reset_wobble";
+      key: number;
+    };
 
 export class GameStore {
   levelIndex = $state<number>(0);
@@ -40,11 +51,10 @@ export class GameStore {
   theme = $state<"dark" | "light">("dark");
   showPuzzlePicker = $state<boolean>(false);
   isAdmin = $state<boolean>(false);
-  lastPieceTransition = $state<PieceTransition | null>(null);
-  resetCount = $state<number>(0);
+  boardAnimation = $state<BoardAnimation | null>(null);
 
   private advanceTimeout: ReturnType<typeof setTimeout> | null = null;
-  private transitionCounter = 0;
+  private animationCounter = 0;
 
   currentLevel = $derived<Level>(LEVELS[this.levelIndex] || LEVELS[0]);
   totalLevels = $derived<number>(LEVELS.length);
@@ -124,7 +134,7 @@ export class GameStore {
     this.hintTargets = [];
     this.status = "in_progress";
     this.justCleared = false;
-    this.lastPieceTransition = null;
+    this.boardAnimation = null;
 
     savePersistedState({ currentLevelId: lvl.id });
   }
@@ -237,7 +247,11 @@ export class GameStore {
     this.selectedPiece = null;
     this.validTargets = [];
     this.hintTargets = [];
-    this.lastPieceTransition = null;
+    this.boardAnimation = {
+      type: "take_wobble",
+      at: { ...to },
+      key: ++this.animationCounter,
+    };
 
     sound.playCapture();
     this.handlePostMoveState();
@@ -274,12 +288,13 @@ export class GameStore {
     this.hintTargets = [];
     this.status = "in_progress";
     this.justCleared = false;
-    this.lastPieceTransition = {
+    this.boardAnimation = {
+      type: "slide",
       piece: movedBackPiece,
       from: { ...lastMove.to },
       to: { ...lastMove.from },
-      kind: "undo",
-      key: ++this.transitionCounter,
+      wobbleOnLand: false,
+      key: ++this.animationCounter,
     };
     sound.playUndo();
   }
@@ -300,13 +315,14 @@ export class GameStore {
     this.hintTargets = [];
 
     const movedPiece = getPieceAt(outcome.nextPieces, move.to.row, move.to.col);
-    this.lastPieceTransition = movedPiece
+    this.boardAnimation = movedPiece
       ? {
+          type: "slide",
           piece: { ...movedPiece },
           from: { ...move.from },
           to: { ...move.to },
-          kind: "redo",
-          key: ++this.transitionCounter,
+          wobbleOnLand: true,
+          key: ++this.animationCounter,
         }
       : null;
 
@@ -322,7 +338,10 @@ export class GameStore {
     const hadMoves = this.moveHistory.length > 0;
     this.loadCurrentLevel();
     if (hadMoves) {
-      this.resetCount += 1;
+      this.boardAnimation = {
+        type: "reset_wobble",
+        key: ++this.animationCounter,
+      };
       sound.playReset();
     }
   }

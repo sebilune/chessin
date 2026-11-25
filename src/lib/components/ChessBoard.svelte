@@ -1,22 +1,24 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
-  import { FILES, RANKS, getPieceAt } from '$lib/game/chess';
+  import { BOARD_SIZE, FILES, RANKS, getPieceAt } from '$lib/game/chess';
   import type { Piece, Position } from '$lib/types';
   import { computeArrow } from '$lib/arrow';
   import BoardFrame from './BoardFrame.svelte';
   import CaptureProgressBar from './CaptureProgressBar.svelte';
   import ChessPiece from './ChessPiece.svelte';
 
-  const rows = [0, 1, 2, 3, 4];
-  const cols = [0, 1, 2, 3, 4];
+  const rows = Array.from({ length: BOARD_SIZE }, (_, i) => i);
+  const cols = Array.from({ length: BOARD_SIZE }, (_, i) => i);
+  const squarePercent = 100 / BOARD_SIZE;
 
   function getOutlinePath(isHovered: boolean, row: number, col: number): string {
     const min = 2.5;
     const max = 97.5;
+    const last = BOARD_SIZE - 1;
     const tl = isHovered ? (row === 0 && col === 0 ? 13 : 0) : 9;
-    const tr = isHovered ? (row === 0 && col === 4 ? 13 : 0) : 9;
-    const br = isHovered ? (row === 4 && col === 4 ? 13 : 0) : 9;
-    const bl = isHovered ? (row === 4 && col === 0 ? 13 : 0) : 9;
+    const tr = isHovered ? (row === 0 && col === last ? 13 : 0) : 9;
+    const br = isHovered ? (row === last && col === last ? 13 : 0) : 9;
+    const bl = isHovered ? (row === last && col === 0 ? 13 : 0) : 9;
 
     // Clockwise rounded-rect path so negative stroke-dashoffset marches clockwise
     return [
@@ -67,10 +69,8 @@
   let isResetWobble = $state<boolean>(false);
   let resetWobbleKey = $state<number>(0);
   let resetWobbleTimer: ReturnType<typeof setTimeout> | null = null;
-  let prevMoveCount = 0;
   let animationKey = 0;
-  let lastHandledTransitionKey = 0;
-  let lastHandledResetCount = 0;
+  let lastHandledAnimationKey = 0;
 
   function isSquareSelected(r: number, c: number): boolean {
     return game.selectedPiece !== null && game.selectedPiece.row === r && game.selectedPiece.col === c;
@@ -140,66 +140,60 @@
     });
   }
 
-  $effect(() => {
-    // Cancel in-flight animation on level switch
-    void game.levelIndex;
-    clearAnimation();
-    takeWobble = null;
+  function clearResetWobble() {
     if (resetWobbleTimer) {
       clearTimeout(resetWobbleTimer);
       resetWobbleTimer = null;
     }
     isResetWobble = false;
-  });
+  }
 
-  $effect(() => {
-    const count = game.resetCount;
-    if (count === lastHandledResetCount) return;
-    lastHandledResetCount = count;
-
+  function triggerResetWobble(key: number) {
     clearAnimation();
     takeWobble = null;
-    if (resetWobbleTimer) {
-      clearTimeout(resetWobbleTimer);
-    }
-    resetWobbleKey = count;
+    clearResetWobble();
+    resetWobbleKey = key;
     isResetWobble = true;
     resetWobbleTimer = setTimeout(() => {
       isResetWobble = false;
       resetWobbleTimer = null;
     }, 180);
+  }
+
+  $effect(() => {
+    // Cancel in-flight animation on level switch
+    void game.levelIndex;
+    clearAnimation();
+    takeWobble = null;
+    clearResetWobble();
   });
 
   $effect(() => {
-    const count = game.moveHistory.length;
-    if (count > prevMoveCount) {
-      if (game.lastPieceTransition?.kind !== 'redo') {
-        const lastMove = game.moveHistory[count - 1];
-        takeWobble = { row: lastMove.to.row, col: lastMove.to.col, key: count };
-      }
-    } else if (count < prevMoveCount) {
-      takeWobble = null;
+    const anim = game.boardAnimation;
+    if (!anim || anim.key === lastHandledAnimationKey) return;
+    lastHandledAnimationKey = anim.key;
+
+    if (anim.type === 'take_wobble') {
+      takeWobble = { row: anim.at.row, col: anim.at.col, key: anim.key };
+      return;
     }
-    prevMoveCount = count;
-  });
 
-  $effect(() => {
-    const transition = game.lastPieceTransition;
-    if (!transition || transition.key === lastHandledTransitionKey) return;
-    lastHandledTransitionKey = transition.key;
+    if (anim.type === 'reset_wobble') {
+      triggerResetWobble(anim.key);
+      return;
+    }
 
-    const moveCount = game.moveHistory.length;
+    takeWobble = null;
     startPieceSlide({
-      attacker: { ...transition.piece },
-      from: { ...transition.from },
-      to: { ...transition.to },
+      attacker: { ...anim.piece },
+      from: { ...anim.from },
+      to: { ...anim.to },
       hideAt: 'to',
-      onComplete:
-        transition.kind === 'redo'
-          ? () => {
-              takeWobble = { row: transition.to.row, col: transition.to.col, key: moveCount };
-            }
-          : undefined,
+      onComplete: anim.wobbleOnLand
+        ? () => {
+            takeWobble = { row: anim.to.row, col: anim.to.col, key: anim.key };
+          }
+        : undefined,
     });
   });
 
@@ -283,11 +277,11 @@
     ) {
       return null;
     }
-    const col = Math.floor(((clientX - rect.left) / rect.width) * 5);
-    const row = Math.floor(((clientY - rect.top) / rect.height) * 5);
+    const col = Math.floor(((clientX - rect.left) / rect.width) * BOARD_SIZE);
+    const row = Math.floor(((clientY - rect.top) / rect.height) * BOARD_SIZE);
     return {
-      row: Math.max(0, Math.min(4, row)),
-      col: Math.max(0, Math.min(4, col)),
+      row: Math.max(0, Math.min(BOARD_SIZE - 1, row)),
+      col: Math.max(0, Math.min(BOARD_SIZE - 1, col)),
     };
   }
 
@@ -409,8 +403,8 @@
             </span>
           {/if}
 
-          <!-- File label on row 4 (bottom-right of square): subtle & transparent -->
-          {#if r === 4}
+          <!-- File label on bottom row (bottom-right of square): subtle & transparent -->
+          {#if r === BOARD_SIZE - 1}
             <span class="absolute bottom-1.5 right-2 text-sm sm:text-base font-mono font-black leading-none pointer-events-none text-foreground/40">
               {FILES[c]}
             </span>
@@ -467,10 +461,10 @@
       <div
         class="absolute pointer-events-none z-30 flex items-center justify-center text-foreground will-change-transform"
         style="
-          left: {animatingMove.from.col * 20}%;
-          top: {animatingMove.from.row * 20}%;
-          width: 20%;
-          height: 20%;
+          left: {animatingMove.from.col * squarePercent}%;
+          top: {animatingMove.from.row * squarePercent}%;
+          width: {squarePercent}%;
+          height: {squarePercent}%;
           transform: translate3d({slideActive ? dx : 0}%, {slideActive ? dy : 0}%, 0);
           transition: transform 180ms cubic-bezier(0.2, 0, 0.2, 1);
         "
