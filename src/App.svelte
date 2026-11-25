@@ -227,11 +227,11 @@
   <!-- Mobile & Tablet Vertical Flow (< xl): Sketch layout -->
   <div class="relative z-10 xl:hidden flex flex-col items-center w-full max-w-[480px] mx-auto py-1 space-y-3">
     <!-- Top Row: Reset Button + Capture Progress Bar -->
-    <div class="flex items-center gap-3 w-full">
+    <div class="flex items-center gap-2.5 w-full">
       <Button
         variant="ghost"
         size="icon"
-        class="size-10 sm:size-11 rounded-xl shrink-0 text-foreground"
+        class="relative size-6 border-0 rounded-md shrink-0 text-foreground after:absolute after:-inset-2.5"
         disabled={game.showPuzzlePicker || game.moveHistory.length === 0}
         onclick={() => game.reset()}
         title="Reset Puzzle"
