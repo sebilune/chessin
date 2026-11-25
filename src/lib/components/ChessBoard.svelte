@@ -10,12 +10,29 @@
   const rows = [0, 1, 2, 3, 4];
   const cols = [0, 1, 2, 3, 4];
 
-  function getHoveredOutlineRadius(row: number, col: number): string {
-    if (row === 0 && col === 0) return 'rounded-tl-xl';
-    if (row === 0 && col === 4) return 'rounded-tr-xl';
-    if (row === 4 && col === 0) return 'rounded-bl-xl';
-    if (row === 4 && col === 4) return 'rounded-br-xl';
-    return 'rounded-none';
+  function getOutlinePath(isHovered: boolean, row: number, col: number): string {
+    const min = 2.5;
+    const max = 97.5;
+    const tl = isHovered ? (row === 0 && col === 0 ? 13 : 0) : 9;
+    const tr = isHovered ? (row === 0 && col === 4 ? 13 : 0) : 9;
+    const br = isHovered ? (row === 4 && col === 4 ? 13 : 0) : 9;
+    const bl = isHovered ? (row === 4 && col === 0 ? 13 : 0) : 9;
+
+    // Clockwise rounded-rect path so negative stroke-dashoffset marches clockwise
+    return [
+      `M ${min + tl} ${min}`,
+      `L ${max - tr} ${min}`,
+      tr ? `A ${tr} ${tr} 0 0 1 ${max} ${min + tr}` : '',
+      `L ${max} ${max - br}`,
+      br ? `A ${br} ${br} 0 0 1 ${max - br} ${max}` : '',
+      `L ${min + bl} ${max}`,
+      bl ? `A ${bl} ${bl} 0 0 1 ${min} ${max - bl}` : '',
+      `L ${min} ${min + tl}`,
+      tl ? `A ${tl} ${tl} 0 0 1 ${min + tl} ${min}` : '',
+      'Z',
+    ]
+      .filter(Boolean)
+      .join(' ');
   }
 
   let gridElement: HTMLDivElement | null = $state(null);
@@ -318,11 +335,26 @@
             </span>
           {/if}
 
-          <!-- Dotted outline on capturable pieces or hint targets: expands to full tile bounds on drag hover and follows board corner radii -->
+          <!-- Dotted outline on capturable pieces or hint targets: marches clockwise and follows board corner radii on drag hover -->
           {#if isTarget || isHint}
             <span
-              class="absolute border-4 border-dashed border-foreground pointer-events-none z-10 transition-all duration-150 ease-out {isHovered ? `inset-0 ${getHoveredOutlineRadius(r, c)} opacity-100` : 'inset-1.5 rounded-lg opacity-80'}"
-            ></span>
+              class="absolute pointer-events-none z-10 text-foreground transition-all duration-150 ease-out {isHovered ? 'inset-0 opacity-100' : 'inset-1.5 opacity-80'}"
+              aria-hidden="true"
+            >
+              <svg class="w-full h-full overflow-visible" viewBox="0 0 100 100">
+                <path
+                  d={getOutlinePath(isHovered, r, c)}
+                  pathLength="100"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="4"
+                  stroke-dasharray="5.5 4.5"
+                  stroke-linecap="butt"
+                  vector-effect="non-scaling-stroke"
+                  class="animate-outline-march"
+                />
+              </svg>
+            </span>
           {/if}
 
           <!-- Chess Piece SVG: Proportional to square size -->
