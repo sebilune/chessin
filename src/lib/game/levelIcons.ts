@@ -6,7 +6,7 @@ import {
   Dog,
   Target,
   CloudLightning,
-  Flame,
+  Fish,
   Swords,
   Flag,
   Brain,
@@ -28,15 +28,15 @@ export const LEVEL_ANIMATED_ICONS: Record<number, IconData> = {
   52: Dog, // Bloodhound
   53: Target, // Steel Trap
   54: CloudLightning, // Storming Heaven
-  55: Flame, // Dragon's Tail
+  55: Gem, // Obsidian Core
   56: Swords, // Castle Siege
   57: Flag, // Checkmate Alley
   58: Brain, // Grandmaster's Trap
   59: Atom, // The Crucible
   60: Hammer, // Anvil & Hammer
   61: Key, // Endgame Enigma
-  62: Gem, // Obsidian Core
-  63: Crown // Crown of Thorns
+  62: Crown, // Crown of Thorns
+  63: Fish // Stockfish's Pond
 };
 
 export function getLevelAnimatedIcon(levelId: number): IconData | null {
