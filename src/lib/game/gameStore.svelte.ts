@@ -40,10 +40,23 @@ export class GameStore {
   initialPieceCount = $derived<number>(this.currentLevel.pieces.length);
   canUndo = $derived<boolean>(this.moveHistory.length > 0);
   canRedo = $derived<boolean>(this.undoneMoves.length > 0);
+  areHintsDisabled = $derived<boolean>(
+    Boolean(
+      this.currentLevel.hintsDisabled ||
+        (this.currentLevel.id >= 49 && this.currentLevel.id <= 64),
+    ),
+  );
+  hintDisabledReason = $derived<string | null>(
+    this.currentLevel.id === 64
+      ? "I hate chess"
+      : this.areHintsDisabled
+        ? "Prove yourself"
+        : null,
+  );
   canHint = $derived<boolean>(
     !this.showPuzzlePicker &&
       this.status === "in_progress" &&
-      !this.currentLevel.hintsDisabled,
+      !this.areHintsDisabled,
   );
   isLevelCompleted = $derived<boolean>(
     this.completedLevels.includes(this.currentLevel.id),

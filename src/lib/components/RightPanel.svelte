@@ -56,7 +56,7 @@
         class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4 shadow-xs disabled:pointer-events-auto"
         disabled={!game.canHint}
         onclick={() => game.requestHint()}
-        title={game.currentLevel.hintsDisabled ? 'Prove yourself.' : 'Get Hint (H)'}
+        title={game.hintDisabledReason ?? 'Get Hint (H)'}
       >
         <AnimateIcon icon={Sparkles} size={22} class="size-5.5 mr-2" />
         Hint
