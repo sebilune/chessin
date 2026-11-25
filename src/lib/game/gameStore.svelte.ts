@@ -258,6 +258,7 @@ export class GameStore {
     this.hintTargets = [];
     this.status = "in_progress";
     this.justCleared = false;
+    sound.playUndo();
   }
 
   redo() {
@@ -275,7 +276,7 @@ export class GameStore {
     this.validTargets = [];
     this.hintTargets = [];
 
-    sound.playCapture();
+    sound.playRedo();
     this.handlePostMoveState();
   }
 

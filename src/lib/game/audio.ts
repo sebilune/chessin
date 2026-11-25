@@ -1,10 +1,12 @@
-type SoundName = 'capture' | 'stuck' | 'victory' | 'hint';
+type SoundName = 'capture' | 'stuck' | 'victory' | 'hint' | 'undo' | 'redo';
 
 const SOUND_PATHS: Record<SoundName, string> = {
   capture: '/sounds/capture.mp3',
   stuck: '/sounds/stuck.mp3',
   victory: '/sounds/victory.mp3',
   hint: '/sounds/hint.mp3',
+  undo: '/sounds/undo.mp3',
+  redo: '/sounds/redo.mp3',
 };
 
 const SOUND_VOLUMES: Record<SoundName, number> = {
@@ -12,6 +14,8 @@ const SOUND_VOLUMES: Record<SoundName, number> = {
   stuck: 0.75,
   victory: 0.72,
   hint: 0.7,
+  undo: 0.56,
+  redo: 0.56,
 };
 
 const MIN_REPEAT_MS = 35;
@@ -143,6 +147,14 @@ class SoundManager {
 
   public playHint(): void {
     this.play('hint');
+  }
+
+  public playUndo(): void {
+    this.play('undo');
+  }
+
+  public playRedo(): void {
+    this.play('redo');
   }
 
   public playVictory(): void {
