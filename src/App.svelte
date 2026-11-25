@@ -214,7 +214,7 @@
                   class="w-full px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold text-left flex items-center justify-between cursor-pointer transition-none
                     {isActive
                       ? 'bg-primary text-primary-foreground'
-                      : 'text-foreground hover:bg-muted'}"
+                      : 'text-foreground hover:bg-border'}"
                   onclick={() => {
                     i18n.setLocale(loc);
                     langOpen = false;
