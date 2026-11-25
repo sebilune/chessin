@@ -5,22 +5,12 @@
   import PuzzlePicker from '$lib/components/PuzzlePicker.svelte';
   import LeftPanel from '$lib/components/LeftPanel.svelte';
   import RightPanel from '$lib/components/RightPanel.svelte';
+  import ActionControls from '$lib/components/ActionControls.svelte';
+  import LevelNavigation from '$lib/components/LevelNavigation.svelte';
   import MoveHistory from '$lib/components/MoveHistory.svelte';
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
-  import {
-    Volume2,
-    VolumeX,
-    Sun,
-    Moon,
-    Undo,
-    Redo,
-    RotateCcw,
-    Sparkles,
-    ChevronLeft,
-    ChevronRight,
-    Puzzle,
-  } from '@animateicons/vanilla/lucide';
+  import { Volume2, VolumeX, Sun, Moon } from '@animateicons/vanilla/lucide';
 
   function handleKeyDown(event: KeyboardEvent) {
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes((event.target as HTMLElement)?.tagName)) {
@@ -149,90 +139,9 @@
     </div>
 
     <!-- Controls falling cleanly under the board -->
-    <div class="w-full grid grid-cols-2 gap-2 pt-1">
-      <!-- Row 1: Undo / Redo -->
-      <Button
-        variant="outline"
-        size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
-        disabled={game.showPuzzlePicker || !game.canUndo}
-        onclick={() => game.undo()}
-        title="Undo Move"
-      >
-        <AnimateIcon icon={Undo} size={22} class="size-5.5 mr-2" />
-        Undo
-      </Button>
-      <Button
-        variant="outline"
-        size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
-        disabled={game.showPuzzlePicker || !game.canRedo}
-        onclick={() => game.redo()}
-        title="Redo Move"
-      >
-        <AnimateIcon icon={Redo} size={22} class="size-5.5 mr-2" />
-        Redo
-      </Button>
-
-      <!-- Row 2: Reset / Hint -->
-      <Button
-        variant={game.status === 'stuck' ? 'default' : 'outline'}
-        size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4 {game.status === 'stuck' ? 'border-primary' : ''}"
-        disabled={game.showPuzzlePicker || game.moveHistory.length === 0}
-        onclick={() => game.reset()}
-        title="Reset Puzzle"
-      >
-        <AnimateIcon icon={RotateCcw} size={22} class="size-5.5 mr-2" />
-        Reset
-      </Button>
-      <Button
-        variant="default"
-        size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4 shadow-xs disabled:pointer-events-auto"
-        disabled={!game.canHint}
-        onclick={() => game.requestHint()}
-        title={game.hintDisabledReason ?? 'Get Hint'}
-      >
-        <AnimateIcon icon={Sparkles} size={22} class="size-5.5 mr-2" />
-        Hint
-      </Button>
-
-      <!-- Row 3: Puzzles (above Prev / Next) -->
-      <Button
-        variant={game.showPuzzlePicker ? 'default' : 'outline'}
-        size="lg"
-        class="w-full col-span-2 h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
-        onclick={() => game.togglePuzzlePicker()}
-        title="Puzzles"
-      >
-        <AnimateIcon icon={Puzzle} size={22} class="size-5.5 mr-2" />
-        Puzzles
-      </Button>
-
-      <!-- Row 4: Prev / Next -->
-      <Button
-        variant="outline"
-        size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
-        disabled={game.levelIndex === 0}
-        onclick={() => game.prevLevel()}
-        title="Previous Puzzle"
-      >
-        <AnimateIcon icon={ChevronLeft} size={24} class="size-6 mr-1.5" />
-        Prev
-      </Button>
-      <Button
-        variant="outline"
-        size="lg"
-        class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
-        disabled={game.levelIndex === game.totalLevels - 1}
-        onclick={() => game.nextLevel()}
-        title="Next Puzzle"
-      >
-        Next
-        <AnimateIcon icon={ChevronRight} size={24} class="size-6 ml-1.5" />
-      </Button>
+    <div class="w-full space-y-2 pt-1">
+      <ActionControls />
+      <LevelNavigation />
     </div>
 
     <!-- Move History Box underneath the buttons -->

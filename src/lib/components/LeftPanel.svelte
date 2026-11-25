@@ -1,9 +1,9 @@
 <script lang="ts">
   import { game } from '$lib/game/gameStore.svelte';
-  import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
   import ChessPiece from '$lib/components/ChessPiece.svelte';
-  import { ChevronLeft, ChevronRight, Puzzle, CircleCheckBig } from '@animateicons/vanilla/lucide';
+  import LevelNavigation from '$lib/components/LevelNavigation.svelte';
+  import { CircleCheckBig } from '@animateicons/vanilla/lucide';
   import { getLevelAnimatedIcon } from '$lib/game/levelIcons';
 
   let titleWrapperEl = $state<HTMLElement | null>(null);
@@ -16,11 +16,13 @@
     game.currentLevel.id === 64 || game.currentLevel.name.toLowerCase().includes('fischer')
   );
   const customAnimatedIcon = $derived(getLevelAnimatedIcon(game.currentLevel.id));
+  const showWatermark = $derived(
+    game.isLevelCompleted || isFischersRiddle || customAnimatedIcon !== null
+  );
 
   $effect(() => {
-    const _ = game.currentLevel.name;
-    const __ = isFischersRiddle;
-    const ___ = customAnimatedIcon;
+    void [game.currentLevel.name, isFischersRiddle, customAnimatedIcon];
+
     function updateAnchor() {
       if (anchorEl && titleWrapperEl) {
         const parentRect = titleWrapperEl.getBoundingClientRect();
@@ -32,6 +34,7 @@
         anchorX = Math.min(rawAnchorX, maxAnchorX);
       }
     }
+
     updateAnchor();
     window.addEventListener('resize', updateAnchor);
     return () => window.removeEventListener('resize', updateAnchor);
@@ -39,70 +42,44 @@
 </script>
 
 <aside class="flex flex-col justify-between h-[500px] lg:h-[520px] max-h-[70vh] py-2 select-none">
-  <!-- Top: Level Name with Dynamic Checkmark Underlay, Counter, and Navigation -->
+  <!-- Top: Level Name with Dynamic Underlay, Counter, and Navigation -->
   <div class="space-y-4">
     <div class="space-y-1.5">
-      <!-- Title block with dynamic adaptive underlay watermark -->
       <div bind:this={titleWrapperEl} class="relative overflow-visible">
-        <!-- Custom Animated Lucide underlay watermark for levels 48-63 -->
-        {#if customAnimatedIcon && !game.isLevelCompleted}
-          {#key game.currentLevel.id}
-            <div
-              class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-border transition-all duration-200
-                {isMultiLine
-                  ? 'left-[58%] -translate-x-1/2 size-32 lg:size-36'
-                  : '-translate-x-[45%] size-24 lg:size-28'}"
-              style={isMultiLine ? '' : (anchorX !== null ? `left: ${anchorX}px;` : 'left: 70%;')}
-              aria-hidden="true"
-            >
-              <div class="w-full h-full flex items-center justify-center">
+        {#if showWatermark}
+          <div
+            class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-border transition-all duration-200
+              {isMultiLine
+                ? 'left-[58%] -translate-x-1/2 size-32 lg:size-36'
+                : '-translate-x-[45%] size-24 lg:size-28'}"
+            style={isMultiLine ? '' : (anchorX !== null ? `left: ${anchorX}px;` : 'left: 70%;')}
+            aria-hidden="true"
+          >
+            {#if game.isLevelCompleted}
+              <div class={game.justCleared ? 'animate-pop-in' : ''}>
                 <AnimateIcon
-                  icon={customAnimatedIcon}
+                  icon={CircleCheckBig}
                   size={isMultiLine ? 144 : 112}
-                  class="w-full h-full text-border"
-                  autoplay={true}
+                  class="w-full h-full"
+                  autoplay={game.justCleared}
                 />
               </div>
-            </div>
-          {/key}
-        {/if}
-
-        <!-- King underlay watermark for Fischer's Riddle (normally) using updateAnchor -->
-        {#if isFischersRiddle && !game.isLevelCompleted}
-          <div
-            class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-border transition-all duration-200
-              {isMultiLine
-                ? 'left-[58%] -translate-x-1/2 size-32 lg:size-36'
-                : '-translate-x-[45%] size-24 lg:size-28'}"
-            style={isMultiLine ? '' : (anchorX !== null ? `left: ${anchorX}px;` : 'left: 70%;')}
-            aria-hidden="true"
-          >
-            <div class="w-full h-full flex items-center justify-center">
-              <ChessPiece
-                type="king"
-                class="w-full h-full text-border"
-              />
-            </div>
-          </div>
-        {/if}
-
-        {#if game.isLevelCompleted}
-          <div
-            class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-border transition-all duration-200
-              {isMultiLine
-                ? 'left-[58%] -translate-x-1/2 size-32 lg:size-36'
-                : '-translate-x-[45%] size-24 lg:size-28'}"
-            style={isMultiLine ? '' : (anchorX !== null ? `left: ${anchorX}px;` : 'left: 70%;')}
-            aria-hidden="true"
-          >
-            <div class={game.justCleared ? 'animate-pop-in' : ''}>
-              <AnimateIcon
-                icon={CircleCheckBig}
-                size={isMultiLine ? 144 : 112}
-                class="w-full h-full"
-                autoplay={game.justCleared}
-              />
-            </div>
+            {:else if isFischersRiddle}
+              <div class="w-full h-full flex items-center justify-center">
+                <ChessPiece type="king" class="w-full h-full text-border" />
+              </div>
+            {:else if customAnimatedIcon}
+              {#key game.currentLevel.id}
+                <div class="w-full h-full flex items-center justify-center">
+                  <AnimateIcon
+                    icon={customAnimatedIcon}
+                    size={isMultiLine ? 144 : 112}
+                    class="w-full h-full text-border"
+                    autoplay={true}
+                  />
+                </div>
+              {/key}
+            {/if}
           </div>
         {/if}
 
@@ -114,50 +91,11 @@
         </h2>
       </div>
 
-      <!-- Puzzle Counter under the name -->
       <span class="text-xs sm:text-sm font-mono font-bold text-muted-foreground uppercase tracking-wider block">
         Puzzle {String(game.currentLevel.id).padStart(2, '0')} / {game.totalLevels}
       </span>
     </div>
 
-    <!-- Navigation Controls (Puzzles & Prev / Next) -->
-    <div class="space-y-2 pt-1">
-      <!-- Puzzles Button above Prev / Next -->
-      <Button
-        variant={game.showPuzzlePicker ? 'default' : 'outline'}
-        size="lg"
-        class="w-full h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
-        onclick={() => game.togglePuzzlePicker()}
-        title="Puzzles"
-      >
-        <AnimateIcon icon={Puzzle} size={22} class="size-5.5 mr-2" />
-        Puzzles
-      </Button>
-
-      <div class="grid grid-cols-2 gap-2">
-        <Button
-          variant="outline"
-          size="lg"
-          class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
-          disabled={game.levelIndex === 0}
-          onclick={() => game.prevLevel()}
-          title="Previous Puzzle"
-        >
-          <AnimateIcon icon={ChevronLeft} size={24} class="size-6 mr-1.5" />
-          Prev
-        </Button>
-        <Button
-          variant="outline"
-          size="lg"
-          class="h-12 text-sm sm:text-base font-bold justify-center rounded-xl border-4"
-          disabled={game.levelIndex === game.totalLevels - 1}
-          onclick={() => game.nextLevel()}
-          title="Next Puzzle"
-        >
-          Next
-          <AnimateIcon icon={ChevronRight} size={24} class="size-6 ml-1.5" />
-        </Button>
-      </div>
-    </div>
+    <LevelNavigation class="pt-1" />
   </div>
 </aside>
