@@ -19,7 +19,6 @@
     Sparkles,
     ChevronLeft,
     ChevronRight,
-    Check,
     Puzzle,
   } from '@animateicons/vanilla/lucide';
 
@@ -135,21 +134,10 @@
   <!-- Mobile & Tablet Vertical Flow (< lg): Single continuous column matching wireframe -->
   <div class="relative z-10 lg:hidden flex flex-col items-center w-full max-w-[480px] mx-auto py-2 space-y-4">
     <!-- Title & Puzzle Number directly above the board -->
-    <div class="flex items-center justify-center gap-2.5 text-center">
-      <h2 class="text-xl sm:text-2xl font-black tracking-tight">
-        <span class="text-muted-foreground">#{game.currentLevel.id}</span>
-        <span class="text-foreground">{game.currentLevel.name}</span>
-      </h2>
-      {#if game.isLevelCompleted}
-        <span
-          class="size-6 rounded-full bg-foreground text-background flex items-center justify-center shrink-0 shadow-xs {game.justCleared ? 'animate-pop-in' : ''}"
-          title="Cleared"
-          aria-label="Cleared"
-        >
-          <AnimateIcon icon={Check} size={16} class="size-4" autoplay={game.justCleared} />
-        </span>
-      {/if}
-    </div>
+    <h2 class="text-xl sm:text-2xl font-black tracking-tight text-center">
+      <span class="text-muted-foreground">#{game.currentLevel.id}</span>
+      <span class="text-foreground">{game.currentLevel.name}</span>
+    </h2>
 
     <!-- Chess Board in Center (aspect-square, never squished) -->
     <div class="w-full flex justify-center">
