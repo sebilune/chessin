@@ -112,15 +112,15 @@
   });
 </script>
 
-<main class="relative min-h-screen w-full bg-background text-foreground select-none flex flex-col justify-between p-3 sm:p-5 md:p-6 overflow-y-auto lg:h-screen lg:overflow-hidden">
+<main class="relative min-h-screen w-full bg-background text-foreground select-none flex flex-col lg:justify-between p-3 sm:p-5 md:p-6 overflow-y-auto lg:h-screen lg:overflow-hidden">
   <!-- Static ambient chess pattern background -->
   <div
     class="fixed inset-0 pointer-events-none z-0 chess-bg-pattern opacity-[0.018] dark:opacity-[0.0175]"
     aria-hidden="true"
   ></div>
 
-  <!-- Header: Logo on Left, Sound and Theme Toggles on Right (Bottom on mobile, Top on desktop) -->
-  <header class="relative z-30 w-full max-w-[480px] lg:max-w-none mx-auto flex items-center justify-between order-2 lg:order-1 pt-4 lg:pt-0 lg:pb-2 shrink-0">
+  <!-- Header: Logo on Left, Sound and Theme Toggles on Right -->
+  <header class="relative z-30 w-full max-w-[480px] lg:max-w-none mx-auto flex items-center justify-between pb-3 lg:pb-2 shrink-0">
     <!-- Top Left Site Branding -->
     <div class="flex items-center gap-1.5">
       <ChessPiece type="queen" class="size-5 sm:size-6 text-foreground shrink-0" />
@@ -185,7 +185,7 @@
 
         {#if volumeOpen}
           <div
-            class="absolute bottom-full pb-2 left-1/2 -translate-x-1/2 lg:bottom-auto lg:pb-0 lg:top-full lg:pt-2 z-50"
+            class="absolute top-full pt-2 left-1/2 -translate-x-1/2 z-50"
           >
             <div
               class="w-10 sm:w-11 rounded-xl border-4 border-border bg-background text-foreground py-2 flex flex-col items-center shadow-xs"
@@ -224,7 +224,7 @@
   </header>
 
   <!-- Mobile & Tablet Vertical Flow (< lg): Sketch layout -->
-  <div class="relative z-10 lg:hidden order-1 flex flex-col items-center w-full max-w-[480px] mx-auto py-1 space-y-3">
+  <div class="relative z-10 lg:hidden flex flex-col items-center w-full max-w-[480px] mx-auto py-1 space-y-3">
     <!-- Top Row: Reset Button + Capture Progress Bar -->
     <div class="flex items-center gap-3 w-full">
       <Button
