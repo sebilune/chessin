@@ -131,25 +131,6 @@ body.cursor-grabbing * {
   cursor: grabbing !important;
 }
 
-@keyframes arrow-bounce {
-  0%, 100% {
-    transform: translate(0, 0);
-    opacity: 0.6;
-  }
-  50% {
-    transform: translate(
-      calc(var(--arrow-tx, 0) * 3px),
-      calc(var(--arrow-ty, 0) * 3px)
-    );
-    opacity: 0.85;
-  }
-}
-
-.animate-arrow-bounce {
-  animation: arrow-bounce 1.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  will-change: transform, opacity;
-}
-
 @keyframes pop-in {
   0% {
     transform: scale(0.6);

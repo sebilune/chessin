@@ -403,12 +403,11 @@
   <!-- Tutorial guidance arrow for Level 1 -->
   {#if tutorialArrow && !animatingMove}
     <svg
-      class="absolute inset-0 pointer-events-none w-full h-full z-20 text-foreground animate-arrow-bounce"
-      style="--arrow-tx: {tutorialArrow.ux}; --arrow-ty: {tutorialArrow.uy};"
+      class="absolute inset-0 pointer-events-none w-full h-full z-20 text-foreground"
       viewBox="0 0 100 100"
       aria-hidden="true"
     >
-      <path d={tutorialArrow.d} fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" />
+      <path d={tutorialArrow} fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" />
     </svg>
   {/if}
 
