@@ -83,7 +83,7 @@
     <!-- Top Left Site Branding -->
     <div class="flex items-center">
       <span class="text-xl sm:text-2xl font-black tracking-tight text-foreground font-mono">
-        CHESSIN
+        CHESSIN{game.isAdmin ? ' (ADMIN)' : ''}
       </span>
     </div>
 

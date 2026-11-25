@@ -31,6 +31,7 @@ export class GameStore {
   soundEnabled = $state<boolean>(true);
   theme = $state<"dark" | "light">("dark");
   showPuzzlePicker = $state<boolean>(false);
+  isAdmin = $state<boolean>(false);
 
   private advanceTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -63,6 +64,7 @@ export class GameStore {
   );
   maxUnlockedLevelIndex = $derived<number>(
     (() => {
+      if (this.isAdmin) return LEVELS.length - 1;
       const firstUncompleted = LEVELS.findIndex(
         (l) => !this.completedLevels.includes(l.id),
       );
@@ -328,3 +330,12 @@ export class GameStore {
 }
 
 export const game = new GameStore();
+
+if (typeof window !== "undefined") {
+  (window as unknown as { admin: (enable?: boolean) => boolean }).admin = (
+    enable = true,
+  ) => {
+    game.isAdmin = Boolean(enable);
+    return game.isAdmin;
+  };
+}
