@@ -2,7 +2,6 @@
   import { onMount } from 'svelte';
   import { game } from '$lib/game/gameStore.svelte';
   import ChessBoard from '$lib/components/ChessBoard.svelte';
-  import ChessPiece from '$lib/components/ChessPiece.svelte';
   import PuzzlePicker from '$lib/components/PuzzlePicker.svelte';
   import LeftPanel from '$lib/components/LeftPanel.svelte';
   import RightPanel from '$lib/components/RightPanel.svelte';
@@ -93,8 +92,7 @@
   <!-- Top Header: Logo on Left, Sound and Theme Toggles on Right -->
   <header class="relative z-10 w-full flex items-center justify-between pb-2 shrink-0">
     <!-- Top Left Site Branding -->
-    <div class="flex items-center gap-1 sm:gap-1.5">
-      <ChessPiece type="queen" class="size-6 sm:size-7 text-foreground shrink-0 -translate-y-0.5 sm:-translate-y-1" />
+    <div class="flex items-center">
       <span class="text-xl sm:text-2xl font-black tracking-tight text-foreground font-mono">
         CHESSIN
       </span>
