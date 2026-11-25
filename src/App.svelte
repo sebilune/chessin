@@ -21,9 +21,11 @@
   let volumeHovered = $state(false);
   let volumeDragging = $state(false);
   let volumeCloseTimer: ReturnType<typeof setTimeout> | null = null;
+  let volumeContainer: HTMLElement | null = $state(null);
 
   let langOpen = $state(false);
   let langCloseTimer: ReturnType<typeof setTimeout> | null = null;
+  let langContainer: HTMLElement | null = $state(null);
 
   const isChessinOrg =
     typeof window !== 'undefined' &&
@@ -35,6 +37,7 @@
       clearTimeout(volumeCloseTimer);
       volumeCloseTimer = null;
     }
+    langOpen = false;
     volumeOpen = true;
   }
 
@@ -54,6 +57,7 @@
       clearTimeout(langCloseTimer);
       langCloseTimer = null;
     }
+    volumeOpen = false;
     langOpen = true;
   }
 
@@ -63,6 +67,28 @@
       langOpen = false;
       langCloseTimer = null;
     }, 150);
+  }
+
+  function handlePointerDown(event: PointerEvent) {
+    const target = event.target as Node | null;
+    if (!target) return;
+
+    if (langOpen && langContainer && !langContainer.contains(target)) {
+      if (langCloseTimer) {
+        clearTimeout(langCloseTimer);
+        langCloseTimer = null;
+      }
+      langOpen = false;
+    }
+
+    if (volumeOpen && !volumeDragging && volumeContainer && !volumeContainer.contains(target)) {
+      if (volumeCloseTimer) {
+        clearTimeout(volumeCloseTimer);
+        volumeCloseTimer = null;
+      }
+      volumeHovered = false;
+      volumeOpen = false;
+    }
   }
 
   function handleKeyDown(event: KeyboardEvent) {
@@ -119,6 +145,11 @@
           game.prevLevel();
           break;
         case 'escape':
+          if (langOpen || volumeOpen) {
+            langOpen = false;
+            volumeOpen = false;
+            break;
+          }
           if (game.showPuzzlePicker) {
             game.showPuzzlePicker = false;
           } else {
@@ -132,8 +163,10 @@
 
   onMount(() => {
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('pointerdown', handlePointerDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('pointerdown', handlePointerDown);
     };
   });
 </script>
@@ -171,6 +204,7 @@
       </Button>
 
       <div
+        bind:this={langContainer}
         class="relative"
         role="group"
         aria-label={m.change_language({}, { locale: i18n.locale })}
@@ -193,6 +227,7 @@
           size="icon"
           class="size-10 sm:size-11 rounded-xl xl:border-border xl:bg-background text-foreground"
           onclick={() => {
+            if (!langOpen) volumeOpen = false;
             langOpen = !langOpen;
           }}
           title={m.change_language({}, { locale: i18n.locale })}
@@ -230,6 +265,7 @@
       </div>
 
       <div
+        bind:this={volumeContainer}
         class="relative"
         role="group"
         aria-label={m.audio_controls({}, { locale: i18n.locale })}
