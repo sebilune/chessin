@@ -205,13 +205,13 @@
         {#if langOpen}
           <div class="absolute top-full pt-2 left-1/2 -translate-x-1/2 z-50">
             <div
-              class="min-w-32 w-max rounded-xl border-4 border-border bg-background text-foreground p-1.5 flex flex-col gap-1 shadow-xs"
+              class="min-w-36 sm:min-w-40 w-max rounded-xl border-4 border-border bg-background text-foreground p-1.5 flex flex-col gap-1 shadow-xs"
             >
               {#each orderedLocales as loc}
                 {@const isActive = i18n.locale === loc}
                 <button
                   type="button"
-                  class="w-full px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold text-left flex items-center justify-between cursor-pointer transition-none
+                  class="w-full px-3 py-2 rounded-lg text-sm sm:text-base font-bold text-left flex items-center justify-between gap-3 cursor-pointer transition-none
                     {isActive
                       ? 'bg-primary text-primary-foreground'
                       : 'text-foreground hover:bg-border'}"
@@ -221,7 +221,7 @@
                   }}
                 >
                   <span>{LOCALE_LABELS[loc].name}</span>
-                  <span class="font-mono text-xs opacity-70">{LOCALE_LABELS[loc].code}</span>
+                  <span class="font-mono text-xs sm:text-sm opacity-70">{LOCALE_LABELS[loc].code}</span>
                 </button>
               {/each}
             </div>
