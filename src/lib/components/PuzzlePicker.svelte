@@ -86,8 +86,8 @@
     </button>
   {/each}
 
-  {#snippet footer()}
+  {#snippet header()}
     <!-- Height placeholder matching capture progress bar to maintain exact board container height -->
-    <div class="hidden xl:block h-3 w-full mt-3 px-1 invisible" aria-hidden="true"></div>
+    <div class="hidden xl:block h-3 w-full mb-3 px-1 invisible" aria-hidden="true"></div>
   {/snippet}
 </BoardFrame>

@@ -5,6 +5,7 @@
     class?: string;
     surfaceClass?: string;
     surfaceElement?: HTMLDivElement | null;
+    header?: Snippet;
     children: Snippet;
     footer?: Snippet;
   }
@@ -13,6 +14,7 @@
     class: className = '',
     surfaceClass = '',
     surfaceElement = $bindable(null),
+    header,
     children,
     footer,
   }: Props = $props();
@@ -21,6 +23,10 @@
 <div
   class="relative flex flex-col items-center justify-center w-full max-w-[480px] xl:max-w-[540px] select-none mx-auto {className}"
 >
+  {#if header}
+    {@render header()}
+  {/if}
+
   <!-- Concentric 2-layer board frame: p-1 (4px) bg-border outer frame + rounded-xl inner surface avoids subpixel border gaps without covering perimeter tiles -->
   <div
     class="relative w-full aspect-square shrink-0 rounded-2xl bg-border p-1 shadow-xs"

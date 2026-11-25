@@ -44,58 +44,58 @@
 <aside class="flex flex-col justify-between h-[500px] lg:h-[520px] max-h-[70vh] py-2 select-none">
   <!-- Top: Level Name with Dynamic Underlay, Counter, and Navigation -->
   <div class="space-y-4">
-    <div class="space-y-1.5">
-      <div bind:this={titleWrapperEl} class="relative overflow-visible">
-        {#if showWatermark}
-          <div
-            class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-border transition-all duration-200
-              {isMultiLine
-                ? 'left-[58%] -translate-x-1/2 size-32 lg:size-36'
-                : '-translate-x-[45%] size-24 lg:size-28'}"
-            style={isMultiLine ? '' : (anchorX !== null ? `left: ${anchorX}px;` : 'left: 70%;')}
-            aria-hidden="true"
-          >
-            {#if game.isLevelCompleted}
-              <div class={game.justCleared ? 'animate-pop-in' : ''}>
+    <div bind:this={titleWrapperEl} class="relative overflow-visible flex items-center {isMultiLine ? 'min-h-36' : 'min-h-28'}">
+      {#if showWatermark}
+        <div
+          class="absolute top-1/2 -translate-y-1/2 pointer-events-none z-0 text-border transition-all duration-200
+            {isMultiLine
+              ? 'left-[58%] -translate-x-1/2 size-32 lg:size-36'
+              : '-translate-x-[45%] size-24 lg:size-28'}"
+          style={isMultiLine ? '' : (anchorX !== null ? `left: ${anchorX}px;` : 'left: 70%;')}
+          aria-hidden="true"
+        >
+          {#if game.isLevelCompleted}
+            <div class={game.justCleared ? 'animate-pop-in' : ''}>
+              <AnimateIcon
+                icon={CircleCheckBig}
+                size={isMultiLine ? 144 : 112}
+                class="w-full h-full"
+                autoplay={game.justCleared}
+              />
+            </div>
+          {:else if isFischersRiddle}
+            {#key game.currentLevel.id}
+              <div class="w-full h-full flex items-center justify-center animate-king-watermark">
+                <ChessPiece type="king" class="w-full h-full text-border" />
+              </div>
+            {/key}
+          {:else if customAnimatedIcon}
+            {#key game.currentLevel.id}
+              <div class="w-full h-full flex items-center justify-center">
                 <AnimateIcon
-                  icon={CircleCheckBig}
+                  icon={customAnimatedIcon}
                   size={isMultiLine ? 144 : 112}
-                  class="w-full h-full"
-                  autoplay={game.justCleared}
+                  class="w-full h-full text-border"
+                  autoplay={true}
                 />
               </div>
-            {:else if isFischersRiddle}
-              {#key game.currentLevel.id}
-                <div class="w-full h-full flex items-center justify-center animate-king-watermark">
-                  <ChessPiece type="king" class="w-full h-full text-border" />
-                </div>
-              {/key}
-            {:else if customAnimatedIcon}
-              {#key game.currentLevel.id}
-                <div class="w-full h-full flex items-center justify-center">
-                  <AnimateIcon
-                    icon={customAnimatedIcon}
-                    size={isMultiLine ? 144 : 112}
-                    class="w-full h-full text-border"
-                    autoplay={true}
-                  />
-                </div>
-              {/key}
-            {/if}
-          </div>
-        {/if}
+            {/key}
+          {/if}
+        </div>
+      {/if}
 
+      <div class="relative z-10 space-y-1.5">
         <h2
           bind:clientHeight={titleHeight}
-          class="relative z-10 text-3xl lg:text-4xl xl:text-[2.65rem] font-black tracking-tight text-foreground leading-tight"
+          class="text-3xl lg:text-4xl xl:text-[2.65rem] font-black tracking-tight text-foreground leading-tight"
         >
           {game.currentLevel.name}<span bind:this={anchorEl} class="inline-block w-0 h-0 invisible"></span>
         </h2>
-      </div>
 
-      <span class="relative z-10 text-xs sm:text-sm font-mono font-bold text-muted-foreground uppercase tracking-wider block">
-        Puzzle {String(game.currentLevel.id).padStart(2, '0')} / {game.totalLevels}
-      </span>
+        <span class="text-xs sm:text-sm font-mono font-bold text-muted-foreground uppercase tracking-wider block">
+          Puzzle {String(game.currentLevel.id).padStart(2, '0')} / {game.totalLevels}
+        </span>
+      </div>
     </div>
 
     <LevelNavigation class="pt-1" />

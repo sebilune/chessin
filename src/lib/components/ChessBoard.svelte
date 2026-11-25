@@ -422,11 +422,11 @@
     </svg>
   {/if}
 
-  {#snippet footer()}
+  {#snippet header()}
     <CaptureProgressBar
       totalCaptures={game.initialPieceCount - 1}
       capturesCompleted={game.initialPieceCount - game.piecesRemaining}
-      class="hidden xl:flex mt-3 px-1"
+      class="hidden xl:flex mb-3 px-1"
     />
   {/snippet}
 </BoardFrame>
