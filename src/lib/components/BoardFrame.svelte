@@ -24,7 +24,9 @@
   class="relative flex flex-col items-center justify-center w-full max-w-[480px] xl:max-w-[540px] select-none mx-auto {className}"
 >
   {#if header}
-    {@render header()}
+    <div class="absolute bottom-full mb-3 inset-x-0">
+      {@render header()}
+    </div>
   {/if}
 
   <!-- Concentric 2-layer board frame: p-1 (4px) bg-border outer frame + rounded-xl inner surface avoids subpixel border gaps without covering perimeter tiles -->

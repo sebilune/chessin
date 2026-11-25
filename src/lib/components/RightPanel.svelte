@@ -3,7 +3,7 @@
   import MoveHistory from '$lib/components/MoveHistory.svelte';
 </script>
 
-<aside class="flex flex-col h-[500px] lg:h-[520px] max-h-[70vh] py-2 select-none">
+<aside class="flex flex-col h-full select-none">
   <div class="shrink-0">
     <ActionControls showShortcuts={true} />
   </div>

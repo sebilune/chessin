@@ -41,7 +41,7 @@
   });
 </script>
 
-<aside class="flex flex-col justify-between h-[500px] lg:h-[520px] max-h-[70vh] py-2 select-none">
+<aside class="flex flex-col justify-between h-full select-none">
   <!-- Top: Level Name with Dynamic Underlay, Counter, and Navigation -->
   <div class="space-y-4">
     <div bind:this={titleWrapperEl} class="relative overflow-visible flex items-center {isMultiLine ? 'min-h-36' : 'min-h-28'}">

@@ -273,8 +273,8 @@
   </div>
 
   <!-- Desktop Arena Layout (>= xl): 3-column side-by-side view -->
-  <div class="relative z-10 hidden xl:flex flex-1 items-center justify-center min-h-0 w-full max-w-7xl mx-auto py-2">
-    <div class="w-full flex items-center justify-center gap-12 xl:gap-14">
+  <div class="relative z-10 hidden xl:flex flex-1 items-center justify-center min-h-0 w-full max-w-7xl mx-auto pt-6 pb-2">
+    <div class="w-full flex items-stretch justify-center gap-12 xl:gap-14">
       <!-- Left Controls Panel -->
       <div class="w-72 shrink-0">
         <LeftPanel />
