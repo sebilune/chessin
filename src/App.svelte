@@ -188,7 +188,7 @@
             class="absolute bottom-full pb-2 left-1/2 -translate-x-1/2 lg:bottom-auto lg:pb-0 lg:top-full lg:pt-2 z-50"
           >
             <div
-              class="w-10 sm:w-11 rounded-xl border-4 border-border bg-background text-foreground py-2.5 flex flex-col items-center gap-2 shadow-xs"
+              class="w-10 sm:w-11 rounded-xl border-4 border-border bg-background text-foreground py-2 flex flex-col items-center shadow-xs"
             >
               <VolumeSlider
                 value={game.soundEnabled ? game.soundVolume : 0}
@@ -201,9 +201,6 @@
                 }}
                 aria-label="Audio Volume"
               />
-              <span class="text-xs sm:text-sm lg:text-base font-mono font-bold text-primary tabular-nums leading-none">
-                {game.soundEnabled ? game.soundVolume : 0}
-              </span>
             </div>
           </div>
         {/if}
