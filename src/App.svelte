@@ -15,8 +15,7 @@
   import ChessPiece from '$lib/components/ChessPiece.svelte';
   import VolumeSlider from '$lib/components/VolumeSlider.svelte';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
-  import { Languages } from '@lucide/svelte';
-  import { Volume2, VolumeX, Sun, Moon, Github, RotateCcw } from '@animateicons/vanilla/lucide';
+  import { Volume2, VolumeX, Sun, Moon, Github, RotateCcw, Languages } from '@animateicons/vanilla/lucide';
 
   let volumeOpen = $state(false);
   let volumeHovered = $state(false);
@@ -200,7 +199,7 @@
           aria-label={m.change_language({}, { locale: i18n.locale })}
           aria-expanded={langOpen}
         >
-          <Languages class="size-6 stroke-[2.25]" />
+          <AnimateIcon icon={Languages} size={24} class="size-6" />
         </Button>
 
         {#if langOpen}
