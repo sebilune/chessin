@@ -15,6 +15,8 @@
   import { Volume2, VolumeX, Sun, Moon, Github } from '@animateicons/vanilla/lucide';
 
   let volumeOpen = $state(false);
+  let volumeHovered = $state(false);
+  let volumeDragging = $state(false);
   let volumeCloseTimer: ReturnType<typeof setTimeout> | null = null;
 
   function openVolumeMenu() {
@@ -26,11 +28,14 @@
   }
 
   function scheduleCloseVolumeMenu() {
+    if (volumeDragging) return;
     if (volumeCloseTimer) clearTimeout(volumeCloseTimer);
     volumeCloseTimer = setTimeout(() => {
-      volumeOpen = false;
+      if (!volumeDragging && !volumeHovered) {
+        volumeOpen = false;
+      }
       volumeCloseTimer = null;
-    }, 120);
+    }, 150);
   }
 
   function handleKeyDown(event: KeyboardEvent) {
@@ -114,7 +119,7 @@
   ></div>
 
   <!-- Header: Logo on Left, Sound and Theme Toggles on Right (Bottom on mobile, Top on desktop) -->
-  <header class="relative z-10 w-full max-w-[480px] lg:max-w-none mx-auto flex items-center justify-between order-2 lg:order-1 pt-4 lg:pt-0 lg:pb-2 shrink-0">
+  <header class="relative z-30 w-full max-w-[480px] lg:max-w-none mx-auto flex items-center justify-between order-2 lg:order-1 pt-4 lg:pt-0 lg:pb-2 shrink-0">
     <!-- Top Left Site Branding -->
     <div class="flex items-center gap-1.5">
       <ChessPiece type="queen" class="size-5 sm:size-6 text-foreground shrink-0" />
@@ -143,10 +148,16 @@
         role="group"
         aria-label="Audio Controls"
         onpointerenter={(e) => {
-          if (e.pointerType !== 'touch') openVolumeMenu();
+          if (e.pointerType !== 'touch') {
+            volumeHovered = true;
+            openVolumeMenu();
+          }
         }}
         onpointerleave={(e) => {
-          if (e.pointerType !== 'touch') scheduleCloseVolumeMenu();
+          if (e.pointerType !== 'touch') {
+            volumeHovered = false;
+            scheduleCloseVolumeMenu();
+          }
         }}
         onfocusin={openVolumeMenu}
         onfocusout={(e) => {
@@ -181,6 +192,12 @@
               <VolumeSlider
                 value={game.soundEnabled ? game.soundVolume : 0}
                 onchange={(value) => game.setSoundVolume(value)}
+                ondragchange={(dragging) => {
+                  volumeDragging = dragging;
+                  if (!dragging && !volumeHovered) {
+                    scheduleCloseVolumeMenu();
+                  }
+                }}
                 aria-label="Audio Volume"
               />
               <span class="text-xs sm:text-sm lg:text-base font-mono font-bold text-primary tabular-nums leading-none">

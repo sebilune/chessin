@@ -2,10 +2,16 @@
   interface Props {
     value: number;
     onchange: (value: number) => void;
+    ondragchange?: (dragging: boolean) => void;
     'aria-label'?: string;
   }
 
-  let { value, onchange, 'aria-label': ariaLabel = 'Volume' }: Props = $props();
+  let {
+    value,
+    onchange,
+    ondragchange,
+    'aria-label': ariaLabel = 'Volume',
+  }: Props = $props();
 
   let sliderEl = $state<HTMLDivElement | null>(null);
   let trackEl = $state<HTMLDivElement | null>(null);
@@ -23,6 +29,7 @@
     if (e.button !== 0 || !sliderEl) return;
     e.preventDefault();
     isDragging = true;
+    ondragchange?.(true);
     sliderEl.setPointerCapture(e.pointerId);
     updateFromPointer(e.clientY);
   }
@@ -35,6 +42,7 @@
   function handlePointerUp(e: PointerEvent) {
     if (!isDragging || !sliderEl) return;
     isDragging = false;
+    ondragchange?.(false);
     if (sliderEl.hasPointerCapture(e.pointerId)) {
       sliderEl.releasePointerCapture(e.pointerId);
     }
