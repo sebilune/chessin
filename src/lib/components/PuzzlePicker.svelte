@@ -13,7 +13,7 @@
 <div class="relative flex flex-col items-center justify-center w-full max-w-[460px] sm:max-w-[480px] lg:max-w-[520px] xl:max-w-[540px] select-none mx-auto">
   <!-- 8x8 Chessboard Grid (Strictly 1:1 Aspect Ratio) -->
   <div
-    class="relative w-full aspect-square shrink-0 grid grid-cols-8 grid-rows-8 rounded-2xl overflow-hidden border-4 border-border shadow-xs"
+    class="relative w-full aspect-square shrink-0 grid grid-cols-8 grid-rows-8 rounded-2xl overflow-hidden bg-board-square-dark shadow-xs"
     style="aspect-ratio: 1 / 1;"
   >
     {#each Array(64) as _, idx}
@@ -53,6 +53,9 @@
         {/if}
       </button>
     {/each}
+
+    <!-- Outer board border overlay: drawn over tile perimeter to eliminate subpixel corner clipping gaps -->
+    <div class="pointer-events-none absolute inset-0 rounded-2xl border-4 border-border z-20"></div>
   </div>
 
   <!-- Height placeholder matching capture progress bar to maintain exact board container height -->
