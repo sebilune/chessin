@@ -43,6 +43,8 @@
   let animatingMove = $state<AnimatingMove | null>(null);
   let slideActive = $state<boolean>(false);
   let animationTimer: ReturnType<typeof setTimeout> | null = null;
+  let takeWobble = $state<{ row: number; col: number; key: number } | null>(null);
+  let prevMoveCount = 0;
 
   function isSquareSelected(r: number, c: number): boolean {
     return game.selectedPiece !== null && game.selectedPiece.row === r && game.selectedPiece.col === c;
@@ -86,8 +88,20 @@
 
   $effect(() => {
     // Cancel in-flight animation on level switch
-    game.levelIndex;
+    void game.levelIndex;
     clearAnimation();
+    takeWobble = null;
+  });
+
+  $effect(() => {
+    const count = game.moveHistory.length;
+    if (count > prevMoveCount) {
+      const lastMove = game.moveHistory[count - 1];
+      takeWobble = { row: lastMove.to.row, col: lastMove.to.col, key: count };
+    } else if (count < prevMoveCount) {
+      takeWobble = null;
+    }
+    prevMoveCount = count;
   });
 
   $effect(() => {
@@ -273,6 +287,7 @@
         {@const isHovered = hoveredTarget !== null && hoveredTarget.row === r && hoveredTarget.col === c}
         {@const isBeingDragged = dragState !== null && dragState.isDragging && dragState.piece.id === piece?.id}
         {@const isAttackerOrigin = animatingMove !== null && animatingMove.from.row === r && animatingMove.from.col === c}
+        {@const isTakeWobble = takeWobble !== null && takeWobble.row === r && takeWobble.col === c}
 
         <button
           type="button"
@@ -312,16 +327,19 @@
 
           <!-- Chess Piece SVG: Proportional to square size -->
           {#if piece}
-            <div
-              class="relative z-0 flex items-center justify-center w-full h-full text-foreground transition-opacity
-                {isBeingDragged ? 'opacity-20' : ''}
-                {isAttackerOrigin ? 'opacity-0' : 'opacity-100'}"
-            >
-              <ChessPiece
-                type={piece.type}
-                class="w-[64%] h-[64%] max-w-[65px] max-h-[65px] pointer-events-none"
-              />
-            </div>
+            {#key isTakeWobble ? takeWobble?.key : 0}
+              <div
+                class="relative z-0 flex items-center justify-center w-full h-full text-foreground transition-opacity
+                  {isBeingDragged ? 'opacity-20' : ''}
+                  {isAttackerOrigin ? 'opacity-0' : 'opacity-100'}
+                  {isTakeWobble ? 'animate-piece-take-wobble' : ''}"
+              >
+                <ChessPiece
+                  type={piece.type}
+                  class="w-[64%] h-[64%] max-w-[65px] max-h-[65px] pointer-events-none"
+                />
+              </div>
+            {/key}
           {/if}
         </button>
       {/each}
@@ -345,7 +363,7 @@
     >
       <ChessPiece
         type={animatingMove.attacker.type}
-        class="w-[64%] h-[64%] max-w-[65px] max-h-[65px]"
+        class="w-[64%] h-[64%] max-w-[65px] max-h-[65px] animate-piece-travel-arc"
       />
     </div>
   {/if}
@@ -376,6 +394,6 @@
     class="fixed pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 will-change-transform text-foreground"
     style="left: {dragState.currentX}px; top: {dragState.currentY}px; width: {dragState.size}px; height: {dragState.size}px;"
   >
-    <ChessPiece type={dragState.piece.type} class="w-full h-full drop-shadow-xl" />
+    <ChessPiece type={dragState.piece.type} class="w-full h-full drop-shadow-xl animate-piece-drag-wobble" />
   </div>
 {/if}

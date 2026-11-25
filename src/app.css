@@ -169,6 +169,47 @@ body.cursor-grabbing * {
   animation: pop-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+@keyframes piece-wobble {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(calc(var(--wobble-angle, 8deg) * -1));
+  }
+  75% {
+    transform: rotate(var(--wobble-angle, 8deg));
+  }
+}
+
+.animate-piece-drag-wobble {
+  --wobble-angle: 9deg;
+  animation: piece-wobble 0.42s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.animate-piece-take-wobble {
+  --wobble-angle: 5deg;
+  animation: piece-wobble 0.16s ease-in-out 1;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@keyframes piece-travel-arc {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.28);
+  }
+}
+
+.animate-piece-travel-arc {
+  animation: piece-travel-arc 180ms cubic-bezier(0.45, 0, 0.55, 1) both;
+  transform-origin: center;
+  will-change: transform;
+}
+
 .chess-bg-pattern {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192' viewBox='0 0 2 2'%3E%3Crect x='1' y='0' width='1' height='1' fill='%23000'/%3E%3Crect x='0' y='1' width='1' height='1' fill='%23000'/%3E%3C/svg%3E");
   background-size: 192px 192px;
