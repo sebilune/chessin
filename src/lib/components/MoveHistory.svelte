@@ -7,14 +7,15 @@
   import { ArrowRight } from '@lucide/svelte';
   import { Footprints } from '@animateicons/vanilla/lucide';
 
-  let { class: className = '' }: { class?: string } = $props();
+  let { class: className = '', defaultOpen = true }: { class?: string; defaultOpen?: boolean } = $props();
 
   const hasMoves = $derived(game.moveHistory.length > 0);
-  let isOpen = $state(true);
+  let isOpen = $state<boolean | null>(null);
+  const expanded = $derived(isOpen ?? defaultOpen);
   let scrollContainer = $state<HTMLDivElement | null>(null);
 
   $effect(() => {
-    if (isOpen && game.moveHistory.length > 0 && scrollContainer) {
+    if (expanded && game.moveHistory.length > 0 && scrollContainer) {
       scrollContainer.scrollTo({
         top: scrollContainer.scrollHeight,
         behavior: 'smooth'
@@ -24,15 +25,15 @@
 </script>
 
 <div
-  class="w-full rounded-2xl border-4 border-border bg-background text-foreground flex flex-col min-h-0 overflow-hidden shadow-xs {hasMoves && isOpen ? 'p-4 sm:p-5 max-h-80 xl:max-h-full' : 'h-14 justify-center'} {!hasMoves ? 'opacity-50' : ''} {className}"
+  class="w-full rounded-2xl border-4 border-border bg-background text-foreground flex flex-col min-h-0 overflow-hidden shadow-xs {hasMoves && expanded ? 'p-4 sm:p-5 max-h-80 xl:max-h-full' : 'h-14 justify-center'} {!hasMoves ? 'opacity-50' : ''} {className}"
 >
   <!-- Header: Toggle Button -->
   <button
     type="button"
     disabled={!hasMoves}
-    onclick={() => (isOpen = !isOpen)}
-    aria-expanded={hasMoves ? isOpen : false}
-    class="flex items-center justify-center shrink-0 w-full cursor-pointer disabled:cursor-not-allowed {hasMoves && isOpen ? 'pb-3 mb-3 border-b-4 border-border' : 'h-full px-4 sm:px-5'}"
+    onclick={() => (isOpen = !expanded)}
+    aria-expanded={hasMoves ? expanded : false}
+    class="flex items-center justify-center shrink-0 w-full cursor-pointer disabled:cursor-not-allowed {hasMoves && expanded ? 'pb-3 mb-3 border-b-4 border-border' : 'h-full px-4 sm:px-5'}"
   >
     <div class="flex items-center gap-2">
       <AnimateIcon
@@ -45,7 +46,7 @@
     </div>
   </button>
 
-  {#if hasMoves && isOpen}
+  {#if hasMoves && expanded}
     <!-- Move Rows List -->
     <div bind:this={scrollContainer} class="flex-1 overflow-y-auto space-y-2.5 min-h-0 pr-0.5">
       {#each game.moveHistory as move, idx}

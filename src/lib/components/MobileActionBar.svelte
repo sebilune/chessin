@@ -96,5 +96,5 @@
     </Button>
   </div>
 
-  <MoveHistory />
+  <MoveHistory defaultOpen={false} />
 </div>
