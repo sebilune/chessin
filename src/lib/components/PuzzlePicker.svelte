@@ -14,7 +14,7 @@
   }
 </script>
 
-<BoardFrame surfaceClass="grid grid-cols-8 grid-rows-8">
+<BoardFrame levelId={game.currentLevel.id} surfaceClass="grid grid-cols-8 grid-rows-8">
   {#each Array(64) as _, idx}
     {@const puzzleNumber = idx + 1}
     {@const row = Math.floor(idx / 8)}
@@ -88,7 +88,7 @@
     </button>
   {/each}
 
-  {#snippet header()}
+  {#snippet footer()}
     <MorseBar class="hidden xl:flex mt-0 px-1" />
   {/snippet}
 </BoardFrame>

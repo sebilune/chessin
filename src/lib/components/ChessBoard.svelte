@@ -311,6 +311,7 @@
 />
 
 <BoardFrame
+  levelId={game.currentLevel.id}
   class="touch-none"
   surfaceClass="grid grid-rows-5 touch-none"
   bind:surfaceElement={gridElement}
@@ -439,7 +440,7 @@
     </svg>
   {/if}
 
-  {#snippet header()}
+  {#snippet footer()}
     <CaptureProgressBar
       totalCaptures={game.initialPieceCount - 1}
       capturesCompleted={game.initialPieceCount - game.piecesRemaining}
