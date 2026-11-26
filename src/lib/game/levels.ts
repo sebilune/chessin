@@ -747,7 +747,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 58,
-    name: "Fool's Trap",
+    name: "King's Trap",
     difficulty: "hard",
     pieces: [
       { type: "rook", row: 0, col: 1 },
