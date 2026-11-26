@@ -4,7 +4,7 @@ export const LEVELS: Level[] = [
   // EASY (1-10: 3 to 4 pieces, no queen)
   {
     id: 1,
-    name: "First Blood",
+    name: "The Tutorial",
     difficulty: "easy",
     pieces: [
       { type: "rook", row: 2, col: 1 },
@@ -14,7 +14,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 2,
-    name: "The Cross",
+    name: "The Triangle",
     difficulty: "easy",
     pieces: [
       { type: "rook", row: 0, col: 2 },
@@ -100,7 +100,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 10,
-    name: "Perimeter",
+    name: "On the Clock",
     difficulty: "easy",
     pieces: [
       { type: "rook", row: 1, col: 1 },
@@ -137,7 +137,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 13,
-    name: "Gauntlet",
+    name: "Vertical Corridor",
     difficulty: "medium",
     pieces: [
       { type: "rook", row: 0, col: 1 },
@@ -149,7 +149,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 14,
-    name: "Ambush",
+    name: "Central L",
     difficulty: "medium",
     pieces: [
       { type: "knight", row: 0, col: 2 },
@@ -161,7 +161,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 15,
-    name: "Iron Fortress",
+    name: "Outer Ring",
     difficulty: "medium",
     pieces: [
       { type: "king", row: 2, col: 2 },
@@ -185,7 +185,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 17,
-    name: "Crossfire",
+    name: "Corner Battery",
     difficulty: "medium",
     pieces: [
       { type: "rook", row: 1, col: 1 },
@@ -366,7 +366,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 31,
-    name: "Sovereign's March",
+    name: "Sovereign March",
     difficulty: "hard",
     pieces: [
       { type: "bishop", row: 4, col: 0 },
@@ -572,7 +572,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 46,
-    name: "Sovereign's End",
+    name: "Sovereign End",
     difficulty: "hard",
     pieces: [
       { type: "bishop", row: 4, col: 0 },
@@ -657,7 +657,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 52,
-    name: "Bloodhound",
+    name: "The Hound",
     difficulty: "hard",
     pieces: [
       { type: "knight", row: 0, col: 4 },
@@ -747,7 +747,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 58,
-    name: "Grandmaster's Trap",
+    name: "Fool's Trap",
     difficulty: "hard",
     pieces: [
       { type: "rook", row: 0, col: 1 },
@@ -792,7 +792,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 61,
-    name: "Endgame Enigma",
+    name: "The Endgame",
     difficulty: "hard",
     pieces: [
       { type: "bishop", row: 0, col: 1 },
