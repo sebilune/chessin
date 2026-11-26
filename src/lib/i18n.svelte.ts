@@ -13,6 +13,7 @@ export const LOCALE_LABELS: Record<Locale, { code: string; name: string }> = {
   ja: { code: 'JA', name: '日本語' },
   ru: { code: 'RU', name: 'Русский' },
   de: { code: 'DE', name: 'Deutsch' },
+  fr: { code: 'FR', name: 'Français' },
 };
 
 class I18nStore {
