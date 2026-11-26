@@ -8,8 +8,8 @@
     <ActionControls showShortcuts={true} />
   </div>
 
-  <!-- Move History Card with Dynamic Height Expansion -->
-  <div class="flex-1 min-h-0 mt-3 flex flex-col justify-start">
+  <!-- Move History Card with Dynamic Height Expansion (capped at chessboard height) -->
+  <div class="flex-1 min-h-0 mt-3 flex flex-col justify-start overflow-hidden">
     <MoveHistory class="max-h-full" />
   </div>
 </aside>

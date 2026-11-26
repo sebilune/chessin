@@ -19,6 +19,7 @@
   import { Volume2, VolumeX, Sun, Moon, Github, RotateCcw, Languages } from '@animateicons/vanilla/lucide';
 
   let volumeDragging = $state(false);
+  let boardHeight = $state<number>(0);
 
   const isChessinOrg =
     typeof window !== 'undefined' &&
@@ -276,14 +277,20 @@
 
   <!-- Desktop Arena Layout (>= xl): 3-column side-by-side view -->
   <div class="relative z-10 hidden xl:flex flex-1 items-center justify-center min-h-0 w-full max-w-7xl mx-auto pt-6 pb-2">
-    <div class="w-full flex items-stretch justify-center gap-12 xl:gap-14">
+    <div
+      class="w-full flex items-stretch justify-center gap-12 xl:gap-14"
+      style={boardHeight > 0 ? `height: ${boardHeight}px; max-height: ${boardHeight}px;` : ''}
+    >
       <!-- Left Controls Panel -->
-      <div class="w-72 shrink-0">
+      <div class="w-72 shrink-0 min-h-0">
         <LeftPanel />
       </div>
 
       <!-- Chess Board in Center -->
-      <div class="flex flex-col items-center justify-center flex-1 max-w-[540px] px-2">
+      <div
+        bind:clientHeight={boardHeight}
+        class="flex flex-col items-center justify-center flex-1 max-w-[540px] px-2"
+      >
         {#if game.showPuzzlePicker}
           <PuzzlePicker />
         {:else}
@@ -292,7 +299,7 @@
       </div>
 
       <!-- Right Controls Panel -->
-      <div class="w-72 shrink-0">
+      <div class="w-72 shrink-0 min-h-0">
         <RightPanel />
       </div>
     </div>
