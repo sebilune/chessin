@@ -445,6 +445,7 @@
     <CaptureProgressBar
       totalCaptures={game.initialPieceCount - 1}
       capturesCompleted={game.initialPieceCount - game.piecesRemaining}
+      isHard={game.currentLevel.difficulty === 'hard'}
       class="hidden xl:flex mt-0 px-1"
     />
   {/snippet}
