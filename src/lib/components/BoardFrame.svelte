@@ -66,7 +66,7 @@
     style="aspect-ratio: 1 / 1;"
   >
     {#if levelId >= 57}
-      <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 -mb-3 z-0 flex items-end justify-center -space-x-3 text-border">
+      <div class="pointer-events-none hidden xl:flex absolute bottom-full left-1/2 -translate-x-1/2 -mb-3 z-0 items-end justify-center -space-x-3 text-border">
         {#each CROWN_FORMATION as slot}
           {#if levelId >= slot.minLevel}
             <div in:fly|global={{ y: 40, duration: animateCrown ? 600 : 0, opacity: 1 }}>
