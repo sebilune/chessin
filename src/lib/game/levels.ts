@@ -837,7 +837,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 64,
-    name: "Fischer's Riddle",
+    name: "The Hidden King",
     difficulty: "hard",
     hintsDisabled: true,
     pieces: [
