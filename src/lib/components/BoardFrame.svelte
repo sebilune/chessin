@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import { fly } from 'svelte/transition';
   import type { PieceType } from '../types';
   import ChessPiece from './ChessPiece.svelte';
 
@@ -30,6 +31,7 @@
     surfaceClass?: string;
     surfaceElement?: HTMLDivElement | null;
     levelId?: number;
+    animateCrown?: boolean;
     header?: Snippet;
     children: Snippet;
     footer?: Snippet;
@@ -40,6 +42,7 @@
     surfaceClass = '',
     surfaceElement = $bindable(null),
     levelId = 0,
+    animateCrown = false,
     header,
     children,
     footer,
@@ -61,17 +64,19 @@
     style="aspect-ratio: 1 / 1;"
   >
     {#if levelId >= 58}
-      <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 -mb-3 flex items-end justify-center -space-x-2 text-border">
+      <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 -mb-3 z-0 flex items-end justify-center -space-x-2 text-border">
         {#each CROWN_FORMATION as slot}
           {#if levelId >= slot.minLevel}
-            <ChessPiece type={slot.type} class={slot.sizeClass} />
+            <div in:fly|global={{ y: 40, duration: animateCrown ? 600 : 0, opacity: 1 }}>
+              <ChessPiece type={slot.type} class={slot.sizeClass} />
+            </div>
           {/if}
         {/each}
       </div>
     {/if}
     <div
       bind:this={surfaceElement}
-      class="relative w-full h-full rounded-xl overflow-hidden bg-board-square-dark {surfaceClass}"
+      class="relative z-10 w-full h-full rounded-xl overflow-hidden bg-board-square-dark {surfaceClass}"
     >
       {@render children()}
     </div>

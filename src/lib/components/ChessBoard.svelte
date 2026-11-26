@@ -312,6 +312,7 @@
 
 <BoardFrame
   levelId={game.currentLevel.id}
+  animateCrown={game.shouldAnimateCrown}
   class="touch-none"
   surfaceClass="grid grid-rows-5 touch-none"
   bind:surfaceElement={gridElement}

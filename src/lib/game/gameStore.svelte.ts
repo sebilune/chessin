@@ -49,6 +49,7 @@ export class GameStore {
   completedLevels = $state<number[]>([]);
   status = $state<GameStatus>("in_progress");
   justCleared = $state<boolean>(false);
+  shouldAnimateCrown = $state<boolean>(false);
   soundEnabled = $state<boolean>(true);
   soundVolume = $state<number>(100);
   theme = $state<"dark" | "light">("dark");
@@ -154,6 +155,7 @@ export class GameStore {
     ) {
       return;
     }
+    this.shouldAnimateCrown = false;
     this.levelIndex = index;
     this.showPuzzlePicker = false;
     this.loadCurrentLevel();
@@ -233,6 +235,7 @@ export class GameStore {
       this.advanceTimeout = setTimeout(() => {
         if (this.levelIndex < this.totalLevels - 1) {
           this.nextLevel();
+          this.shouldAnimateCrown = true;
         }
       }, 700);
     } else {
