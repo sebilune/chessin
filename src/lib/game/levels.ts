@@ -14,7 +14,7 @@ export const LEVELS: Level[] = [
   },
   {
     id: 2,
-    name: "The Triangle",
+    name: "Slidin'",
     difficulty: "easy",
     pieces: [
       { type: "rook", row: 0, col: 2 },
