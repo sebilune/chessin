@@ -11,19 +11,21 @@
   }
 
   const CROWN_FORMATION: CrownSlot[] = [
-    { minLevel: 64, type: 'pawn', sizeClass: 'size-6' },
+    { minLevel: 64, type: 'pawn', sizeClass: 'size-7' },
     { minLevel: 63, type: 'pawn', sizeClass: 'size-8' },
-    { minLevel: 62, type: 'pawn', sizeClass: 'size-10' },
-    { minLevel: 61, type: 'bishop', sizeClass: 'size-12' },
-    { minLevel: 60, type: 'knight', sizeClass: 'size-14' },
-    { minLevel: 59, type: 'rook', sizeClass: 'size-16' },
-    { minLevel: 58, type: 'king', sizeClass: 'size-20' },
-    { minLevel: 59, type: 'rook', sizeClass: 'size-16' },
-    { minLevel: 60, type: 'knight', sizeClass: 'size-14' },
-    { minLevel: 61, type: 'bishop', sizeClass: 'size-12' },
-    { minLevel: 62, type: 'pawn', sizeClass: 'size-10' },
+    { minLevel: 62, type: 'pawn', sizeClass: 'size-9' },
+    { minLevel: 61, type: 'pawn', sizeClass: 'size-10' },
+    { minLevel: 60, type: 'bishop', sizeClass: 'size-12' },
+    { minLevel: 59, type: 'knight', sizeClass: 'size-14' },
+    { minLevel: 58, type: 'rook', sizeClass: 'size-16' },
+    { minLevel: 57, type: 'king', sizeClass: 'size-20' },
+    { minLevel: 58, type: 'rook', sizeClass: 'size-16' },
+    { minLevel: 59, type: 'knight', sizeClass: 'size-14' },
+    { minLevel: 60, type: 'bishop', sizeClass: 'size-12' },
+    { minLevel: 61, type: 'pawn', sizeClass: 'size-10' },
+    { minLevel: 62, type: 'pawn', sizeClass: 'size-9' },
     { minLevel: 63, type: 'pawn', sizeClass: 'size-8' },
-    { minLevel: 64, type: 'pawn', sizeClass: 'size-6' },
+    { minLevel: 64, type: 'pawn', sizeClass: 'size-7' },
   ];
 
   interface Props {
@@ -63,8 +65,8 @@
     class="relative w-full aspect-square shrink-0 rounded-2xl bg-border p-1 shadow-xs"
     style="aspect-ratio: 1 / 1;"
   >
-    {#if levelId >= 58}
-      <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 -mb-3 z-0 flex items-end justify-center -space-x-2 text-border">
+    {#if levelId >= 57}
+      <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 -mb-3 z-0 flex items-end justify-center -space-x-3 text-border">
         {#each CROWN_FORMATION as slot}
           {#if levelId >= slot.minLevel}
             <div in:fly|global={{ y: 40, duration: animateCrown ? 600 : 0, opacity: 1 }}>

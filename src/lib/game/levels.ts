@@ -732,21 +732,6 @@ export const LEVELS: Level[] = [
   },
   {
     id: 57,
-    name: "Checkmate Alley",
-    difficulty: "hard",
-    pieces: [
-      { type: "knight", row: 0, col: 1 },
-      { type: "rook", row: 0, col: 2 },
-      { type: "rook", row: 1, col: 3 },
-      { type: "king", row: 2, col: 0 },
-      { type: "rook", row: 2, col: 3 },
-      { type: "knight", row: 3, col: 3 },
-      { type: "pawn", row: 4, col: 1 },
-      { type: "king", row: 4, col: 4 },
-    ],
-  },
-  {
-    id: 58,
     name: "King's Trap",
     difficulty: "hard",
     pieces: [
@@ -758,6 +743,21 @@ export const LEVELS: Level[] = [
       { type: "king", row: 3, col: 3 },
       { type: "king", row: 4, col: 2 },
       { type: "knight", row: 4, col: 4 },
+    ],
+  },
+  {
+    id: 58,
+    name: "Checkmate Alley",
+    difficulty: "hard",
+    pieces: [
+      { type: "knight", row: 0, col: 1 },
+      { type: "rook", row: 0, col: 2 },
+      { type: "rook", row: 1, col: 3 },
+      { type: "king", row: 2, col: 0 },
+      { type: "rook", row: 2, col: 3 },
+      { type: "knight", row: 3, col: 3 },
+      { type: "pawn", row: 4, col: 1 },
+      { type: "king", row: 4, col: 4 },
     ],
   },
   {
