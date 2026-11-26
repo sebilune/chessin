@@ -264,14 +264,9 @@
       {/if}
     </div>
 
-    <!-- Single row of 4 icon controls under the board -->
+    <!-- Mobile Action Controls & Move History -->
     <div class="w-full pt-0.5">
       <MobileActionBar />
-    </div>
-
-    <!-- Move History Box underneath the buttons -->
-    <div class="w-full">
-      <MoveHistory />
     </div>
   </div>
 

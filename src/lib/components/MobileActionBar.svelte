@@ -3,6 +3,7 @@
   import { i18n, m } from '$lib/i18n.svelte';
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
+  import MoveHistory from '$lib/components/MoveHistory.svelte';
   import { Undo, Redo, Puzzle, Eye, EyeClosed, ChevronLeft, ChevronRight } from '@animateicons/vanilla/lucide';
 
   const isHintActive = $derived(game.hintTargets.length > 0);
@@ -94,4 +95,6 @@
       <AnimateIcon icon={ChevronRight} size={24} class="size-6" />
     </Button>
   </div>
+
+  <MoveHistory />
 </div>
