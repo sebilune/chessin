@@ -11,19 +11,19 @@
   }
 
   const CROWN_FORMATION: CrownSlot[] = [
-    { minLevel: 64, type: 'rook', sizeClass: 'size-6' },
-    { minLevel: 63, type: 'rook', sizeClass: 'size-8' },
-    { minLevel: 62, type: 'knight', sizeClass: 'size-10' },
-    { minLevel: 61, type: 'knight', sizeClass: 'size-12' },
-    { minLevel: 60, type: 'pawn', sizeClass: 'size-14' },
-    { minLevel: 59, type: 'pawn', sizeClass: 'size-16' },
+    { minLevel: 64, type: 'pawn', sizeClass: 'size-6' },
+    { minLevel: 63, type: 'pawn', sizeClass: 'size-8' },
+    { minLevel: 62, type: 'pawn', sizeClass: 'size-10' },
+    { minLevel: 61, type: 'bishop', sizeClass: 'size-12' },
+    { minLevel: 60, type: 'knight', sizeClass: 'size-14' },
+    { minLevel: 59, type: 'rook', sizeClass: 'size-16' },
     { minLevel: 58, type: 'king', sizeClass: 'size-20' },
-    { minLevel: 59, type: 'pawn', sizeClass: 'size-16' },
-    { minLevel: 60, type: 'pawn', sizeClass: 'size-14' },
-    { minLevel: 61, type: 'knight', sizeClass: 'size-12' },
-    { minLevel: 62, type: 'knight', sizeClass: 'size-10' },
-    { minLevel: 63, type: 'rook', sizeClass: 'size-8' },
-    { minLevel: 64, type: 'rook', sizeClass: 'size-6' },
+    { minLevel: 59, type: 'rook', sizeClass: 'size-16' },
+    { minLevel: 60, type: 'knight', sizeClass: 'size-14' },
+    { minLevel: 61, type: 'bishop', sizeClass: 'size-12' },
+    { minLevel: 62, type: 'pawn', sizeClass: 'size-10' },
+    { minLevel: 63, type: 'pawn', sizeClass: 'size-8' },
+    { minLevel: 64, type: 'pawn', sizeClass: 'size-6' },
   ];
 
   interface Props {
