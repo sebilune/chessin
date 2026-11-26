@@ -110,7 +110,7 @@
   <header class="relative z-30 w-full max-w-[480px] xl:max-w-none mx-auto flex items-center justify-between pb-3 xl:pb-2 shrink-0">
     <!-- Top Left Site Branding -->
     <div class="flex items-center gap-1.5">
-      <ChessPiece type="queen" class="size-5 sm:size-6 text-foreground shrink-0" />
+      <ChessPiece type="queen" class="size-6 text-foreground shrink-0" />
       <span class="text-xl sm:text-2xl font-black tracking-tight text-foreground font-mono">
         {brandTitle}{game.isAdmin ? ' (ADMIN)' : ''}
       </span>
