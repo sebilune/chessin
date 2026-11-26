@@ -8,8 +8,8 @@ export const LEVELS: Level[] = [
     difficulty: "easy",
     pieces: [
       { type: "rook", row: 2, col: 1 },
-      { type: "bishop", row: 2, col: 3 },
-      { type: "knight", row: 4, col: 3 },
+      { type: "knight", row: 2, col: 3 },
+      { type: "king", row: 3, col: 4 },
     ],
   },
   {

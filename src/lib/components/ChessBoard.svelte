@@ -3,6 +3,7 @@
   import { BOARD_SIZE, FILES, RANKS, getPieceAt } from '$lib/game/chess';
   import type { Piece, Position } from '$lib/types';
   import { computeArrow } from '$lib/arrow';
+  import { getHint } from '$lib/game/solver';
   import {
     type DragState,
     createDragState,
@@ -62,13 +63,9 @@
 
   const tutorialArrow = $derived.by(() => {
     if (game.currentLevel.id !== 1 || game.status === 'cleared') return null;
-    if (game.moveHistory.length === 0) {
-      return computeArrow({ row: 2, col: 1 }, { row: 2, col: 3 }, TUTORIAL_ARROW_OPTIONS);
-    }
-    if (game.moveHistory.length === 1) {
-      return computeArrow({ row: 2, col: 3 }, { row: 4, col: 3 }, TUTORIAL_ARROW_OPTIONS);
-    }
-    return null;
+    const nextMove = getHint(game.pieces);
+    if (!nextMove) return null;
+    return computeArrow(nextMove.from, nextMove.to, TUTORIAL_ARROW_OPTIONS);
   });
 
   function clearAnimation() {
