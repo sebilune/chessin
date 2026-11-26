@@ -246,7 +246,7 @@
     }
   }
 
-  function handlePointerUp(e: PointerEvent) {
+  function handlePointerUp() {
     const currentDrag = dragState;
     if (!currentDrag) return;
 
@@ -257,15 +257,8 @@
           { row: hoveredTarget.row, col: hoveredTarget.col }
         );
       } else {
-        const releaseSquare = getSquareAtPointer(gridElement, e.clientX, e.clientY);
-        const releasedOnOrigin =
-          releaseSquare !== null &&
-          releaseSquare.row === currentDrag.startRow &&
-          releaseSquare.col === currentDrag.startCol;
-        if (!releasedOnOrigin) {
-          game.selectedPiece = null;
-          game.validTargets = [];
-        }
+        game.selectedPiece = null;
+        game.validTargets = [];
       }
     } else {
       // Short click: if previously selected piece has this as valid target, execute capture with slide animation
