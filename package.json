@@ -29,6 +29,7 @@
   "dependencies": {
     "@animateicons/vanilla": "^0.2.0",
     "@lucide/svelte": "^1.79.0",
+    "bits-ui": "^2.22.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.7.1"
   }
