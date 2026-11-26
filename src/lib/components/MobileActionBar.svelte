@@ -3,7 +3,7 @@
   import { i18n, m } from '$lib/i18n.svelte';
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
-  import { Undo, Redo, Puzzle, Eye, EyeClosed } from '@animateicons/vanilla/lucide';
+  import { Undo, Redo, Puzzle, Eye, EyeClosed, ChevronLeft, ChevronRight } from '@animateicons/vanilla/lucide';
 
   const isHintActive = $derived(game.hintTargets.length > 0);
   let hasToggledHint = $state(false);
@@ -15,7 +15,8 @@
   });
 </script>
 
-<div class="grid grid-cols-4 gap-2 w-full">
+<div class="space-y-2 w-full">
+  <div class="grid grid-cols-4 gap-2 w-full">
   <Button
     variant="outline"
     size="lg"
@@ -66,4 +67,31 @@
   >
     <AnimateIcon icon={Redo} size={22} class="size-5.5" />
   </Button>
+  </div>
+
+  <div class="grid grid-cols-2 gap-2">
+    <Button
+      variant="outline"
+      size="lg"
+      disabled={game.levelIndex === 0}
+      onclick={() => game.prevLevel()}
+      title={m.previous_puzzle({}, { locale: i18n.locale })}
+      aria-label={m.previous_puzzle({}, { locale: i18n.locale })}
+    >
+      <AnimateIcon icon={ChevronLeft} size={24} class="size-6" />
+      {m.prev({}, { locale: i18n.locale })}
+    </Button>
+
+    <Button
+      variant="outline"
+      size="lg"
+      disabled={!game.canNext}
+      onclick={() => game.nextLevel()}
+      title={m.next_puzzle({}, { locale: i18n.locale })}
+      aria-label={m.next_puzzle({}, { locale: i18n.locale })}
+    >
+      {m.next({}, { locale: i18n.locale })}
+      <AnimateIcon icon={ChevronRight} size={24} class="size-6" />
+    </Button>
+  </div>
 </div>
