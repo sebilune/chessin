@@ -792,21 +792,6 @@ export const LEVELS: Level[] = [
   },
   {
     id: 61,
-    name: "The Endgame",
-    difficulty: "hard",
-    pieces: [
-      { type: "bishop", row: 0, col: 1 },
-      { type: "rook", row: 0, col: 2 },
-      { type: "king", row: 0, col: 4 },
-      { type: "bishop", row: 1, col: 3 },
-      { type: "king", row: 2, col: 0 },
-      { type: "knight", row: 2, col: 2 },
-      { type: "bishop", row: 4, col: 3 },
-      { type: "rook", row: 4, col: 4 },
-    ],
-  },
-  {
-    id: 62,
     name: "Crown of Thorns",
     difficulty: "hard",
     pieces: [
@@ -818,6 +803,21 @@ export const LEVELS: Level[] = [
       { type: "knight", row: 3, col: 3 },
       { type: "knight", row: 3, col: 4 },
       { type: "pawn", row: 4, col: 1 },
+    ],
+  },
+  {
+    id: 62,
+    name: "The Endgame",
+    difficulty: "hard",
+    pieces: [
+      { type: "bishop", row: 0, col: 1 },
+      { type: "rook", row: 0, col: 2 },
+      { type: "king", row: 0, col: 4 },
+      { type: "bishop", row: 1, col: 3 },
+      { type: "king", row: 2, col: 0 },
+      { type: "knight", row: 2, col: 2 },
+      { type: "bishop", row: 4, col: 3 },
+      { type: "rook", row: 4, col: 4 },
     ],
   },
   {
