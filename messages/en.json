@@ -21,7 +21,7 @@
   "previous_puzzle": "Previous Puzzle",
   "next": "Next",
   "next_puzzle": "Next Puzzle",
-  "puzzle_counter": "Puzzle {current} / {total}",
+  "puzzle_counter": "{current} / {total}",
   "moves": "Moves",
   "select_piece_hint": "Select a piece to capture",
   "puzzle_aria": "Puzzle {number}",

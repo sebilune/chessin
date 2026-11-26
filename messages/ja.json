@@ -21,7 +21,7 @@
   "previous_puzzle": "前の問題",
   "next": "次へ",
   "next_puzzle": "次の問題",
-  "puzzle_counter": "問題 {current} / {total}",
+  "puzzle_counter": "{current} / {total}",
   "moves": "棋譜",
   "select_piece_hint": "取る駒を選んでください",
   "puzzle_aria": "問題 {number}",

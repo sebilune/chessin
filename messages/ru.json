@@ -21,7 +21,7 @@
   "previous_puzzle": "Предыдущая задача",
   "next": "След.",
   "next_puzzle": "Следующая задача",
-  "puzzle_counter": "Задача {current} / {total}",
+  "puzzle_counter": "{current} / {total}",
   "moves": "Ходы",
   "select_piece_hint": "Выберите фигуру для взятия",
   "puzzle_aria": "Задача {number}",

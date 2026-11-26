@@ -21,7 +21,7 @@
   "previous_puzzle": "Vorheriges Rätsel",
   "next": "Weiter",
   "next_puzzle": "Nächstes Rätsel",
-  "puzzle_counter": "Rätsel {current} / {total}",
+  "puzzle_counter": "{current} / {total}",
   "moves": "Züge",
   "select_piece_hint": "Wähle eine Figur zum Schlagen",
   "puzzle_aria": "Rätsel {number}",

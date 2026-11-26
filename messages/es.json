@@ -21,7 +21,7 @@
   "previous_puzzle": "Nivel anterior",
   "next": "Sig.",
   "next_puzzle": "Siguiente nivel",
-  "puzzle_counter": "Nivel {current} / {total}",
+  "puzzle_counter": "{current} / {total}",
   "moves": "Jugadas",
   "select_piece_hint": "Elige una pieza para capturar",
   "puzzle_aria": "Nivel {number}",

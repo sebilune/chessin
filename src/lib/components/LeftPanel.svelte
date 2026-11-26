@@ -93,7 +93,7 @@
           {getLevelName(game.currentLevel.id, game.currentLevel.name)}<span bind:this={anchorEl} class="inline-block w-0 h-0 invisible"></span>
         </h2>
 
-        <span class="text-xs sm:text-sm font-mono font-bold text-muted-foreground uppercase tracking-wider block">
+        <span class="text-sm sm:text-base font-bold text-muted-foreground uppercase tracking-wider block">
           {m.puzzle_counter({ current: String(game.currentLevel.id).padStart(2, '0'), total: String(game.totalLevels) }, { locale: i18n.locale })}
         </span>
       </div>
