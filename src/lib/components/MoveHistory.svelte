@@ -10,6 +10,10 @@
   let { class: className = '' }: { class?: string } = $props();
 
   const hasMoves = $derived(game.moveHistory.length > 0);
+
+  function autoScroll(node: HTMLElement) {
+    node.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
 </script>
 
 <div
@@ -33,7 +37,9 @@
     <div class="flex-1 overflow-y-auto space-y-2.5 min-h-0 pr-0.5">
       {#each game.moveHistory as move, idx}
         {@const targetSquare = positionToNotation(move.to)}
+        {@const isLastMove = idx === game.moveHistory.length - 1}
         <div
+          use:autoScroll
           class="flex items-center justify-between h-12 px-3.5 rounded-xl bg-card border-4 border-border text-foreground font-bold shadow-xs transition-none"
         >
           <!-- Move Index Number (Matches button text size) -->
