@@ -11,6 +11,7 @@ export interface Piece {
   type: PieceType;
   row: number;
   col: number;
+  isGhost?: boolean;
 }
 
 export interface Move {
@@ -27,7 +28,7 @@ export interface Level {
   id: number;
   name: string;
   difficulty: Difficulty;
-  pieces: { type: PieceType; row: number; col: number }[];
+  pieces: { type: PieceType; row: number; col: number; ghost?: boolean }[];
   hintsDisabled?: boolean;
 }
 

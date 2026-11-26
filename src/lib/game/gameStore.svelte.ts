@@ -131,6 +131,7 @@ export class GameStore {
       type: p.type,
       row: p.row,
       col: p.col,
+      isGhost: Boolean(p.ghost),
     }));
     this.selectedPiece = null;
     this.validTargets = [];
@@ -198,7 +199,7 @@ export class GameStore {
         return;
       }
 
-      if (clickedPiece) {
+      if (clickedPiece && !clickedPiece.isGhost) {
         const targets = getLegalCapturesForPiece(clickedPiece, this.pieces);
         this.selectedPiece = clickedPiece;
         this.validTargets = targets;
@@ -210,7 +211,7 @@ export class GameStore {
       return;
     }
 
-    if (clickedPiece) {
+    if (clickedPiece && !clickedPiece.isGhost) {
       const targets = getLegalCapturesForPiece(clickedPiece, this.pieces);
       this.selectedPiece = clickedPiece;
       this.validTargets = targets;

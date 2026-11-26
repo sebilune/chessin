@@ -841,6 +841,7 @@ export const LEVELS: Level[] = [
     difficulty: "hard",
     hintsDisabled: true,
     pieces: [
+      { type: "king", row: 0, col: 0, ghost: true },
       { type: "rook", row: 0, col: 2 },
       { type: "bishop", row: 2, col: 0 },
       { type: "knight", row: 2, col: 3 },

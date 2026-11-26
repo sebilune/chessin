@@ -79,6 +79,8 @@ export function getLegalCapturesForPiece(
   piece: Piece,
   pieces: Piece[],
 ): Position[] {
+  if (piece.isGhost) return [];
+
   const targets: Position[] = [];
 
   switch (piece.type) {

@@ -95,3 +95,52 @@ export function getSquareAtPointer(
     col: Math.max(0, Math.min(BOARD_SIZE - 1, col)),
   };
 }
+
+/**
+ * Tracks pointer dwell over a ghost piece during a drag, revealing it after
+ * staying on that square for the configured delay and hiding it immediately
+ * when the pointer leaves or the drag ends.
+ */
+export class HoverRevealController {
+  private timer: ReturnType<typeof setTimeout> | null = null;
+  private activeGhostId: string | null = null;
+  private readonly delayMs: number;
+
+  constructor(delayMs = 100) {
+    this.delayMs = delayMs;
+  }
+
+  update(
+    piece: Piece | undefined,
+    onRevealChange: (pieceId: string | null) => void,
+  ): void {
+    const ghostId = piece?.isGhost ? piece.id : null;
+
+    if (ghostId === this.activeGhostId) {
+      return;
+    }
+
+    this.cancel(onRevealChange);
+
+    if (ghostId) {
+      this.activeGhostId = ghostId;
+      this.timer = setTimeout(() => {
+        this.timer = null;
+        if (this.activeGhostId === ghostId) {
+          onRevealChange(ghostId);
+        }
+      }, this.delayMs);
+    }
+  }
+
+  cancel(onRevealChange?: (pieceId: string | null) => void): void {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+    if (this.activeGhostId !== null) {
+      this.activeGhostId = null;
+      onRevealChange?.(null);
+    }
+  }
+}

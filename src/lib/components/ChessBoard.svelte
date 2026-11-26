@@ -6,6 +6,7 @@
   import { getHint } from '$lib/game/solver';
   import {
     type DragState,
+    HoverRevealController,
     createDragState,
     getOutlinePath,
     getSquareAtPointer,
@@ -31,6 +32,8 @@
 
   let dragState = $state<DragState | null>(null);
   let hoveredTarget = $state<{ row: number; col: number } | null>(null);
+  let revealedGhostId = $state<string | null>(null);
+  const hoverReveal = new HoverRevealController(100);
   let animatingMove = $state<AnimatingMove | null>(null);
   let slideActive = $state<boolean>(false);
   let animationTimer: ReturnType<typeof setTimeout> | null = null;
@@ -129,6 +132,9 @@
     // Cancel in-flight animation on level switch
     void game.levelIndex;
     clearAnimation();
+    hoverReveal.cancel((id) => {
+      revealedGhostId = id;
+    });
     takeWobble = null;
     clearResetWobble();
   });
@@ -211,6 +217,12 @@
       }
     }
 
+    // Ghost pieces are capturable only, never selectable or draggable
+    if (piece.isGhost) {
+      game.selectSquare({ row: r, col: c });
+      return;
+    }
+
     // Select this piece and prepare drag
     game.selectSquare({ row: r, col: c });
     dragState = createDragState(e, piece, r, c);
@@ -218,7 +230,7 @@
 
   function handlePointerMove(e: PointerEvent) {
     const currentDrag = dragState;
-    if (!currentDrag) return;
+    if (!currentDrag || currentDrag.piece.isGhost) return;
 
     currentDrag.currentX = e.clientX;
     currentDrag.currentY = e.clientY;
@@ -236,6 +248,11 @@
 
     if (currentDrag.isDragging) {
       const square = getSquareAtPointer(gridElement, e.clientX, e.clientY);
+      const hoveredPiece = square ? getPieceAt(game.pieces, square.row, square.col) : undefined;
+      hoverReveal.update(hoveredPiece, (id) => {
+        revealedGhostId = id;
+      });
+
       const isValid =
         square !== null &&
         game.validTargets.some(t => t.row === square.row && t.col === square.col);
@@ -244,6 +261,9 @@
   }
 
   function handlePointerUp() {
+    hoverReveal.cancel((id) => {
+      revealedGhostId = id;
+    });
     const currentDrag = dragState;
     if (!currentDrag) return;
 
@@ -276,6 +296,9 @@
   }
 
   function handlePointerCancel() {
+    hoverReveal.cancel((id) => {
+      revealedGhostId = id;
+    });
     dragState = null;
     hoveredTarget = null;
   }
@@ -302,13 +325,17 @@
         {@const isHint = isHintTarget(r, c)}
         {@const isHovered = hoveredTarget !== null && hoveredTarget.row === r && hoveredTarget.col === c}
         {@const isBeingDragged = dragState !== null && dragState.isDragging && dragState.piece.id === piece?.id}
+        {@const isGhostPiece = Boolean(piece?.isGhost)}
+        {@const isRevealedGhost = isGhostPiece && piece?.id === revealedGhostId}
+        {@const isUnrevealedGhost = isGhostPiece && !isRevealedGhost}
+        {@const showSilhouette = isBeingDragged || isRevealedGhost}
         {@const isHiddenForAnimation = animatingMove !== null && ((animatingMove.hideAt === 'from' && animatingMove.from.row === r && animatingMove.from.col === c) || (animatingMove.hideAt === 'to' && animatingMove.to.row === r && animatingMove.to.col === c))}
         {@const isTakeWobble = takeWobble !== null && takeWobble.row === r && takeWobble.col === c}
 
         <button
           type="button"
           class="relative flex items-center justify-center w-full h-full transition-none outline-none select-none
-            {dragState?.isDragging ? 'cursor-grabbing' : (piece ? 'cursor-pointer' : (isTarget ? 'cursor-pointer' : 'cursor-default'))}
+            {dragState?.isDragging ? 'cursor-grabbing' : (isTarget || (piece && !isGhostPiece) ? 'cursor-pointer' : 'cursor-default')}
             {isDark ? 'bg-board-square-dark' : 'bg-board-square-light'}"
           onpointerdown={(e) => {
             if (animatingMove) return;
@@ -318,7 +345,7 @@
               game.selectSquare({ row: r, col: c });
             }
           }}
-          aria-label="{FILES[c]}{RANKS[r]}{piece ? ` - ${piece.type}` : ''}"
+          aria-label="{FILES[c]}{RANKS[r]}{piece && !isUnrevealedGhost ? ` - ${piece.type}` : ''}"
         >
           <!-- Rank label on col 0 (top-left of square): subtle & transparent -->
           {#if c === 0}
@@ -334,8 +361,8 @@
             </span>
           {/if}
 
-          <!-- Dotted outline on capturable pieces or hint targets: marches clockwise and follows board corner radii on drag hover -->
-          {#if isTarget || isHint}
+          <!-- Dotted outline on capturable pieces or hint targets (never shown on ghost pieces) -->
+          {#if (isTarget || isHint) && !isGhostPiece}
             <span
               class="absolute pointer-events-none z-10 text-foreground transition-all duration-150 ease-out {isHovered ? 'inset-0 opacity-100' : 'inset-1.5 opacity-80'}"
               aria-hidden="true"
@@ -356,12 +383,12 @@
             </span>
           {/if}
 
-          <!-- Chess Piece SVG: Proportional to square size -->
-          {#if piece}
+          <!-- Chess Piece SVG: Proportional to square size (unrevealed ghost pieces render as empty squares) -->
+          {#if piece && !isUnrevealedGhost}
             {#key isTakeWobble ? `take-${takeWobble?.key}` : `reset-${resetWobbleKey}`}
               <div
                 class="relative z-0 flex items-center justify-center w-full h-full
-                  {isBeingDragged ? (isDark ? 'text-board-square-light' : 'text-board-square-dark') : 'text-foreground'}
+                  {showSilhouette ? (isDark ? 'text-board-square-light' : 'text-board-square-dark') : 'text-foreground'}
                   {isHiddenForAnimation ? 'invisible' : ''}
                   {isTakeWobble || isResetWobble ? 'animate-piece-take-wobble' : ''}"
               >
