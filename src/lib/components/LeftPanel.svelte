@@ -85,10 +85,11 @@
         </div>
       {/if}
 
-      <div class="relative z-10 space-y-1.5">
+      <div class="relative z-10 space-y-1.5 w-full">
         <h2
           bind:clientHeight={titleHeight}
-          class="text-3xl lg:text-4xl xl:text-[2.65rem] font-black tracking-tight text-foreground leading-tight"
+          class="text-4xl lg:text-5xl xl:text-[3.5rem] font-black tracking-tight text-foreground leading-[1.05] hyphens-auto break-words [overflow-wrap:anywhere]"
+          lang={i18n.locale}
         >
           {getLevelName(game.currentLevel.id, game.currentLevel.name)}<span bind:this={anchorEl} class="inline-block w-0 h-0 invisible"></span>
         </h2>

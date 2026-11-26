@@ -278,18 +278,18 @@
   <!-- Desktop Arena Layout (>= xl): 3-column side-by-side view -->
   <div class="relative z-10 hidden xl:flex flex-1 items-center justify-center min-h-0 w-full max-w-7xl mx-auto pt-6 pb-2">
     <div
-      class="w-full flex items-stretch justify-center gap-12 xl:gap-14"
+      class="w-full flex items-stretch justify-center"
       style={boardHeight > 0 ? `height: ${boardHeight}px; max-height: ${boardHeight}px;` : ''}
     >
-      <!-- Left Controls Panel -->
-      <div class="w-72 shrink-0 min-h-0">
+      <!-- Left Controls Panel: spans between left edge and board with min-w-72 -->
+      <div class="flex-1 min-w-72 min-h-0 flex flex-col justify-between pr-8 xl:pr-10">
         <LeftPanel />
       </div>
 
       <!-- Chess Board in Center -->
       <div
         bind:clientHeight={boardHeight}
-        class="flex flex-col items-center justify-center flex-1 max-w-[540px] px-2"
+        class="flex flex-col items-center justify-center shrink-0 w-[500px] xl:w-[540px] px-2"
       >
         {#if game.showPuzzlePicker}
           <PuzzlePicker />
@@ -298,9 +298,11 @@
         {/if}
       </div>
 
-      <!-- Right Controls Panel -->
-      <div class="w-72 shrink-0 min-h-0">
-        <RightPanel />
+      <!-- Right Controls Panel: spans between board and right edge with matching balance -->
+      <div class="flex-1 min-w-72 min-h-0 flex flex-col justify-between items-end pl-8 xl:pl-10">
+        <div class="w-72 xl:w-80 h-full">
+          <RightPanel />
+        </div>
       </div>
     </div>
   </div>
