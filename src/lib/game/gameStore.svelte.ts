@@ -66,10 +66,11 @@ export class GameStore {
   canUndo = $derived<boolean>(this.moveHistory.length > 0);
   canRedo = $derived<boolean>(this.undoneMoves.length > 0);
   areHintsDisabled = $derived<boolean>(
-    Boolean(
-      this.currentLevel.hintsDisabled ||
-      isChallengeTierLevel(this.currentLevel.id),
-    ),
+    !this.isAdmin &&
+      Boolean(
+        this.currentLevel.hintsDisabled ||
+          isChallengeTierLevel(this.currentLevel.id),
+      ),
   );
   hintDisabledReason = $derived<string | null>(
     isKingLevel(this.currentLevel.id)
