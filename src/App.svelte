@@ -111,7 +111,7 @@
     <!-- Top Left Site Branding -->
     <div class="flex items-center gap-1.5">
       <ChessPiece type="queen" class="size-6 text-foreground shrink-0" />
-      <span class="text-xl sm:text-2xl font-black tracking-tight text-foreground">
+      <span class="text-lg sm:text-xl font-black tracking-tight text-foreground">
         {brandTitle}{game.isAdmin ? ' (ADMIN)' : ''}
       </span>
     </div>
