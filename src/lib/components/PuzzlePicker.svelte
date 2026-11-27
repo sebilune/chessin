@@ -52,7 +52,7 @@
             class="hidden group-hover:flex items-center justify-center
               {isCurrent ? 'text-challenge-active' : 'text-challenge'}"
           >
-            <ChessPiece type="king" class="size-4 sm:size-5 lg:size-6" />
+            <ChessPiece type="king" class="size-5.5 sm:size-6.5 lg:size-7.5" />
           </span>
         {:else}
           <span
@@ -71,7 +71,7 @@
               ? 'text-challenge-active'
               : (isAvailable ? 'text-challenge' : 'text-challenge/45')}"
         >
-          <ChessPiece type="king" class="size-4 sm:size-5 lg:size-6" />
+          <ChessPiece type="king" class="size-5.5 sm:size-6.5 lg:size-7.5" />
         </span>
       {:else}
         <span
