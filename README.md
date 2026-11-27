@@ -14,6 +14,7 @@ Chessin is a 5x5 solo chess capture puzzle game where every move must capture an
 - Built-in solver hints for levels 1–48
 - Curated sound effects with a mute toggle and hover volume slider
 - Light and dark themes with local progress persistence
+- Multi-language support
 - Keyboard shortcuts (`Z` / `ArrowLeft` undo, `Y` / `ArrowRight` redo, `R` reset, `H` hint, `ArrowUp` / `ArrowDown` level navigation)
 
 ## Build From Source
@@ -51,6 +52,8 @@ bun run build
 - **[Vite:](https://vite.dev/)** Build tool for modern web apps.
 - **[Tailwind CSS:](https://tailwindcss.com/)** Utility CSS framework.
 - **[Lucide Svelte:](https://lucide.dev/)** Icons library.
+- **[Howler.js:](https://howlerjs.com/)** Web audio library for sound effects.
+- **[Paraglide JS:](https://inlang.com/m/gerre34r/library-inlang-paraglideJs)** Type-safe internationalization (i18n).
 - **[Bun:](https://bun.sh/)** JavaScript runtime and package manager.
 - **[Cloudflare Pages:](https://pages.cloudflare.com/)** Static hosting and deployment via Wrangler.
 
