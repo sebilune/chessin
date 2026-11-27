@@ -56,7 +56,7 @@
           </span>
         {:else}
           <span
-            class="hidden group-hover:inline font-mono font-bold text-xs sm:text-sm lg:text-base
+            class="hidden group-hover:inline font-bold text-lg
               {isCurrent
                 ? (isChallengeTier ? 'text-challenge-active' : 'text-background')
                 : (isChallengeTier ? 'text-challenge' : 'text-foreground')}"
@@ -75,7 +75,7 @@
         </span>
       {:else}
         <span
-          class="font-mono font-bold text-xs sm:text-sm lg:text-base
+          class="font-bold text-lg
             {isCurrent
               ? (isChallengeTier ? 'text-challenge-active' : 'text-background')
               : (isChallengeTier
