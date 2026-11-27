@@ -330,7 +330,6 @@
         {@const isGhostPiece = Boolean(piece?.isGhost)}
         {@const isRevealedGhost = isGhostPiece && piece?.id === revealedGhostId}
         {@const isUnrevealedGhost = isGhostPiece && !isRevealedGhost}
-        {@const showSilhouette = isBeingDragged || isRevealedGhost}
         {@const isHiddenForAnimation = animatingMove !== null && ((animatingMove.hideAt === 'from' && animatingMove.from.row === r && animatingMove.from.col === c) || (animatingMove.hideAt === 'to' && animatingMove.to.row === r && animatingMove.to.col === c))}
         {@const isTakeWobble = takeWobble !== null && takeWobble.row === r && takeWobble.col === c}
 
@@ -390,7 +389,7 @@
             {#key isTakeWobble ? `take-${takeWobble?.key}` : `reset-${resetWobbleKey}`}
               <div
                 class="relative z-0 flex items-center justify-center w-full h-full
-                  {showSilhouette ? (isDark ? 'text-board-square-light' : 'text-board-square-dark') : 'text-foreground'}
+                  {piece.isGhost ? 'text-challenge' : isBeingDragged ? (isDark ? 'text-board-square-light' : 'text-board-square-dark') : 'text-foreground'}
                   {isHiddenForAnimation ? 'invisible' : ''}
                   {isTakeWobble || isResetWobble ? 'animate-piece-take-wobble' : ''}"
               >
