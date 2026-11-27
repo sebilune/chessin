@@ -350,14 +350,14 @@
         >
           <!-- Rank label on col 0 (top-left of square): subtle & transparent -->
           {#if c === 0}
-            <span class="absolute top-1.5 left-2 text-sm sm:text-base font-mono font-black leading-none pointer-events-none text-foreground/40">
+            <span class="absolute top-1.5 left-2 text-sm sm:text-base font-black leading-none pointer-events-none text-foreground/40">
               {RANKS[r]}
             </span>
           {/if}
 
           <!-- File label on bottom row (bottom-right of square): subtle & transparent -->
           {#if r === BOARD_SIZE - 1}
-            <span class="absolute bottom-1.5 right-2 text-sm sm:text-base font-mono font-black leading-none pointer-events-none text-foreground/40">
+            <span class="absolute bottom-1.5 right-2 text-sm sm:text-base font-black leading-none pointer-events-none text-foreground/40">
               {FILES[c]}
             </span>
           {/if}

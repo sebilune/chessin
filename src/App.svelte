@@ -111,7 +111,7 @@
     <!-- Top Left Site Branding -->
     <div class="flex items-center gap-1.5">
       <ChessPiece type="queen" class="size-6 text-foreground shrink-0" />
-      <span class="text-xl sm:text-2xl font-black tracking-tight text-foreground font-mono">
+      <span class="text-xl sm:text-2xl font-black tracking-tight text-foreground">
         {brandTitle}{game.isAdmin ? ' (ADMIN)' : ''}
       </span>
     </div>
@@ -164,7 +164,7 @@
               }}
             >
               <span>{LOCALE_LABELS[loc].name}</span>
-              <span class="font-mono text-xs sm:text-sm opacity-70">{LOCALE_LABELS[loc].code}</span>
+              <span class="text-xs sm:text-sm opacity-70">{LOCALE_LABELS[loc].code}</span>
             </button>
           {/each}
         {/snippet}
