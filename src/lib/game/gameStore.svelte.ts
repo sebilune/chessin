@@ -6,6 +6,7 @@ import type {
   Level,
   Difficulty,
 } from "../types";
+import { DAILY_LEVELS } from "./dailyLevels";
 import {
   getPieceAt,
   getLegalCapturesForPiece,
@@ -38,7 +39,32 @@ export type BoardAnimation =
       key: number;
     };
 
-export class GameStore {
+export function getTodayKey(date = new Date()): string {
+  const y = date.getUTCFullYear();
+  const m = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(date.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function getDayOfYear(date = new Date()): number {
+  const start = Date.UTC(date.getUTCFullYear(), 0, 0);
+  const current = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  return Math.floor((current - start) / 86_400_000);
+}
+
+function getDailyLevel(): Level {
+  const day = getDayOfYear();
+  const index = (day - 1) % DAILY_LEVELS.length;
+  return {
+    id: day,
+    name: "Daily Puzzle",
+    difficulty: "hard",
+    hintsDisabled: true,
+    pieces: DAILY_LEVELS[index],
+  };
+}
+
+class GameStore {
   levelIndex = $state<number>(0);
   pieces = $state<Piece[]>([]);
   selectedPiece = $state<Piece | null>(null);
@@ -50,6 +76,8 @@ export class GameStore {
   status = $state<GameStatus>("in_progress");
   justCleared = $state<boolean>(false);
   shouldAnimateCrown = $state<boolean>(false);
+  isDailyMode = $state<boolean>(false);
+  completedDailyDate = $state<string | null>(loadPersistedState().completedDailyDate);
   soundEnabled = $state<boolean>(true);
   soundVolume = $state<number>(100);
   theme = $state<"dark" | "light">("dark");
@@ -60,7 +88,11 @@ export class GameStore {
   private advanceTimeout: ReturnType<typeof setTimeout> | null = null;
   private animationCounter = 0;
 
-  currentLevel = $derived<Level>(LEVELS[this.levelIndex] || LEVELS[0]);
+  dailyLevel = getDailyLevel();
+  isDailyCompleted = $derived<boolean>(this.completedDailyDate === getTodayKey());
+  currentLevel = $derived<Level>(
+    this.isDailyMode ? this.dailyLevel : (LEVELS[this.levelIndex] || LEVELS[0]),
+  );
   totalLevels = $derived<number>(LEVELS.length);
   piecesRemaining = $derived<number>(this.pieces.length);
   initialPieceCount = $derived<number>(this.currentLevel.pieces.length);
@@ -156,7 +188,14 @@ export class GameStore {
       return;
     }
     this.shouldAnimateCrown = false;
+    this.isDailyMode = false;
     this.levelIndex = index;
+    this.showPuzzlePicker = false;
+    this.loadCurrentLevel();
+  }
+
+  toggleDailyMode() {
+    this.isDailyMode = !this.isDailyMode;
     this.showPuzzlePicker = false;
     this.loadCurrentLevel();
   }
@@ -225,19 +264,28 @@ export class GameStore {
     if (this.pieces.length === 1) {
       this.status = "cleared";
       this.justCleared = true;
-      if (!this.completedLevels.includes(this.currentLevel.id)) {
-        this.completedLevels = [...this.completedLevels, this.currentLevel.id];
-        savePersistedState({ completedLevels: this.completedLevels });
-      }
-      sound.playVictory();
-
-      // Automatically advance to the next level
-      this.advanceTimeout = setTimeout(() => {
-        if (this.levelIndex < this.totalLevels - 1) {
-          this.nextLevel();
-          this.shouldAnimateCrown = true;
+      if (this.isDailyMode) {
+        const today = getTodayKey();
+        if (this.completedDailyDate !== today) {
+          this.completedDailyDate = today;
+          savePersistedState({ completedDailyDate: today });
         }
-      }, 700);
+        sound.playVictory();
+      } else {
+        if (!this.completedLevels.includes(this.currentLevel.id)) {
+          this.completedLevels = [...this.completedLevels, this.currentLevel.id];
+          savePersistedState({ completedLevels: this.completedLevels });
+        }
+        sound.playVictory();
+
+        // Automatically advance to the next level
+        this.advanceTimeout = setTimeout(() => {
+          if (this.levelIndex < this.totalLevels - 1) {
+            this.nextLevel();
+            this.shouldAnimateCrown = true;
+          }
+        }, 700);
+      }
     } else {
       const remainingCaptures = getAllLegalCaptures(this.pieces);
       if (remainingCaptures.length === 0) {

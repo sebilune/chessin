@@ -3,7 +3,7 @@
   import { i18n, m } from '$lib/i18n.svelte';
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
-  import { ChevronLeft, ChevronRight, Puzzle } from '@animateicons/vanilla/lucide';
+  import { ChevronLeft, ChevronRight, Puzzle, Calendar } from '@animateicons/vanilla/lucide';
 
   interface Props {
     class?: string;
@@ -13,6 +13,17 @@
 </script>
 
 <div class="space-y-2 {className}">
+  <Button
+    variant={game.isDailyMode ? 'default' : 'outline'}
+    size="lg"
+    class="w-full"
+    onclick={() => game.toggleDailyMode()}
+    title={m.daily_puzzle({}, { locale: i18n.locale })}
+  >
+    <AnimateIcon icon={Calendar} size={22} class="size-5.5" />
+    {m.daily_puzzle({}, { locale: i18n.locale })}
+  </Button>
+
   <Button
     variant={game.showPuzzlePicker ? 'default' : 'outline'}
     size="lg"
@@ -28,7 +39,7 @@
     <Button
       variant="outline"
       size="lg"
-      disabled={game.levelIndex === 0}
+      disabled={game.isDailyMode || game.levelIndex === 0}
       onclick={() => game.prevLevel()}
       title={m.previous_puzzle({}, { locale: i18n.locale })}
     >
@@ -39,7 +50,7 @@
     <Button
       variant="outline"
       size="lg"
-      disabled={!game.canNext}
+      disabled={game.isDailyMode || !game.canNext}
       onclick={() => game.nextLevel()}
       title={m.next_puzzle({}, { locale: i18n.locale })}
     >

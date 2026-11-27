@@ -6,6 +6,7 @@ export interface PersistedState {
   soundEnabled: boolean;
   soundVolume: number;
   theme: "dark" | "light";
+  completedDailyDate: string | null;
 }
 
 const DEFAULT_STATE: PersistedState = {
@@ -14,6 +15,7 @@ const DEFAULT_STATE: PersistedState = {
   soundEnabled: true,
   soundVolume: 100,
   theme: "dark",
+  completedDailyDate: null,
 };
 
 let cachedState: PersistedState | null = null;
@@ -45,6 +47,10 @@ export function loadPersistedState(): PersistedState {
         parsed.theme === "light" || parsed.theme === "dark"
           ? parsed.theme
           : "dark",
+      completedDailyDate:
+        typeof parsed.completedDailyDate === "string"
+          ? parsed.completedDailyDate
+          : null,
     };
     return cachedState;
   } catch {

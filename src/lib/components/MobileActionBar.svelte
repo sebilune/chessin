@@ -4,7 +4,7 @@
   import { Button } from '$lib/components/ui/button';
   import AnimateIcon from '$lib/components/AnimateIcon.svelte';
   import MoveHistory from '$lib/components/MoveHistory.svelte';
-  import { Undo, Redo, Puzzle, Eye, EyeClosed, ChevronLeft, ChevronRight } from '@animateicons/vanilla/lucide';
+  import { Undo, Redo, Puzzle, Eye, EyeClosed, ChevronLeft, ChevronRight, Calendar } from '@animateicons/vanilla/lucide';
 
   const isHintActive = $derived(game.hintTargets.length > 0);
   let hasToggledHint = $state(false);
@@ -74,7 +74,7 @@
     <Button
       variant="outline"
       size="lg"
-      disabled={game.levelIndex === 0}
+      disabled={game.isDailyMode || game.levelIndex === 0}
       onclick={() => game.prevLevel()}
       title={m.previous_puzzle({}, { locale: i18n.locale })}
       aria-label={m.previous_puzzle({}, { locale: i18n.locale })}
@@ -86,7 +86,7 @@
     <Button
       variant="outline"
       size="lg"
-      disabled={!game.canNext}
+      disabled={game.isDailyMode || !game.canNext}
       onclick={() => game.nextLevel()}
       title={m.next_puzzle({}, { locale: i18n.locale })}
       aria-label={m.next_puzzle({}, { locale: i18n.locale })}
@@ -95,6 +95,17 @@
       <AnimateIcon icon={ChevronRight} size={24} class="size-6" />
     </Button>
   </div>
+
+  <Button
+    variant={game.isDailyMode ? 'default' : 'outline'}
+    size="lg"
+    class="w-full"
+    onclick={() => game.toggleDailyMode()}
+    title={m.daily_puzzle({}, { locale: i18n.locale })}
+  >
+    <AnimateIcon icon={Calendar} size={22} class="size-5.5" />
+    {m.daily_puzzle({}, { locale: i18n.locale })}
+  </Button>
 
   <MoveHistory defaultOpen={false} />
 </div>
