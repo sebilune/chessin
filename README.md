@@ -1,6 +1,6 @@
 # <img src="public/favicon.svg" width="32" height="32" valign="middle" /> Chessin
 
-**A minimalist monochrome solo chess puzzle game.** Try it **[here](https://chessin.pages.dev)**.
+**A minimalist solo chess puzzle game.** Try it **[here](https://chessin.pages.dev)**.
 
 ## Description
 
