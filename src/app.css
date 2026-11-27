@@ -39,7 +39,7 @@
   --board-square-light: var(--color-zinc-100);
   --board-square-dark: color-mix(
     in srgb,
-    var(--color-zinc-300) 80%,
+    var(--color-zinc-300) 95%,
     var(--background)
   );
   --border: var(--board-square-dark);
