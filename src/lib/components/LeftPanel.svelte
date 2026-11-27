@@ -33,7 +33,9 @@
         class="text-4xl lg:text-5xl xl:text-[3.5rem] font-black tracking-tight text-foreground leading-[1.05] hyphens-auto break-words [overflow-wrap:anywhere]"
         lang={i18n.locale}
       >
-        {getLevelName(game.currentLevel.id, game.currentLevel.name)}
+        {game.isDailyMode
+          ? m.daily_puzzle({}, { locale: i18n.locale })
+          : getLevelName(game.currentLevel.id, game.currentLevel.name)}
       </h2>
 
       <span class="text-sm sm:text-base font-bold text-muted-foreground uppercase tracking-wider block">
