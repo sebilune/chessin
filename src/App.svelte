@@ -252,8 +252,14 @@
 
     <!-- Title & Puzzle Number directly above the board -->
     <h2 class="w-full text-2xl sm:text-3xl font-black tracking-tight text-left">
-      <span class="text-muted-foreground">#{game.currentLevel.id}</span>
-      <span class="text-foreground">{getLevelName(game.currentLevel.id, game.currentLevel.name)}</span>
+      {#if !game.isDailyMode}
+        <span class="text-muted-foreground">#{game.currentLevel.id}</span>
+      {/if}
+      <span class="text-foreground">
+        {game.isDailyMode
+          ? m.daily_puzzle({}, { locale: i18n.locale })
+          : getLevelName(game.currentLevel.id, game.currentLevel.name)}
+      </span>
     </h2>
 
     <!-- Chess Board in Center (aspect-square, never squished) -->
