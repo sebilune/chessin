@@ -46,7 +46,7 @@
   --input: var(--border);
   --ring: oklch(0.5 0 0);
   --board-progress-empty: var(--board-square-dark);
-  --challenge: var(--color-red-500);
+  --challenge: var(--color-red-400);
   --challenge-active: var(--color-red-400);
 }
 
