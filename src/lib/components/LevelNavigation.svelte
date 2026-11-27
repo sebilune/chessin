@@ -13,27 +13,27 @@
 </script>
 
 <div class="space-y-2 {className}">
-  <Button
-    variant={game.isDailyMode ? 'default' : 'outline'}
-    size="lg"
-    class="w-full"
-    onclick={() => game.toggleDailyMode()}
-    title={m.daily_puzzle({}, { locale: i18n.locale })}
-  >
-    <AnimateIcon icon={Calendar} size={22} class="size-5.5" />
-    {m.daily_puzzle({}, { locale: i18n.locale })}
-  </Button>
+  <div class="grid grid-cols-2 gap-2">
+    <Button
+      variant={game.isDailyMode ? 'default' : 'outline'}
+      size="lg"
+      onclick={() => game.toggleDailyMode()}
+      title={m.daily_puzzle({}, { locale: i18n.locale })}
+    >
+      <AnimateIcon icon={Calendar} size={22} class="size-5.5" />
+      {m.daily({}, { locale: i18n.locale })}
+    </Button>
 
-  <Button
-    variant={game.showPuzzlePicker ? 'default' : 'outline'}
-    size="lg"
-    class="w-full"
-    onclick={() => game.togglePuzzlePicker()}
-    title={m.puzzles({}, { locale: i18n.locale })}
-  >
-    <AnimateIcon icon={Puzzle} size={22} class="size-5.5" />
-    {m.puzzles({}, { locale: i18n.locale })}
-  </Button>
+    <Button
+      variant={game.showPuzzlePicker ? 'default' : 'outline'}
+      size="lg"
+      onclick={() => game.togglePuzzlePicker()}
+      title={m.puzzles({}, { locale: i18n.locale })}
+    >
+      <AnimateIcon icon={Puzzle} size={22} class="size-5.5" />
+      {m.puzzles({}, { locale: i18n.locale })}
+    </Button>
+  </div>
 
   <div class="grid grid-cols-2 gap-2">
     <Button
