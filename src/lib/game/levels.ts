@@ -114,7 +114,7 @@ export const LEVELS: Level[] = [
   {
     id: 11,
     name: "Bishop Domain",
-    difficulty: "medium",
+    difficulty: "easy",
     pieces: [
       { type: "bishop", row: 0, col: 1 },
       { type: "bishop", row: 4, col: 3 },
@@ -126,7 +126,7 @@ export const LEVELS: Level[] = [
   {
     id: 12,
     name: "Cavalry Charge",
-    difficulty: "medium",
+    difficulty: "easy",
     pieces: [
       { type: "knight", row: 1, col: 0 },
       { type: "knight", row: 2, col: 2 },
@@ -138,7 +138,7 @@ export const LEVELS: Level[] = [
   {
     id: 13,
     name: "Vertical Corridor",
-    difficulty: "medium",
+    difficulty: "easy",
     pieces: [
       { type: "rook", row: 0, col: 1 },
       { type: "knight", row: 2, col: 1 },
@@ -150,7 +150,7 @@ export const LEVELS: Level[] = [
   {
     id: 14,
     name: "Central L",
-    difficulty: "medium",
+    difficulty: "easy",
     pieces: [
       { type: "knight", row: 0, col: 2 },
       { type: "bishop", row: 2, col: 4 },
@@ -162,7 +162,7 @@ export const LEVELS: Level[] = [
   {
     id: 15,
     name: "Outer Ring",
-    difficulty: "medium",
+    difficulty: "easy",
     pieces: [
       { type: "king", row: 2, col: 2 },
       { type: "rook", row: 2, col: 0 },
@@ -174,7 +174,7 @@ export const LEVELS: Level[] = [
   {
     id: 16,
     name: "Knight's Fork",
-    difficulty: "medium",
+    difficulty: "easy",
     pieces: [
       { type: "knight", row: 3, col: 0 },
       { type: "rook", row: 2, col: 1 },
@@ -186,7 +186,7 @@ export const LEVELS: Level[] = [
   {
     id: 17,
     name: "Corner Battery",
-    difficulty: "medium",
+    difficulty: "easy",
     pieces: [
       { type: "rook", row: 1, col: 1 },
       { type: "rook", row: 1, col: 4 },
@@ -198,7 +198,7 @@ export const LEVELS: Level[] = [
   {
     id: 18,
     name: "Twin Towers",
-    difficulty: "medium",
+    difficulty: "easy",
     pieces: [
       { type: "bishop", row: 3, col: 2 },
       { type: "knight", row: 4, col: 4 },
@@ -210,7 +210,7 @@ export const LEVELS: Level[] = [
   {
     id: 19,
     name: "The Enclosure",
-    difficulty: "medium",
+    difficulty: "easy",
     pieces: [
       { type: "rook", row: 0, col: 3 },
       { type: "rook", row: 4, col: 1 },
@@ -222,7 +222,7 @@ export const LEVELS: Level[] = [
   {
     id: 20,
     name: "Narrow Escape",
-    difficulty: "medium",
+    difficulty: "easy",
     pieces: [
       { type: "pawn", row: 3, col: 1 },
       { type: "pawn", row: 3, col: 3 },
@@ -236,7 +236,7 @@ export const LEVELS: Level[] = [
   {
     id: 21,
     name: "The Bastion",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "knight", row: 0, col: 1 },
       { type: "rook", row: 1, col: 3 },
@@ -249,7 +249,7 @@ export const LEVELS: Level[] = [
   {
     id: 22,
     name: "Deadly Dance",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "knight", row: 0, col: 1 },
       { type: "knight", row: 1, col: 3 },
@@ -262,7 +262,7 @@ export const LEVELS: Level[] = [
   {
     id: 23,
     name: "Shadow Pin",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "bishop", row: 0, col: 2 },
       { type: "rook", row: 1, col: 4 },
@@ -275,7 +275,7 @@ export const LEVELS: Level[] = [
   {
     id: 24,
     name: "Forked Road",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "king", row: 1, col: 1 },
       { type: "knight", row: 1, col: 2 },
@@ -288,7 +288,7 @@ export const LEVELS: Level[] = [
   {
     id: 25,
     name: "The Web",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "rook", row: 0, col: 1 },
       { type: "bishop", row: 0, col: 3 },
@@ -301,7 +301,7 @@ export const LEVELS: Level[] = [
   {
     id: 26,
     name: "Total Eclipse",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "bishop", row: 0, col: 0 },
       { type: "rook", row: 1, col: 1 },
@@ -314,7 +314,7 @@ export const LEVELS: Level[] = [
   {
     id: 27,
     name: "Grand Melee",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "king", row: 1, col: 1 },
       { type: "rook", row: 1, col: 3 },
@@ -327,7 +327,7 @@ export const LEVELS: Level[] = [
   {
     id: 28,
     name: "Six Feet Under",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "rook", row: 0, col: 0 },
       { type: "rook", row: 0, col: 4 },
@@ -340,7 +340,7 @@ export const LEVELS: Level[] = [
   {
     id: 29,
     name: "Silent Knight",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "bishop", row: 0, col: 1 },
       { type: "king", row: 0, col: 2 },
@@ -353,7 +353,7 @@ export const LEVELS: Level[] = [
   {
     id: 30,
     name: "Chaos Matrix",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "rook", row: 0, col: 2 },
       { type: "knight", row: 1, col: 1 },
@@ -367,7 +367,7 @@ export const LEVELS: Level[] = [
   {
     id: 31,
     name: "Sovereign March",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "bishop", row: 4, col: 0 },
       { type: "bishop", row: 0, col: 3 },
@@ -380,7 +380,7 @@ export const LEVELS: Level[] = [
   {
     id: 32,
     name: "Towering Guard",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "rook", row: 3, col: 2 },
       { type: "rook", row: 0, col: 4 },
@@ -393,7 +393,7 @@ export const LEVELS: Level[] = [
   {
     id: 33,
     name: "Knight's Gambit",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "queen", row: 3, col: 2 },
       { type: "knight", row: 4, col: 1 },
@@ -406,7 +406,7 @@ export const LEVELS: Level[] = [
   {
     id: 34,
     name: "Shadow Labyrinth",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "rook", row: 0, col: 0 },
       { type: "knight", row: 1, col: 0 },
@@ -419,7 +419,7 @@ export const LEVELS: Level[] = [
   {
     id: 35,
     name: "Trial by Fire",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "bishop", row: 0, col: 1 },
       { type: "rook", row: 0, col: 3 },
@@ -433,7 +433,7 @@ export const LEVELS: Level[] = [
   {
     id: 36,
     name: "Crossed Bishops",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "bishop", row: 3, col: 3 },
       { type: "bishop", row: 1, col: 4 },
@@ -446,7 +446,7 @@ export const LEVELS: Level[] = [
   {
     id: 37,
     name: "Pawn's Wall",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "pawn", row: 2, col: 4 },
       { type: "pawn", row: 4, col: 4 },
@@ -459,7 +459,7 @@ export const LEVELS: Level[] = [
   {
     id: 38,
     name: "Crimson Advance",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "king", row: 4, col: 1 },
       { type: "pawn", row: 2, col: 3 },
@@ -474,7 +474,7 @@ export const LEVELS: Level[] = [
   {
     id: 39,
     name: "Shattered Shield",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "bishop", row: 0, col: 2 },
       { type: "bishop", row: 4, col: 2 },
@@ -488,7 +488,7 @@ export const LEVELS: Level[] = [
   {
     id: 40,
     name: "Knight's Outpost",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "rook", row: 4, col: 2 },
       { type: "king", row: 2, col: 4 },
@@ -502,7 +502,7 @@ export const LEVELS: Level[] = [
   {
     id: 41,
     name: "Queen's Snare",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "bishop", row: 1, col: 0 },
       { type: "pawn", row: 4, col: 4 },
@@ -516,7 +516,7 @@ export const LEVELS: Level[] = [
   {
     id: 42,
     name: "Royal Citadel",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "bishop", row: 3, col: 4 },
       { type: "pawn", row: 1, col: 1 },
@@ -530,7 +530,7 @@ export const LEVELS: Level[] = [
   {
     id: 43,
     name: "Iron Corridor",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "pawn", row: 2, col: 4 },
       { type: "rook", row: 1, col: 3 },
@@ -545,7 +545,7 @@ export const LEVELS: Level[] = [
   {
     id: 44,
     name: "The Vortex",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "rook", row: 0, col: 0 },
       { type: "rook", row: 0, col: 2 },
@@ -559,7 +559,7 @@ export const LEVELS: Level[] = [
   {
     id: 45,
     name: "Crimson Knight",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "knight", row: 4, col: 0 },
       { type: "rook", row: 1, col: 1 },
@@ -573,7 +573,7 @@ export const LEVELS: Level[] = [
   {
     id: 46,
     name: "Sovereign End",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "bishop", row: 4, col: 0 },
       { type: "rook", row: 3, col: 2 },
@@ -587,7 +587,7 @@ export const LEVELS: Level[] = [
   {
     id: 47,
     name: "Deadlock",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "rook", row: 1, col: 3 },
       { type: "king", row: 2, col: 1 },
@@ -601,7 +601,7 @@ export const LEVELS: Level[] = [
   {
     id: 48,
     name: "The Redoubt",
-    difficulty: "hard",
+    difficulty: "medium",
     pieces: [
       { type: "rook", row: 0, col: 1 },
       { type: "rook", row: 0, col: 2 },
