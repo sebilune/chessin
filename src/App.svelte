@@ -302,7 +302,7 @@
 
       <!-- Right Controls Panel: spans between board and right edge with matching balance -->
       <div class="flex-1 min-w-72 min-h-0 flex flex-col justify-between items-end pl-8 xl:pl-10">
-        <div class="w-72 xl:w-80 h-full">
+        <div class="w-full max-w-80 h-full">
           <RightPanel />
         </div>
       </div>
